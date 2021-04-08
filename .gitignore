@@ -1,4 +1,5 @@
 log/
 vendor/
-public/
+public/js/
+public/css/
 Core/
