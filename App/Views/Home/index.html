@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Budżet osobisty{% endblock %}
+
+{% block body %}
+
+    <div class="row p-0 m-0">
+        <div class="col-12 text-center py-4">
+            <h1 class="h2">Witaj w programie Budżet Osobisty!</h1>
+        </div>
+        <div class="col-12 p-0 m-0 py-3 row">
+            <div class="col-lg-4 text-center d-flex flex-column my-5">
+                <i class="fas fa-donate fa-10x"></i>
+                <span class="py-3 fs-4">Dodawaj przychody</span>
+            </div>
+            <div class="col-lg-4 text-center d-flex flex-column my-5">
+                <i class="fas fa-cash-register fa-10x"></i>
+                <span class="py-3 fs-4">Analizuj wydatki</span>
+            </div>
+            <div class="col-lg-4 text-center d-flex flex-column my-5">
+                <i class="fas fa-balance-scale-right fa-10x"></i>
+                <span class="py-3 fs-4">Kontroluj bilans</span>
+            </div>
+        </div>
+        <div class="col-12 p-0 m-0 py-2 text-center">
+            <a href="/"><button type="button" class="btn fw-bold my-3 smallGreenButton">Kontynuuj</button></a>
+        </div>
+    </div>
+
+{% endblock %}
