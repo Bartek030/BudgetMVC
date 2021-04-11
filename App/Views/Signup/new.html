@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Budżet osobisty{% endblock %}
+
+{% block body %}
+
+    <div class="row p-0 m-0"> 
+
+        <div class="col-12 text-center py-4">
+            <h1 class="h2">Rejestracja</h1>
+        </div>  
+
+        <form method="POST">
+            <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
+                <label for="name" class="fs-5">Podaj imię:</label>
+                <input id="name" name="name" type="text" class="form-control mx-auto my-3 userInput" placeholder="imię"> 
+            </div>
+            <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
+                <label for="password" class="fs-5">Podaj hasło:</label>
+                <input id="password" name="password" type="password" class="form-control mx-auto my-3 userInput" placeholder="hasło">
+            </div>
+            <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
+                <label for="repeatedPassword" class="fs-5">Powtórz hasło:</label>
+                <input id="repeatedPassword" name="repeatedPassword" type="password" class="form-control mx-auto my-3 userInput" placeholder="hasło">
+            </div>
+            <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
+                <label for="email" class="fs-5">Podaj adres e-mail:</label>
+                <input id="email" name="email" type="email" class="form-control mx-auto my-3 userInput" placeholder="adres e-mail">
+            </div>
+            <div class="col-12 text-center py-4">
+                <button type="submit" class="btn fw-bold mx-2 my-2 smallGreenButton">Zarejestruj się</button>
+                <button type="reset" class="btn fw-bold mx-2 my-2 smallOrangeButton">Wyczyść</button>
+                <a href="index.php"><button type="button" class="btn fw-bold mx-2 my-2 smallRedButton">Powrót</button></a>
+            </div>
+        </form>
+
+    </div>
+
+{% endblock %}

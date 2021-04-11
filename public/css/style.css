@@ -1,0 +1,215 @@
+body {
+    /* Background pattern from Toptal Subtle Patterns */
+    background-image: url("../img/footer_lodyas.png");
+    font-family: 'Lato', sans-serif;
+    color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+}
+
+.test {
+    border: 1px solid white;
+}
+
+h1 {
+    font-family: 'Russo One', sans-serif;
+    font-size: 64px;
+    color: #e6e600;
+    white-space: nowrap;
+    letter-spacing: 1px;
+}
+
+h1 > a {
+    text-decoration: none;
+    color: #e6e600;
+}
+
+h1 > a:hover {
+    text-decoration: none;
+    color: #e6e600;
+}
+
+#currentTime {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.currentTime_box {
+    min-width: 210px;
+}
+
+.mainContainer {
+    background-color: #222222;
+    border: 2px solid #f2f2f2;
+    border-radius: 10px;
+}
+
+.forFooter {
+    min-height: calc(100vh - 60px);
+}
+
+/*#appDescription {
+    letter-spacing: 1px;
+    text-align: justify;
+}
+
+.mainNav {
+    background-color: #36b03c;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+#mainNav_navbar a {
+    color: white;
+    font-size: 20px;
+    margin: 0 10px;
+    border-radius: 5px;
+}
+
+#mainNav_navbar a:hover {
+    background-color: #47c14d;
+}*/
+
+.mainFooter {
+    font-size: 20px;
+    height: 40px;
+}
+
+/*.greenButton {
+    background-color: #36b03c;
+    color: white;
+    letter-spacing: 1px;
+    width: 300px;
+    height: 60px;
+}
+
+.greenButton:hover {
+    background-color: #47c14d;
+    color: white;
+}
+
+.greenButton:focus {
+    -webkit-box-shadow: 0px 0px 5px 5px rgba(204,204,204,0.9); 
+    box-shadow: 0px 0px 5px 5px rgba(204,204,204,0.9);
+}*/
+
+.smallGreenButton {
+    background-color: #36b03c;
+    color: #f2f2f2;
+    letter-spacing: 1px;
+    width: 150px;
+    height: 40px;
+}
+
+.smallGreenButton:hover {
+    background-color: #25a02b;
+    color: #f2f2f2;
+}
+
+.smallGreenButton:focus {
+    -webkit-box-shadow: 0px 0px 2px 2px rgba(204,204,204,0.9); 
+    box-shadow: 0px 0px 2px 2px rgba(204,204,204,0.9);
+}
+
+.smallOrangeButton {
+    background-color: #ff9900;
+    color: #f2f2f2;
+    letter-spacing: 1px;
+    width: 150px;
+    height: 40px;
+}
+
+.smallOrangeButton:hover {
+    background-color: #ee8800;
+    color: #f2f2f2;
+}
+
+.smallOrangeButton:focus {
+    -webkit-box-shadow: 0px 0px 2px 2px rgba(204,204,204,0.9); 
+    box-shadow: 0px 0px 2px 2px rgba(204,204,204,0.9);
+}
+
+.smallRedButton {
+    background-color: #ff3300;
+    color: #f2f2f2;
+    letter-spacing: 1px;
+    width: 150px;
+    height: 40px;
+}
+
+.smallRedButton:hover {
+    background-color: #ee2200;
+    color: #f2f2f2;
+}
+
+.smallRedButton:focus {
+    -webkit-box-shadow: 0px 0px 2px 2px rgba(204,204,204,0.9); 
+    box-shadow: 0px 0px 2px 2px rgba(204,204,204,0.9);
+}
+/*
+label {
+    letter-spacing: 1px;
+    font-size: 20px;
+    white-space: nowrap;
+}
+
+.userInput {
+    width: 300px;
+    background-color: #eeeeee;
+    color: #666;
+    border: 3px solid #36b03c;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+.userInput:focus {
+    -webkit-box-shadow: 0px 0px 5px 2px rgba(204,204,204,0.9); 
+    box-shadow: 0px 0px 5px 2px rgba(204,204,204,0.9);
+    border: 3px solid #36b03c;
+    background-color: #eeeeee;
+    color: #428c42;
+}
+
+.table {
+    background-color: #333333;
+    color: white;
+    border-radius: 10px;
+}
+
+th, td {
+    border: none;
+}
+
+tbody tr:hover {
+    background-color: #444444;
+    color: white !important;
+}*/
+
+@media (max-width: 768px) {
+    h1 {
+        white-space: normal;
+    }
+
+    #mainHeader {
+        flex-direction: column;
+    }
+
+    #comment,
+    #expenseCategory {
+        width: 75% !important;
+    } 
+}
+
+@media (max-width: 992px) {
+    #mainNav_navbar a {
+        text-align: center;
+    }
+
+    .forFooter {
+        min-height: calc(100vh - 100px);
+    }
+
+    .mainFooter {
+        height: 100px;
+    }
+}
