@@ -1,6 +1,4 @@
 log/
 vendor/
-public/js/
-public/css/
 public/img
 App/config.php

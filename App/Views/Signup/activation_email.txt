@@ -1,0 +1,5 @@
+AKTYWACJA KONTA
+
+Dziękujemy za rejestrację w serwisie Budżet Osobisty. Aby aktywować konto kliknij poniższy link lub wklej go w przeglądarce:
+
+{{ url }}

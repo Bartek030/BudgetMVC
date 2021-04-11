@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Budżet osobisty{% endblock %}
+
+{% block body %}
+
+    <div class="row p-0 m-0"> 
+
+        <div class="col-12 text-center py-4">
+            <h1 class="h2">Rejestracja</h1>
+        </div>  
+
+        <form method="POST" action="/signup/create" id="formSignup">
+            <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
+                <label for="name" class="fs-5">Podaj imię:</label>
+                <input id="name" name="name" type="text" class="form-control mx-auto my-3 userInput" placeholder="imię" required> 
+            </div>
+            <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
+                <label for="password" class="fs-5">Podaj hasło:</label>
+                <input id="password" name="password" type="password" class="form-control mx-auto my-3 userInput" placeholder="hasło" required>
+            </div>
+            <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
+                <label for="repeatedPassword" class="fs-5">Powtórz hasło:</label>
+                <input id="repeatedPassword" name="repeatedPassword" type="password" class="form-control mx-auto my-3 userInput" placeholder="hasło" required>
+            </div>
+            <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
+                <label for="email" class="fs-5">Podaj adres e-mail:</label>
+                <input id="email" name="email" type="email" class="form-control mx-auto my-3 userInput" placeholder="adres e-mail" required>
+            </div>
+
+            {% if user.errors is not empty %}
+            <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
+                <p class="errors">Niepoprawne dane:</p>
+                <ul>
+                    {% for error in user.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <div class="col-12 text-center py-4">
+                <button type="submit" class="btn fw-bold mx-2 my-2 smallGreenButton">Zarejestruj się</button>
+                <button type="reset" class="btn fw-bold mx-2 my-2 smallOrangeButton">Wyczyść</button>
+                <a href="/"><button type="button" class="btn fw-bold mx-2 my-2 smallRedButton">Powrót</button></a>
+            </div>
+        </form>
+
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="/js/app.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            $('#formSignup').validate({
+                rules: {
+                    name: 'required',
+                    email: {
+                        required: true,
+                        email: true,
+                        remote: '/account/validate-email'
+                    },
+                    password: {
+                        required: true,
+                        minlength: 6,
+                        validPassword: true
+                    }
+                },
+                messages: {
+                    name: 'Imie jest wymagane!',
+                    email: {
+                        required: 'E-mail jest wymagany!',
+                        email: 'Adres e-mail nie jest poprawny!',
+                        remote: 'E-mail jest już przypisany do innego konta!'
+                    },
+                    password: {
+                        required: 'Hasło jest wymagane!',
+                        minlength: 'Długość hasła musi wynosić conajmniej 6 znaków!',
+                    }
+                }
+            });
+        })
+    </script>
+{% endblock %}
