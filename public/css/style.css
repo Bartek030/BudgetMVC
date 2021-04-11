@@ -185,6 +185,11 @@ tbody tr:hover {
     color: white !important;
 }*/
 
+.errors, div > ul > li {
+    font-size: 18px;
+    color: #ff3300;
+}
+
 @media (max-width: 768px) {
     h1 {
         white-space: normal;
