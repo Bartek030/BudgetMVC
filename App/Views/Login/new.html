@@ -1,34 +1,36 @@
 {% extends "base.html" %}
 
-{% block title %}Rejestracja{% endblock %}
+{% block title %}Logowanie{% endblock %}
 
 {% block body %}
 
     <div class="row p-0 m-0"> 
 
         <div class="col-12 text-center py-4">
-            <h1 class="h2">Rejestracja</h1>
+            <h1 class="h2">Logowanie</h1>
         </div>  
 
-        <form method="POST" action="/signup/create" id="formSignup">
+        <form method="POST">
             <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
-                <label for="name" class="fs-5">Podaj imię:</label>
-                <input id="name" name="name" type="text" class="form-control mx-auto my-3 userInput" placeholder="imię" required> 
+                <label for="email" class="fs-5">Podaj adres e-mail:</label>
+                <input id="email" name="email" type="email" class="form-control mx-auto my-3 userInput" placeholder="adres e-mail" required>
             </div>
             <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
                 <label for="password" class="fs-5">Podaj hasło:</label>
                 <input id="password" name="password" type="password" class="form-control mx-auto my-3 userInput" placeholder="hasło" required>
             </div>
-            <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
-                <label for="repeatedPassword" class="fs-5">Powtórz hasło:</label>
-                <input id="repeatedPassword" name="repeatedPassword" type="password" class="form-control mx-auto my-3 userInput" placeholder="hasło" required>
+            <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto row">
+                <div class="checkbox col-6">
+                    <label class="fs-6">
+                        <input class="mx-3" type="checkbox" name="remember_me" {% if remember_me %} checked="checked" {% endif %} /> Zapamiętaj mnie
+                    </label>
+                </div>
+                <div class="form-group col-6 fs-6">
+                    <a href="#">Nie pamiętasz hasła?</a>
+                </div>
             </div>
-            <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
-                <label for="email" class="fs-5">Podaj adres e-mail:</label>
-                <input id="email" name="email" type="email" class="form-control mx-auto my-3 userInput" placeholder="adres e-mail" required>
-            </div>
-
-            {% if user.errors is not empty %}
+            
+           <!-- {% if user.errors is not empty %}
             <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
                 <p class="errors">Niepoprawne dane:</p>
                 <ul>
@@ -37,14 +39,17 @@
                     {% endfor %}
                 </ul>
             </div>
-            {% endif %}
+            {% endif %}-->
 
             <div class="col-12 text-center py-4">
-                <button type="submit" class="btn fw-bold mx-2 my-2 smallGreenButton">Zarejestruj się</button>
-                <button type="reset" class="btn fw-bold mx-2 my-2 smallOrangeButton">Wyczyść</button>
+                <button type="submit" class="btn fw-bold mx-2 my-2 smallGreenButton">Zaloguj</button>
                 <a href="/"><button type="button" class="btn fw-bold mx-2 my-2 smallRedButton">Powrót</button></a>
             </div>
         </form>
+        <div class="col-12 text-center pb-4">
+            <span class="me-3">Lub jeśli nie masz jeszcze konta: </span>
+            <a href="#">Zarejestruj się</a>
+        </div>
 
     </div>
 
