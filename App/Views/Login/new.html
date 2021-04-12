@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Logowanie{% endblock %}
+
+{% block body %}
+
+    <div class="row p-0 m-0"> 
+
+        <div class="col-12 text-center py-4">
+            <h1 class="h2">Logowanie</h1>
+        </div>  
+
+        <form method="POST" action="/login/create">
+            <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
+                <label for="email" class="fs-5">Podaj adres e-mail:</label>
+                <input id="email" name="email" type="email" class="form-control mx-auto my-3 userInput" placeholder="adres e-mail" required>
+            </div>
+
+            <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
+                <label for="password" class="fs-5">Podaj hasło:</label>
+                <input id="password" name="password" type="password" class="form-control mx-auto my-3 userInput" placeholder="hasło" required>
+            </div>
+
+            {% if incorrect_credentials %}
+            <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto row">
+                <p class="fs-5 text-danger">Podano nie poprawny adres e-mail lub hasło!</p>
+            </div>
+            {% endif %}
+
+            <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto row">
+                <div class="checkbox col-6">
+                    <label class="fs-6">
+                        <input class="mx-3" type="checkbox" name="remember_me" {% if remember_me %} checked="checked" {% endif %} /> Zapamiętaj mnie
+                    </label>
+                </div>
+                <div class="form-group col-6 fs-6">
+                    <a href="#">Nie pamiętasz hasła?</a>
+                </div>
+            </div>
+            
+           <!-- {% if user.errors is not empty %}
+            <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
+                <p class="errors">Niepoprawne dane:</p>
+                <ul>
+                    {% for error in user.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}-->
+
+            <div class="col-12 text-center py-4">
+                <button type="submit" class="btn fw-bold mx-2 my-2 smallGreenButton">Zaloguj</button>
+                <a href="/"><button type="button" class="btn fw-bold mx-2 my-2 smallRedButton">Powrót</button></a>
+            </div>
+        </form>
+        <div class="col-12 text-center pb-4">
+            <span class="me-3">Lub jeśli nie masz jeszcze konta: </span>
+            <a href="/signup/new">Zarejestruj się</a>
+        </div>
+    </div>
+
+{% endblock %}

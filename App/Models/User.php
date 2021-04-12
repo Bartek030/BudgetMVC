@@ -233,7 +233,7 @@ class User extends \Core\Model
      * 
      * @return mixed The user object or false if authentication fails
      */
-/*    public static function authenticate($email, $password) {
+    public static function authenticate($email, $password) {
         $user = static::findByEmail($email);
 
         if($user && $user -> is_active) {
@@ -243,7 +243,7 @@ class User extends \Core\Model
         }
         return false;
     }
-*/
+
     /**
      * Find a user model by ID
      * 
@@ -251,7 +251,7 @@ class User extends \Core\Model
      * 
      * @return mixed User object if found, false otherwise
      */
-/*    public static function findByID($id) {
+    public static function findByID($id) {
         $sql = 'SELECT * FROM users WHERE id = :id';
 
         $db = static::getDB();
@@ -264,19 +264,19 @@ class User extends \Core\Model
 
         return $stmt -> fetch();
     }
-*/
+
     /**
      * Remember the login by inserting a new unique token into the remembered_logins table
      * for this user record
      * 
      * @return boolen True if the login was remembered successfully, false otherwise
      */
-/*    public function rememberLogin() {
+    public function rememberLogin() {
         $token = new Token();
         $hashed_token = $token -> getHash();
         $this -> remember_token = $token -> getValue();
         
-        $this -> expiry_timestamp = time() + 60 * 60 * 24 * 30; // 30 days from now
+        $this -> expiry_timestamp = time() + 60 * 60 * 24 * 7; // 7 days from now
 
         $sql = 'INSERT INTO remembered_logins (token_hash, user_id, expires_at)
                 VALUES (:token_hash, :user_id, :expires_at)';
@@ -290,7 +290,7 @@ class User extends \Core\Model
 
         return $stmt -> execute();
     }
-*/
+
     /**
      * Send password reset instructions to the user specified
      * 
