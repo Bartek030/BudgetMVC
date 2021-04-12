@@ -10,15 +10,23 @@
             <h1 class="h2">Logowanie</h1>
         </div>  
 
-        <form method="POST">
+        <form method="POST" action="/login/create">
             <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
                 <label for="email" class="fs-5">Podaj adres e-mail:</label>
                 <input id="email" name="email" type="email" class="form-control mx-auto my-3 userInput" placeholder="adres e-mail" required>
             </div>
+
             <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
                 <label for="password" class="fs-5">Podaj hasło:</label>
                 <input id="password" name="password" type="password" class="form-control mx-auto my-3 userInput" placeholder="hasło" required>
             </div>
+
+            {% if incorrect_credentials %}
+            <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto row">
+                <p class="fs-5 text-danger">Podano nie poprawny adres e-mail lub hasło!</p>
+            </div>
+            {% endif %}
+
             <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto row">
                 <div class="checkbox col-6">
                     <label class="fs-6">
@@ -48,45 +56,8 @@
         </form>
         <div class="col-12 text-center pb-4">
             <span class="me-3">Lub jeśli nie masz jeszcze konta: </span>
-            <a href="#">Zarejestruj się</a>
+            <a href="/signup/new">Zarejestruj się</a>
         </div>
-
     </div>
 
-{% endblock %}
-
-{% block scripts %}
-    <script src="/js/app.js"></script>
-    
-    <script>
-        $(document).ready(function() {
-            $('#formSignup').validate({
-                rules: {
-                    name: 'required',
-                    email: {
-                        required: true,
-                        email: true,
-                        remote: '/account/validate-email'
-                    },
-                    password: {
-                        required: true,
-                        minlength: 6,
-                        validPassword: true
-                    }
-                },
-                messages: {
-                    name: 'Imie jest wymagane!',
-                    email: {
-                        required: 'E-mail jest wymagany!',
-                        email: 'Adres e-mail nie jest poprawny!',
-                        remote: 'E-mail jest już przypisany do innego konta!'
-                    },
-                    password: {
-                        required: 'Hasło jest wymagane!',
-                        minlength: 'Długość hasła musi wynosić conajmniej 6 znaków!',
-                    }
-                }
-            });
-        })
-    </script>
 {% endblock %}
