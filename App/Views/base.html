@@ -24,7 +24,9 @@
 <body>
 
     <div class="container">
+
 		<div class="forFooter">
+
 			<header id="mainHeader" class="d-flex flex-column flex-lg-row justify-content-between my-2">
 				<div class="my-auto">
 					<h1 class="text-center text-lg-start"><a href="/"><i class="fas fa-piggy-bank"></i>&ensp;Budżet Osobisty</a></h1>
@@ -42,10 +44,42 @@
 			</header>
 
 			<main class="row p-0 m-0 mainContainer container-fluid">
+
+				{% if current_user %}
+					<nav class="navbar navbar-dark navbar-expand-lg sticky-top mainNav">
+						<div class="col-12">
+							<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav_navbar" aria-controls="mainNav_navbar" aria-expanded="false" aria-label="Przełącznik nawigacji">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+							<div class="collapse navbar-collapse" id="mainNav_navbar">
+								<ul class="navbar-nav mx-auto">
+									<li class="nav-item">
+										<a class="nav-link" aria-current="page" href="incomes.php">Dodaj przychód</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" aria-current="page" href="expenses.php">Dodaj wydatek</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" aria-current="page" href="balance.php">Przeglądaj bilans</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" aria-current="page" href="#">Ustawienia</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" aria-current="page" href="logout.php">Wyloguj się</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</nav>
+				{% endif %}
+
 				{% block body %}
 				{% endblock %}
 			</main>
+
 		</div>
+
 		<footer class="d-flex justify-content-center flex-wrap py-2 mainFooter">
 			<div class="mx-3">2021 &copy;</div>
 			<div class="mx-3">Autor:&ensp;Bartłomiej Święs</div>
