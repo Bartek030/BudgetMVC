@@ -97,9 +97,10 @@ class User extends \Core\Model
             if(preg_match('/.*\d+.*/i', $this -> password) == 0) {
                 $this -> errors[] = 'Hasło musi posiadać conajmniej 1 cyfrę!';
             }
-
-            if($this -> password != $this -> repeatedPassword) {
-                $this -> errors[] = 'Hasła muszą być jednakowe!';
+            if(isset($this -> repeatedPassword)) {
+                if($this -> password != $this -> repeatedPassword) {
+                    $this -> errors[] = 'Hasła muszą być jednakowe!';
+                }
             }
         }
     }
@@ -298,7 +299,7 @@ class User extends \Core\Model
      * 
      * @return void
      */
-/*    public static function sendPasswordReset($email) {
+    public static function sendPasswordReset($email) {
         $user = static::findByEmail($email);
 
         if($user) {
@@ -307,18 +308,18 @@ class User extends \Core\Model
             }
         }
     }
-*/
+
     /**
      * Start the password reset process by generating a new token and expiry
      * 
      * @return void
      */
-/*    public function startPasswordReset() {
+    public function startPasswordReset() {
         $token = new Token();
         $hashed_token = $token -> getHash();
         $this -> password_reset_token = $token -> getValue();
 
-        $expiry_timestamp = time() + 60 * 60 * 2; // 2 hours from now
+        $expiry_timestamp = time() + 60 * 60 * 1; // 1 hour from now
 
         $sql = 'UPDATE users
                 SET password_reset_hash = :token_hash,
@@ -334,21 +335,21 @@ class User extends \Core\Model
 
         return $stmt -> execute();
     }
-*/
+
     /**
      * Send password reset instructions in an email to the user
      * 
      * @return void
      */
-/*    protected function sendPasswordResetEmail() {
+    protected function sendPasswordResetEmail() {
         $url = 'http://' . $_SERVER['HTTP_HOST'] . '/password/reset/' . $this -> password_reset_token;
 
         $text = View::getTemplate('Password/reset_email.txt', ['url' => $url]);
         $html = View::getTemplate('Password/reset_email.html', ['url' => $url]);
 
-        Mail::send($this -> email, 'Password reset', $text, $html);
+        Mail::send($this -> email, 'Resetowanie hasła', $text, $html, $this -> name);
     }
-*/
+
     /**
      * Find a user model by password reset token and expiry
      * 
@@ -356,7 +357,7 @@ class User extends \Core\Model
      * 
      * @return mixed User object if found and the token hasn't expired, null otherwise
      */
-/*    public static function findByPasswordReset($token) {
+    public static function findByPasswordReset($token) {
         $token = new Token($token);
         $hashed_token = $token -> getHash();
 
@@ -380,7 +381,7 @@ class User extends \Core\Model
             }
         }
     }
-*/
+
     /**
      * Reset the password
      * 
@@ -388,7 +389,7 @@ class User extends \Core\Model
      * 
      * @return boolean True if the password was updated successfully, false otherwise
      */
-/*    public function resetPassword($password) {
+    public function resetPassword($password) {
         $this -> password = $password;
 
         $this -> validate();
@@ -411,7 +412,7 @@ class User extends \Core\Model
         }
         return false;
     }
-*/
+
     /**
      * Send an email to the user containing the activation link
      * 
