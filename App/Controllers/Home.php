@@ -20,6 +20,11 @@ class Home extends \Core\Controller
      */
     public function indexAction()
     {
-        View::renderTemplate('Home/index.html');
+        $user = Auth::getUser();
+        if($user) {
+            View::renderTemplate('Home/main_menu.html');
+        } else {
+            View::renderTemplate('Home/index.html');
+        }
     }
 }
