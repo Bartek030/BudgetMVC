@@ -79,6 +79,9 @@ img {
 
 p {
     letter-spacing: 1px;
+}
+
+p.mainMenu {
     text-align: justify;
 }
 

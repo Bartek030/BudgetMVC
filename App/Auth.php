@@ -34,7 +34,7 @@ class Auth {
      * 
      * @return void
      */
-/*    public static function logout() {
+    public static function logout() {
         // Unset all of the session variables.
         $_SESSION = [];
 
@@ -58,16 +58,16 @@ class Auth {
 
         static::forgetLogin();
     }
-*/
+
     /**
      * Remember the originally-requested page in the session
      * 
      * @return void
      */
-/*    public static function rememberRequestedPage() {
+    public static function rememberRequestedPage() {
         $_SESSION['return_to'] = $_SERVER['REQUEST_URI'];
     }
-*/
+
     /**
      * Get the originally-requested page to return to after requiring login, or default to the homepage
      * 
@@ -116,7 +116,7 @@ class Auth {
      * 
      * @return void
      */
-/*    protected static function forgetLogin() {
+    protected static function forgetLogin() {
         $cookie = $_COOKIE['remember_me'] ?? false;
 
         if($cookie) {
@@ -128,5 +128,5 @@ class Auth {
 
             setcookie('remember_me', '', time() - 3600);
         }
-    }*/
+    }
 }
