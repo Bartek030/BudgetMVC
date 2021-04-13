@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Resetowanie hasła{% endblock %}
+
+{% block body %}
+
+    <div class="row p-0 m-0"> 
+
+        <div class="col-12 text-center py-4">
+            <h1 class="h2">Resetowanie hasła</h1>
+        </div>  
+
+        <form method="POST" action="/password/requestReset">
+            <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
+                <label for="email" class="fs-5">Podaj adres e-mail:</label>
+                <input id="email" name="email" type="email" class="form-control mx-auto my-3 userInput" placeholder="adres e-mail" required>
+            </div>
+
+            <div class="col-12 text-center py-4">
+                <button type="submit" class="btn fw-bold mx-2 my-2 smallGreenButton">Wyślij</button>
+                <a href="/"><button type="button" class="btn fw-bold mx-2 my-2 smallRedButton">Powrót</button></a>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
