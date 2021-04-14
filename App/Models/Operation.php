@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use PDO;
+
 /**
- * Operaion model
+ * Example operaion model
  * 
  * PHP version 7.0
  */
-class Operaion extends Model {
+class Operation extends \Core\Model {
     /**
      * Error messages
      * 
@@ -34,26 +36,22 @@ class Operaion extends Model {
      * @return boolean true if success, false otherwise
      */
 
-    public function save() {
+    public function save($user) {
         $this -> validate();
+        $categoryID = static::getCategoryID($user, $this -> category);
 
-        if(empty($this -> errors)) {
-            $password_hash = password_hash($this -> password, PASSWORD_DEFAULT);
-
-            $token = new Token();
-            $hashed_token = $token -> getHash();
-            $this -> activation_token = $token -> getValue();
-
-            $sql = 'INSERT INTO users (name, email, password_hash, activation_hash)
-                    VALUES (:name, :email, :password_hash, :activation_hash)';
+        if(empty($this -> errors) && $categoryID) {
+            $sql = 'INSERT INTO incomes
+                    VALUES(NULL, :userID, :categoryID, :amount, :date, :comment)';
 
             $db = static::getDB();
             $stmt = $db -> prepare($sql);
 
-            $stmt -> bindValue(':name', $this -> name, PDO::PARAM_STR);
-            $stmt -> bindValue(':email', $this -> email, PDO::PARAM_STR);
-            $stmt -> bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
-            $stmt -> bindValue(':activation_hash', $hashed_token, PDO::PARAM_STR);
+            $stmt -> bindValue(':userID', $user -> id, PDO::PARAM_INT);
+            $stmt -> bindValue(':categoryID', $categoryID, PDO::PARAM_INT);
+            $stmt -> bindValue(':amount', $this -> incomeAmount, PDO::PARAM_STR);
+            $stmt -> bindValue(':date', $this -> operationDate, PDO::PARAM_STR);
+            $stmt -> bindValue(':comment', $this -> comment, PDO::PARAM_STR);
 
             return $stmt -> execute();
         }
@@ -76,27 +74,34 @@ class Operaion extends Model {
             $this -> errors[] = 'Dopuszczalny zakres daty obejmuje od 01-01-2000 do końca obecnego roku!';
         }
 
-        if(strtotime($this -> operationDate) < strtotime('2000-01-01')) {
+        if(strtotime($this -> operationDate) > strtotime(date("Y") . '-12-31')) {
             $this -> errors[] = 'Dopuszczalny zakres daty obejmuje od 01-01-2000 do końca obecnego roku!';
         }
-        // Password
-        if(isset($this -> password)) {
-            if(strlen($this -> password) < 6) {
-                $this -> errors[] = 'Hasło musi posiadać conajmniej 6 znaków!';
-            }
+    }
 
-            if(preg_match('/.*[a-z]+.*/i', $this -> password) == 0) {
-                $this -> errors[] = 'Hasło musi zawierać conajmniej 1 literę!';
-            }
+    /**
+     * Get category ID assigned to the current user
+     * 
+     * @param user current user
+     * @param string category for searching ID
+     * 
+     * @return int ID - category ID assigned to the current user, NULL otherwise
+     */
+    protected static function getCategoryID($user, $category) {
+        $sql = 'SELECT id
+                FROM incomes_category_assigned_to_users
+                WHERE user_id = :id
+                AND name = :category';;
+        
+        $db = static::getDB();
+        $stmt = $db -> prepare($sql);
 
-            if(preg_match('/.*\d+.*/i', $this -> password) == 0) {
-                $this -> errors[] = 'Hasło musi posiadać conajmniej 1 cyfrę!';
-            }
-            if(isset($this -> repeatedPassword)) {
-                if($this -> password != $this -> repeatedPassword) {
-                    $this -> errors[] = 'Hasła muszą być jednakowe!';
-                }
-            }
-        }
+        $stmt -> bindValue(':id', $user -> id, PDO::PARAM_INT);
+        $stmt -> bindValue(':category', $category, PDO::PARAM_STR);
+        
+        $stmt -> execute();
+        $categoryID = $stmt -> fetch();
+
+        return $categoryID[0];
     }
 }
