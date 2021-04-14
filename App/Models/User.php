@@ -37,7 +37,7 @@ class User extends \Core\Model
     /**
      * Save the user model with the current property values
      * 
-     * @return void
+     * @return boolean true if success, false otherwise
      */
     public function save() {
         $this -> validate();
