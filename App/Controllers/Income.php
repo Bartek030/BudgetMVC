@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use \App\Auth;
 use \Core\View;
+use \App\Models\Operation;
 
 /**
  * Add an income to the database into income table
@@ -27,8 +28,23 @@ class Income extends Authenticated {
      * @return void
      */
     public function newAction() {
-        View::renderTemplate('Income/new.html', [
-            'user' => $this -> user
-        ]);
+        View::renderTemplate('Income/new.html');
+    }
+
+    /**
+     * Save income in databse
+     * 
+     * @return void
+     */
+    public function createAction() {
+        $income = new Operation($_POST);
+
+        if($income -> save()) {
+            $this -> redirect('/income/success');
+        } else {
+            View::renderTemplate('Signup/new.html', [
+                'user' => $user
+            ]);
+        }
     }
 }
