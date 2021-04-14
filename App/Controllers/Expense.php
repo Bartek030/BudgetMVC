@@ -7,11 +7,11 @@ use \Core\View;
 use \App\Models\Operation;
 
 /**
- * Add an income to the database into income table
+ * Add an expense to the database into expense table
  * 
  * PHP version 7.0
  */
-class Income extends Authenticated {
+class Expense extends Authenticated {
     /**
      * Before filter - called before each action method
      * 
@@ -23,37 +23,37 @@ class Income extends Authenticated {
     }
 
     /**
-     * Show new income page
+     * Show new expense page
      * 
      * @return void
      */
     public function newAction() {
-        View::renderTemplate('Income/new.html');
+        View::renderTemplate('Expense/new.html');
     }
 
     /**
-     * Save income in databse
+     * Save expense in databse
      * 
      * @return void
      */
     public function createAction() {
-        $income = new Operation($_POST);
+        $expense = new Operation($_POST);
 
-        if($income -> saveIncome($this -> user)) {
-            $this -> redirect('/income/success');
+        if($expense -> saveExpense($this -> user)) {
+            $this -> redirect('/expense/success');
         } else {
-            View::renderTemplate('Income/new.html',[
-                'income' => $income
+            View::renderTemplate('Expense/new.html',[
+                'expense' => $expense
             ]);
         }
     }
 
     /**
-     * Show the income success page
+     * Show the expense success page
      * 
      * @return void
      */
     public function successAction() {
-        View::renderTemplate('Income/success.html');
+        View::renderTemplate('Expense/success.html');
     }
 }

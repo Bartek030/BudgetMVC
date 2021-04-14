@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Dodaj wydatek{% endblock %}
+
+{% block body %}
+
+    <div class="row p-0 m-0">
+        <div class="col-12 text-center py-4">
+            <h1 class="h2">Dodaj wydatek</h1>
+        </div>
+
+        <form action="/expense/create" method="POST" id="formExpense">
+            <div class="form-group text-center col-10 col-md-8 col-lg-6 mx-auto row">
+                <div class="form-group col-12 col-lg-6 p-4">
+                    <label class="fs-5 me-2" for="amount">Kwota:</label>
+                    <input id="amount" name="amount" type="number" step="0.01" required/>
+                </div>
+
+                <div class="form-group col-12 col-lg-6 col-lg-6 p-4">
+                    <label class="fs-5 me-2" for="operationDate">Data:</label>
+                    <input id="operationDate" name="operationDate" type="date" min="2000-01-01" required/>
+                </div>
+            </div>
+
+            {% if income.errors is not empty %}
+            <div class="form-group text-center d-flex justify-content-center mx-auto">
+                <ul>
+                    {% for error in income.errors %}
+                        <li class="text-start">{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <div class="form-group text-center col-10 col-md-8 col-lg-6 mx-auto pb-2">
+                <fieldset>
+                    <legend class="my-2 fs-4">Sposób płatności:</legend>
+                    <div class="form-check form-check-inline m-2">
+                        <input class="form-check-input" type="radio" name="paymentMethod" value="Gotówka" checked>
+                        <label class="form-check-label">Gotówka</label>
+                    </div>
+                    <div class="form-check form-check-inline mx-2">
+                        <input class="form-check-input" type="radio" name="paymentMethod" value="Karta debetowa">
+                        <label class="form-check-label">Karta debetowa</label>
+                    </div>
+                    <div class="form-check form-check-inline mx-2">
+                        <input class="form-check-input" type="radio" name="paymentMethod" value="Karta kredytowa">
+                        <label class="form-check-label">Karta kredytowa</label>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="form-group text-center col-10 col-md-8 col-lg-6 mx-auto">
+                <label class="fs-5 my-3">Kategoria:</label>
+                <select id="expenseCategory" name="category" class="form-select w-100 mx-auto mb-4" aria-label="Default select example">
+                    <option value="Jedzenie">Jedzenie</option>
+                    <option value="Mieszkanie">Mieszkanie</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Telekomunikacja">Telekomunikacja</option>
+                    <option value="Opieka zdrowotna">Opieka zdrowotna</option>
+                    <option value="Ubranie">Ubranie</option>
+                    <option value="Higienia">Higienia</option>
+                    <option value="Dzieci">Dzieci</option>
+                    <option value="Rozrywka">Rozrywka</option>
+                    <option value="Rekreacja">Rekreacja</option>
+                    <option value="Szkolenia">Szkolenia</option>
+                    <option value="Książki">Książki</option>
+                    <option value="Oszczędności">Oszczędności</option>
+                    <option value="Na emeryturę">Na złotą jesień, czyli emeryturę</option>
+                    <option value="Spłata długów">Spłata długów</option>
+                    <option value="Darowizna">Darowizna</option>
+                    <option value="Inne">Inne wydatki</option>
+                </select>
+            </div>
+
+            <div class="form-group text-center col-10 col-md-8 col-lg-6 mx-auto">
+                <label for="comment" class="fs-5 my-3">Komentarz:</label>
+                <textarea class="form-control w-100 mx-auto" id="comment" name="comment" placeholder="max. 300 znaków" rows="4" cols="80" maxlength="300"></textarea>
+            </div>
+
+            <div class="form-group text-center col-10 mx-auto my-4">
+                <button type="submit" class="btn fw-bold mx-2 my-2 smallGreenButton">Dodaj</button>
+                <button type="reset" class="btn fw-bold mx-2 my-2 smallOrangeButton">Wyczyść</button>
+                <a href="/"><button type="button" class="btn fw-bold mx-2 my-2 smallRedButton">Powrót</button></a>
+            </div>
+        </form>
+
+    </div>
+
+{% endblock %}
