@@ -66,17 +66,19 @@ class Operation extends \Core\Model {
 
     public function saveExpense($user) {
         $this -> validate();
-        $categoryID = static::getIncomeCategoryID($user, $this -> category);
+        $categoryID = static::getExpenseCategoryID($user, $this -> category);
+        $paymentMethodID = static::getPaymentMethodID($user, $this -> paymentMethod);
 
-        if(empty($this -> errors) && $categoryID) {
-            $sql = 'INSERT INTO incomes
-                    VALUES(NULL, :userID, :categoryID, :amount, :date, :comment)';
+        if(empty($this -> errors) && $categoryID && $paymentMethodID) {
+            $sql = 'INSERT INTO expenses
+                    VALUES(NULL, :userID, :categoryID, :paymentMethodID, :amount, :date, :comment)';
 
             $db = static::getDB();
             $stmt = $db -> prepare($sql);
 
             $stmt -> bindValue(':userID', $user -> id, PDO::PARAM_INT);
             $stmt -> bindValue(':categoryID', $categoryID, PDO::PARAM_INT);
+            $stmt -> bindValue(':paymentMethodID', $paymentMethodID, PDO::PARAM_INT);
             $stmt -> bindValue(':amount', $this -> amount, PDO::PARAM_STR);
             $stmt -> bindValue(':date', $this -> operationDate, PDO::PARAM_STR);
             $stmt -> bindValue(':comment', $this -> comment, PDO::PARAM_STR);
@@ -131,5 +133,57 @@ class Operation extends \Core\Model {
         $categoryID = $stmt -> fetch();
 
         return $categoryID[0];
+    }
+
+    /**
+     * Get category ID assigned to the current user
+     * 
+     * @param user current user
+     * @param string category for searching ID
+     * 
+     * @return int ID - category ID assigned to the current user, NULL otherwise
+     */
+    protected static function getExpenseCategoryID($user, $category) {
+        $sql = 'SELECT id
+                FROM expenses_category_assigned_to_users
+                WHERE user_id = :id
+                AND name = :category';;
+        
+        $db = static::getDB();
+        $stmt = $db -> prepare($sql);
+
+        $stmt -> bindValue(':id', $user -> id, PDO::PARAM_INT);
+        $stmt -> bindValue(':category', $category, PDO::PARAM_STR);
+        
+        $stmt -> execute();
+        $categoryID = $stmt -> fetch();
+
+        return $categoryID[0];
+    }
+
+    /**
+     * Get category ID assigned to the current user
+     * 
+     * @param user current user
+     * @param string category for searching ID
+     * 
+     * @return int ID - category ID assigned to the current user, NULL otherwise
+     */
+    protected static function getPaymentMethodID($user, $paymentMethod) {
+        $sql = 'SELECT id
+                FROM payment_methods_assigned_to_users
+                WHERE user_id = :id
+                AND name = :paymentMethod';;
+        
+        $db = static::getDB();
+        $stmt = $db -> prepare($sql);
+
+        $stmt -> bindValue(':id', $user -> id, PDO::PARAM_INT);
+        $stmt -> bindValue(':paymentMethod', $paymentMethod, PDO::PARAM_STR);
+        
+        $stmt -> execute();
+        $paymentMethodID = $stmt -> fetch();
+
+        return $paymentMethodID[0];
     }
 }
