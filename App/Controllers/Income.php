@@ -39,7 +39,7 @@ class Income extends Authenticated {
     public function createAction() {
         $income = new Operation($_POST);
 
-        if($income -> save($this -> user)) {
+        if($income -> saveIncome($this -> user)) {
             $this -> redirect('/income/success');
         } else {
             View::renderTemplate('Income/new.html',[
