@@ -256,7 +256,7 @@ class Operation extends \Core\Model {
         $stmt -> bindValue(':startDate', $balance -> startDate, PDO::PARAM_STR);
         $stmt -> bindValue(':endDate', $balance -> endDate, PDO::PARAM_STR);
         
-        $stmt -> setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        //$stmt -> setFetchMode(PDO::FETCH_CLASS, get_called_class());
         $stmt -> execute();
 
         return $stmt -> fetchAll();
@@ -305,7 +305,7 @@ class Operation extends \Core\Model {
         $stmt -> bindValue(':userID', $user -> id, PDO::PARAM_INT);
         $stmt -> bindValue(':time', "$time%", PDO::PARAM_STR);
         
-        $stmt -> setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        //$stmt -> setFetchMode(PDO::FETCH_CLASS, get_called_class());
         $stmt -> execute();
 
         return $stmt -> fetchAll();
@@ -336,7 +336,7 @@ class Operation extends \Core\Model {
         $stmt -> bindValue(':startDate', $balance -> startDate, PDO::PARAM_STR);
         $stmt -> bindValue(':endDate', $balance -> endDate, PDO::PARAM_STR);
         
-        $stmt -> setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        //$stmt -> setFetchMode(PDO::FETCH_CLASS, get_called_class());
         $stmt -> execute();
 
        return ($stmt -> fetchAll());
@@ -373,7 +373,7 @@ class Operation extends \Core\Model {
             $time = date("Y");
         }
 
-        $sql = 'SELECT exp.name, expenses.amount, expenses.date_of_expense, expenses.expense_comment, pay.name
+        $sql = 'SELECT exp.name, expenses.amount, expenses.date_of_expense, expenses.expense_comment, pay.name as payname
                 FROM expenses_category_assigned_to_users AS exp, expenses, payment_methods_assigned_to_users AS pay
                 WHERE expenses.expense_category_assigned_to_user_id = exp.id
                 AND expenses.payment_method_assigned_to_user_id = pay.id
@@ -387,7 +387,7 @@ class Operation extends \Core\Model {
         $stmt -> bindValue(':userID', $user -> id, PDO::PARAM_INT);
         $stmt -> bindValue(':time', "$time%", PDO::PARAM_STR);
         
-        $stmt -> setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        //$stmt -> setFetchMode(PDO::FETCH_CLASS, get_called_class());
         $stmt -> execute();
  
         return $stmt -> fetchAll();

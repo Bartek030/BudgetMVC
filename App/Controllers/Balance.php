@@ -42,5 +42,31 @@ class Balance extends Authenticated {
         $incomeData = Operation::getIncomeData($balance, $this -> user);
         $expenseData = Operation::getExpenseData($balance, $this -> user);
 
+        $incomeSummary = static::operatioinSummary($incomeData);
+        $expenseSummary = static::operatioinSummary($expenseData);
+        $balanceSummary = $incomeSummary - $expenseSummary;
+
+        View::renderTemplate('Balance/results.html', [
+            'incomeData' => $incomeData,
+            'expenseData' => $expenseData,
+            'incomeSummary' => $incomeSummary,
+            'expenseSummary' => $expenseSummary,
+            'balanceSummary' => $balanceSummary
+        ]);
+    }
+
+    /**
+     * Count summary balance of operations
+     * 
+     * @param array Array of operation data
+     * 
+     * @return float summary balance of operations
+     */
+    protected static function operatioinSummary($operationArray) {
+        $summary = 0;
+        foreach($operationArray as $amount ) {
+            $summary = $summary + $amount['amount'];
+        }
+        return $summary;
     }
 }

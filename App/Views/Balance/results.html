@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Przeglądaj bilans{% endblock %}
+
+{% block body %}
+
+    <div class="row p-0 m-0">
+        <div class="col-12 text-center py-4">
+            <h1 class="h2">Przeglądaj bilans</h1>
+        </div>
+
+        <div class="row text-center col-12 m-0 p-0">
+            <div class="col-12 col-lg-8 test">
+                <h4 class="mb-3">PRZYCHODY</h4>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Kategoria</th>
+                            <th scope="col">Kwota</th>
+                            <th scope="col">Data operacji</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            {% for income in incomeData %}
+                            <tr>
+                                <th scope="row"></th>
+                                <td> {{ income.name }}</td>
+                                <td> {{ income.amount }}</td>
+                                <td> {{ income.date_of_income }}</td>
+                            </tr>
+                            {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12 col-lg-4">
+                Miejsce na wykres kołowy
+            </div>
+            <div class="col-12 col-lg-8 test">
+                <h4 class="mb-3">WYDATKI</h4>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Kategoria</th>
+                            <th scope="col">Kwota</th>
+                            <th scope="col">Data operacji</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            {% for expense in expenseData %}
+                            <tr>
+                                <th scope="row"></th>
+                                <td> {{ expense.name }}</td>
+                                <td> {{ expense.payname }}</td>
+                                <td> {{ expense.amount }}</td>
+                                <td> {{ expense.date_of_expense}}</td>
+                            </tr>
+                            {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12 col-lg-4">
+                Miejsce na wykres kołowy
+            </div>
+            <div class="col-12 col-lg-8 test">
+                <h4 class="mb-3">BILANS</h4>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Przychody</th>
+                            <th scope="col">Wydatki</th>
+                            <th scope="col">Różnica</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <th scope="row">{{ incomeSummary }}</th>
+                                <td> {{ expenseSummary }}</td>
+                                <td> {{ balanceSummary }}</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12 col-lg-4">
+                Miejsce na ocenę wyniku
+            </div>
+        </div>
+
+        <div class="text-center col-10 mx-auto my-4">
+            <a href="/balance/new"><button type="button" class="btn fw-bold mx-2 my-2 smallGreenButton">Kontynuuj</button></a>
+            <a href="/"><button type="button" class="btn fw-bold mx-2 my-2 smallRedButton">Powrót</button></a>
+        </div>
+        
+
+    </div>
+
+{% endblock %}
