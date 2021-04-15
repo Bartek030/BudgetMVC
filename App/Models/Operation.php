@@ -93,18 +93,29 @@ class Operation extends \Core\Model {
      * 
      * @return void
      */
-    public function validate() {
+    protected function validate() {
         // Amount
         if($this -> amount < 0) {
             $this -> errors[] = 'Podana kwota musi być większa od 0';
         }
 
         // Date
-        if(strtotime($this -> operationDate) < strtotime('2000-01-01')) {
+        static::validateData($this -> operationDate);
+    }
+
+    /**
+     * Validate date if belong to the specific period of time
+     * 
+     * @param string date for validate
+     * 
+     * @return void 
+     */
+    protected static function validateData($date) {
+        if(strtotime($date) < strtotime('2000-01-01')) {
             $this -> errors[] = 'Dopuszczalny zakres daty obejmuje od 01-01-2000 do końca obecnego roku!';
         }
 
-        if(strtotime($this -> operationDate) > strtotime(date("Y") . '-12-31')) {
+        if(strtotime($date) > strtotime(date("Y") . '-12-31')) {
             $this -> errors[] = 'Dopuszczalny zakres daty obejmuje od 01-01-2000 do końca obecnego roku!';
         }
     }
@@ -115,13 +126,13 @@ class Operation extends \Core\Model {
      * @param user current user
      * @param string category for searching ID
      * 
-     * @return int ID - category ID assigned to the current user, NULL otherwise
+     * @return mixed ID - category ID assigned to the current user, NULL otherwise
      */
     protected static function getIncomeCategoryID($user, $category) {
         $sql = 'SELECT id
                 FROM incomes_category_assigned_to_users
                 WHERE user_id = :id
-                AND name = :category';;
+                AND name = :category';
         
         $db = static::getDB();
         $stmt = $db -> prepare($sql);
@@ -141,13 +152,13 @@ class Operation extends \Core\Model {
      * @param user current user
      * @param string category for searching ID
      * 
-     * @return int ID - category ID assigned to the current user, NULL otherwise
+     * @return mixed ID - category ID assigned to the current user, NULL otherwise
      */
     protected static function getExpenseCategoryID($user, $category) {
         $sql = 'SELECT id
                 FROM expenses_category_assigned_to_users
                 WHERE user_id = :id
-                AND name = :category';;
+                AND name = :category';
         
         $db = static::getDB();
         $stmt = $db -> prepare($sql);
@@ -167,13 +178,13 @@ class Operation extends \Core\Model {
      * @param user current user
      * @param string category for searching ID
      * 
-     * @return int ID - category ID assigned to the current user, NULL otherwise
+     * @return mixed ID - category ID assigned to the current user, NULL otherwise
      */
     protected static function getPaymentMethodID($user, $paymentMethod) {
         $sql = 'SELECT id
                 FROM payment_methods_assigned_to_users
                 WHERE user_id = :id
-                AND name = :paymentMethod';;
+                AND name = :paymentMethod';
         
         $db = static::getDB();
         $stmt = $db -> prepare($sql);
@@ -185,5 +196,200 @@ class Operation extends \Core\Model {
         $paymentMethodID = $stmt -> fetch();
 
         return $paymentMethodID[0];
+    }
+
+    /**
+     * Get incomes data
+     * 
+     * @param Operation input operation data from user
+     * @param user current user
+     * 
+     * @return mixed array of incomes data, null otherwise
+     */
+    public static function getIncomeData($balance, $user) {
+
+        if($balance -> balanceTime == 'other_period') {
+            return static::getIncomeDataFromOtherTimePeriod($balance, $user);
+        } else {
+            return static::getIncomeDataFromDefinedTimePeriod($balance, $user);
+        }   
+    }
+    
+    /**
+     * Get expenses data
+     * 
+     * @param Operation input operation data from user
+     * @param user current user
+     * 
+     * @return mixed array of expenses data, null otherwise
+     */
+    public static function getExpenseData($balance, $user) {
+
+        if($balance -> balanceTime == 'other_period') {
+            return static::getExpenseDataFromOtherTimePeriod($balance, $user);
+        } else {
+            return static::getExpenseDataFromDefinedTimePeriod($balance, $user);
+        }   
+    }
+
+    /**
+     * Get incomes data from other period of time
+     * 
+     * @param Operation input operation data from user
+     * @param user current user
+     * 
+     * @return mixed array of incomes data, null otherwise
+     */
+    protected static function getIncomeDataFromOtherTimePeriod($balance, $user) {
+
+        $sql = 'SELECT inc.name, incomes.amount, incomes.date_of_income, incomes.income_comment
+                FROM incomes_category_assigned_to_users AS inc, incomes
+                WHERE incomes.income_category_assigned_to_user_id = inc.id
+                AND incomes.user_id = :userID
+                AND incomes.date_of_income >= :startDate
+                AND incomes.date_of_income <= :endDate';
+
+        $db = static::getDB();
+        $stmt = $db -> prepare($sql);
+        
+        $stmt -> bindValue(':userID', $user -> id, PDO::PARAM_INT);
+        $stmt -> bindValue(':startDate', $balance -> startDate, PDO::PARAM_STR);
+        $stmt -> bindValue(':endDate', $balance -> endDate, PDO::PARAM_STR);
+        
+        //$stmt -> setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt -> execute();
+
+        return $stmt -> fetchAll();
+    }
+
+    /**
+     * Get incomes data from defined period of time
+     * 
+     * @param Operation input operation data from user
+     * @param user current user
+     * 
+     * @return mixed array of incomes data, null otherwise
+     */
+    protected static function getIncomeDataFromDefinedTimePeriod($balance, $user) {
+
+        if($balance -> balanceTime == 'current_month') {
+            $time = date("Y-m");
+        } else if ($balance -> balanceTime == 'previous_month') {
+            $year = date("Y");
+            $month = date("m") - 1;
+
+            if($month < 1) {
+                $month = 12;
+                $year = $year - 1;
+            }
+
+            if($month < 10) {
+                $time = $year . "-0" . $month;
+            } else {
+                $time = $year . "-" . $month;
+            }
+
+        } else if ($balance -> balanceTime == 'current_year') {
+            $time = date("Y");
+        }
+
+        $sql = 'SELECT inc.name, incomes.amount, incomes.date_of_income, incomes.income_comment
+                FROM incomes_category_assigned_to_users AS inc, incomes
+                WHERE incomes.income_category_assigned_to_user_id = inc.id
+                AND incomes.user_id = :userID
+                AND incomes.date_of_income LIKE :time';
+
+        $db = static::getDB();
+        $stmt = $db -> prepare($sql);
+        
+        $stmt -> bindValue(':userID', $user -> id, PDO::PARAM_INT);
+        $stmt -> bindValue(':time', "$time%", PDO::PARAM_STR);
+        
+        //$stmt -> setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt -> execute();
+
+        return $stmt -> fetchAll();
+    }
+
+    /**
+     * Get expenses data from other period of time
+     * 
+     * @param Operation input operation data from user
+     * @param user current user
+     * 
+     * @return mixed array of incomes data, null otherwise
+     */
+    protected static function getExpenseDataFromOtherTimePeriod($balance, $user) {
+
+        $sql = 'SELECT exp.name, expenses.amount, expenses.date_of_expense, expenses.expense_comment, pay.name
+                FROM expenses_category_assigned_to_users AS exp, expenses, payment_methods_assigned_to_users AS pay
+                WHERE expenses.expense_category_assigned_to_user_id = exp.id
+                AND expenses.payment_method_assigned_to_user_id = pay.id
+                AND expenses.user_id = :userID
+                AND expenses.date_of_expense >= :startDate
+                AND expenses.date_of_expense <= :endDate';
+
+        $db = static::getDB();
+        $stmt = $db -> prepare($sql);
+        
+        $stmt -> bindValue(':userID', $user -> id, PDO::PARAM_INT);
+        $stmt -> bindValue(':startDate', $balance -> startDate, PDO::PARAM_STR);
+        $stmt -> bindValue(':endDate', $balance -> endDate, PDO::PARAM_STR);
+        
+        //$stmt -> setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt -> execute();
+
+       return ($stmt -> fetchAll());
+    }
+    
+    /**
+     * Get expenses data from defined period of time
+     * 
+     * @param Operation input operation data from user
+     * @param user current user
+     * 
+     * @return mixed array of expenses data, null otherwise
+     */
+    protected static function getExpenseDataFromDefinedTimePeriod($balance, $user) {
+
+        if($balance -> balanceTime == 'current_month') {
+            $time = date("Y-m");
+        } else if ($balance -> balanceTime == 'previous_month') {
+            $year = date("Y");
+            $month = date("m") - 1;
+
+            if($month < 1) {
+                $month = 12;
+                $year = $year - 1;
+            }
+
+            if($month < 10) {
+                $time = $year . "-0" . $month;
+            } else {
+                $time = $year . "-" . $month;
+            }
+
+        } else if ($balance -> balanceTime == 'current_year') {
+            $time = date("Y");
+        }
+
+        $sql = 'SELECT exp.name, expenses.amount, expenses.date_of_expense, expenses.expense_comment, pay.name as payname
+                FROM expenses_category_assigned_to_users AS exp, expenses, payment_methods_assigned_to_users AS pay
+                WHERE expenses.expense_category_assigned_to_user_id = exp.id
+                AND expenses.payment_method_assigned_to_user_id = pay.id
+                AND expenses.user_id = :userID
+                AND expenses.date_of_expense LIKE :time';
+
+
+        $db = static::getDB();
+        $stmt = $db -> prepare($sql);
+        
+        $stmt -> bindValue(':userID', $user -> id, PDO::PARAM_INT);
+        $stmt -> bindValue(':time', "$time%", PDO::PARAM_STR);
+        
+        //$stmt -> setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt -> execute();
+ 
+        return $stmt -> fetchAll();
     }
 }

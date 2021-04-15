@@ -147,7 +147,7 @@ p.mainMenu {
 .smallRedButton:active {
     transform: translateY(1px);
 }
-/*
+
 .table {
     background-color: #333333;
     color: white;
@@ -161,7 +161,7 @@ th, td {
 tbody tr:hover {
     background-color: #444444;
     color: white !important;
-}*/
+}
 
 .errors, div > ul > li {
     font-size: 18px;
