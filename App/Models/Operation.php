@@ -335,7 +335,7 @@ class Operation extends \Core\Model {
         $stmt -> bindValue(':userID', $user -> id, PDO::PARAM_INT);
         $stmt -> bindValue(':startDate', $balance -> startDate, PDO::PARAM_STR);
         $stmt -> bindValue(':endDate', $balance -> endDate, PDO::PARAM_STR);
-        
+
         //$stmt -> setFetchMode(PDO::FETCH_CLASS, get_called_class());
         $stmt -> execute();
 
