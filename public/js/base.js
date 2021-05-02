@@ -1,4 +1,9 @@
-function setTime() {
+$(document).ready(function() {
+	setTime();
+	setDate();
+});
+
+let setTime = function() {
 	let currentDate = new Date();
 	
 	let hour = currentDate.getHours();
@@ -24,7 +29,7 @@ function setTime() {
 	setTimeout("setTime()",1000);
 }
 
-function setDate() {
+let setDate = function() {
 	let currentDate = new Date();
 	let year = currentDate.getFullYear();
 
@@ -36,5 +41,3 @@ function setDate() {
 	$('#operationDate').val(year + '-' + month + '-' + day);
 }
 
-setTime();
-setDate();

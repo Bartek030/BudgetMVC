@@ -1,3 +1,8 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 body {
     /* Background pattern from Toptal Subtle Patterns */
     background-image: url("../img/footer_lodyas.png");
@@ -43,22 +48,43 @@ h1 > a, h1 > a:hover {
     min-height: calc(100vh - 60px);
 }
 
-
-.mainNav {
+.mainNav, .dropdown-menu {
     background-color: #36b03c;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
 
-#mainNav_navbar a {
-    color: white;
-    font-size: 20px;
+#mainNav_navbar a,
+.dropdown-item,
+.dropdown > button {
+    color: #f2f2f2 !important;
+    font-size: 20px; 
     border-radius: 5px;
     letter-spacing: 1px;
+    background-color: #36b03c;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
-#mainNav_navbar a:hover {
+.dropdown-item:hover {
+    background-color: #36b03c !important;
+}
+
+#mainNav_navbar a:hover,
+.dropdown-item:hover,
+.dropdown > button:hover,
+.dropdown-item > a:hover {
     background-color: #47c14d;
+    color: #f2f2f2;
+}
+
+.navbar-toggler {
+    color: #f2f2f2 !important;
+}
+
+.dropdown > button:focus,
+.navbar-toggler:focus {
+    box-shadow: none;
 }
 
 .mainFooter {
