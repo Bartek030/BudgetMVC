@@ -92,19 +92,19 @@ h1 > a, h1 > a:hover {
     height: 40px;
 }
 
-img {
+/*img {
     border-radius: 30% 15%;
     max-width: 80%;
     height: auto;
-}
+}*/
 
-p {
+/*p {
     letter-spacing: 1px;
-}
+}*/
 
-p.mainMenu {
+/*p.mainMenu {
     text-align: justify;
-}
+}*/
 
 .smallGreenButton {
     background-color: #36b03c;
@@ -115,7 +115,7 @@ p.mainMenu {
 }
 
 .smallGreenButton:hover {
-    background-color: #25a02b;
+    opacity: 0.8;
     color: #f2f2f2;
 }
 
@@ -136,7 +136,7 @@ p.mainMenu {
 }
 
 .smallOrangeButton:hover {
-    background-color: #ee8800;
+    opacity: 0.8;
     color: #f2f2f2;
 }
 
@@ -157,7 +157,7 @@ p.mainMenu {
 }
 
 .smallRedButton:hover {
-    background-color: #ee2200;
+    opacity: 0.8;
     color: #f2f2f2;
 }
 
@@ -169,7 +169,7 @@ p.mainMenu {
     transform: translateY(1px);
 }
 
-.table {
+/*.table {
     background-color: #333333;
     color: white;
     border-radius: 10px;
@@ -182,7 +182,7 @@ th, td {
 tbody tr:hover {
     background-color: #444444;
     color: white !important;
-}
+}*/
 
 .errors, div > ul > li {
     font-size: 18px;
@@ -199,7 +199,8 @@ tbody tr:hover {
     }
 
     #comment,
-    #expenseCategory {
+    #expenseCategory,
+    #incomeCategory {
         width: 75% !important;
     }
 }

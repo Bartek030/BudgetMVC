@@ -13,16 +13,6 @@ use \App\Models\Operation;
  */
 class Expense extends Authenticated {
     /**
-     * Before filter - called before each action method
-     * 
-     * @return void
-     */
-    protected function before() {
-        parent::before();
-        $this -> user = Auth::getUser();
-    }
-
-    /**
      * Show new expense page
      * 
      * @return void
@@ -39,7 +29,7 @@ class Expense extends Authenticated {
     public function createAction() {
         $expense = new Operation($_POST);
 
-        if($expense -> saveExpense($this -> user)) {
+        if($expense -> saveExpense($_SESSION['user_id'])) {
             $this -> redirect('/expense/success');
         } else {
             View::renderTemplate('Expense/new.html',[

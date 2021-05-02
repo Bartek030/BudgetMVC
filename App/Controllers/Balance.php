@@ -13,16 +13,6 @@ use \App\Models\Operation;
  */
 class Balance extends Authenticated {
     /**
-     * Before filter - called before each action method
-     * 
-     * @return void
-     */
-    protected function before() {
-        parent::before();
-        $this -> user = Auth::getUser();
-    }
-
-    /**
      * Show new balance page
      * 
      * @return void
@@ -39,8 +29,8 @@ class Balance extends Authenticated {
     public function showAction() {
         $balance = new Operation($_POST);
 
-        $incomeData = Operation::getIncomeData($balance, $this -> user);
-        $expenseData = Operation::getExpenseData($balance, $this -> user);
+        $incomeData = Operation::getIncomeData($balance, $_SESSION['user_id']);
+        $expenseData = Operation::getExpenseData($balance, $_SESSION['user_id']);
 
         $incomeSummary = static::operatioinSummary($incomeData);
         $expenseSummary = static::operatioinSummary($expenseData);
