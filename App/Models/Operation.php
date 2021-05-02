@@ -206,12 +206,12 @@ class Operation extends \Core\Model {
      * 
      * @return mixed array of incomes data, null otherwise
      */
-    public static function getIncomeData($balance, $user) {
+    public static function getIncomeData($balance, $userID) {
 
         if($balance -> balanceTime == 'other_period') {
-            return static::getIncomeDataFromOtherTimePeriod($balance, $user);
+            return static::getIncomeDataFromOtherTimePeriod($balance, $userID);
         } else {
-            return static::getIncomeDataFromDefinedTimePeriod($balance, $user);
+            return static::getIncomeDataFromDefinedTimePeriod($balance, $userID);
         }   
     }
     
@@ -223,12 +223,12 @@ class Operation extends \Core\Model {
      * 
      * @return mixed array of expenses data, null otherwise
      */
-    public static function getExpenseData($balance, $user) {
+    public static function getExpenseData($balance, $userID) {
 
         if($balance -> balanceTime == 'other_period') {
-            return static::getExpenseDataFromOtherTimePeriod($balance, $user);
+            return static::getExpenseDataFromOtherTimePeriod($balance, $userID);
         } else {
-            return static::getExpenseDataFromDefinedTimePeriod($balance, $user);
+            return static::getExpenseDataFromDefinedTimePeriod($balance, $userID);
         }   
     }
 
@@ -240,7 +240,7 @@ class Operation extends \Core\Model {
      * 
      * @return mixed array of incomes data, null otherwise
      */
-    protected static function getIncomeDataFromOtherTimePeriod($balance, $user) {
+    protected static function getIncomeDataFromOtherTimePeriod($balance, $userID) {
 
         $sql = 'SELECT inc.name, incomes.amount, incomes.date_of_income, incomes.income_comment
                 FROM incomes_category_assigned_to_users AS inc, incomes
@@ -252,7 +252,7 @@ class Operation extends \Core\Model {
         $db = static::getDB();
         $stmt = $db -> prepare($sql);
         
-        $stmt -> bindValue(':userID', $user -> id, PDO::PARAM_INT);
+        $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
         $stmt -> bindValue(':startDate', $balance -> startDate, PDO::PARAM_STR);
         $stmt -> bindValue(':endDate', $balance -> endDate, PDO::PARAM_STR);
         
@@ -319,7 +319,7 @@ class Operation extends \Core\Model {
      * 
      * @return mixed array of incomes data, null otherwise
      */
-    protected static function getExpenseDataFromOtherTimePeriod($balance, $user) {
+    protected static function getExpenseDataFromOtherTimePeriod($balance, $userID) {
 
         $sql = 'SELECT exp.name, expenses.amount, expenses.date_of_expense, expenses.expense_comment, pay.name
                 FROM expenses_category_assigned_to_users AS exp, expenses, payment_methods_assigned_to_users AS pay
@@ -332,7 +332,7 @@ class Operation extends \Core\Model {
         $db = static::getDB();
         $stmt = $db -> prepare($sql);
         
-        $stmt -> bindValue(':userID', $user -> id, PDO::PARAM_INT);
+        $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
         $stmt -> bindValue(':startDate', $balance -> startDate, PDO::PARAM_STR);
         $stmt -> bindValue(':endDate', $balance -> endDate, PDO::PARAM_STR);
 
