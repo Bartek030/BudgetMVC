@@ -92,11 +92,15 @@ h1 > a, h1 > a:hover {
     height: 40px;
 }
 
-/*img {
+.fa-linkedin {
+    color: white !important;
+}
+
+img {
     border-radius: 30% 15%;
     max-width: 80%;
     height: auto;
-}*/
+}
 
 /*p {
     letter-spacing: 1px;
