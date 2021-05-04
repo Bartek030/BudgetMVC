@@ -27,8 +27,8 @@
                     </thead>
                     <tbody>
                             {% for income in incomeData %}
-                            <tr>
-                                <th scope="row">{{ loop.index }}</th>
+                            <tr class="forTooltip" data-bs-toggle="tooltip" title="{{ income.income_comment }}">
+                                <th class="indexValue" scope="row">{{ loop.index }}</th>
                                 <td>{{ income.name }}</td>
                                 <td>{{ income.amount }}</td>
                                 <td>{{ income.date_of_income }}</td>
@@ -54,7 +54,7 @@
                     </thead>
                     <tbody>
                             {% for expense in expenseData %}
-                            <tr>
+                            <tr class="forTooltip" data-bs-toggle="tooltip" title="{{ expense.expense_comment }}">
                                 <th scope="row">{{ loop.index }}</th>
                                 <td>{{ expense.name }}</td>
                                 <td>{{ expense.payname }}</td>
