@@ -41,9 +41,6 @@ use \PHPMailer\PHPMailer\Exception;
          //Recipients
          $mail->setFrom(Config::MAIL_USER, Config::MAIL_NAME);
          $mail->addAddress($to, $name);
-         //$mail->addReplyTo('info@example.com', 'Information');
-         //$mail->addCC('cc@example.com');
-         //$mail->addBCC('bcc@example.com');
      
          //Attachments
          //$mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments

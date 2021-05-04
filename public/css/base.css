@@ -207,3 +207,41 @@ img {
         height: 100px;
     }
 }
+
+.contact {
+    cursor: pointer;
+}
+  
+.chat-popup {
+    display: none;
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    border: 2px solid #f1f1f1;
+    border-radius: 10px;
+    z-index: 9;
+}
+  
+.form-container {
+    max-width: 300px;
+    padding: 10px;
+    background-color: #222222;
+    border-radius: 10px;
+}
+
+.form-container textarea {
+    width: 100%;
+    border: none;
+    background: #f2f2f2;
+    resize: none;
+    min-height: 200px;
+}
+  
+.form-container textarea:focus {
+    background-color: #f2f2f2;
+    outline: none;
+}
+  
+.form-container .btn {
+    width: 100%;
+}

@@ -117,9 +117,29 @@
 
 		<footer class="d-flex justify-content-center flex-wrap py-2 mainFooter">
 			<div class="mx-3">2021 &copy;</div>
+
 			<div class="mx-3">Autor:&ensp;Bartłomiej Święs</div>
+
 			<div class="mx-3">Kontakt:&ensp;bartlomiejswies@gmail.com</div>
-			<div class="mx-3"><i class="far fa-envelope fs-2"></i></div>
+
+			<div class="mx-3 contact">
+				<i class="far fa-envelope fs-2 chatButton" title="Skontaktuj się ze mną"></i>
+			</div>
+
+			<div class="chat-popup" id="myForm">
+				<form action="/contact/sendMessage" method="POST" class="form-container">
+				  	<h1 class="h3 text-center">Wiadomość</h1>
+
+					<input class="w-100 my-2" name="chatName" type="text" placeholder="Twoje imię">
+				  	<input class="w-100 my-2" name="chatEmail" type="email" placeholder="Twój email">
+				  
+				  	<textarea class="p-1 my-2" placeholder="Treść..." name="message" required></textarea>
+			  
+				  	<button type="submit" class="btn fw-bold my-1 smallGreenButton chatButton">Wyślij</button>
+				  	<button type="button" class="btn fw-bold my-1 smallRedButton chatButton">Zamknij</button>
+				</form>
+			</div>
+
 			<div class="mx-3">
 				<a href="https://www.linkedin.com/in/bart%C5%82omiej-%C5%9Bwi%C4%99s/"><i class="fab fa-linkedin fs-2"></i></a>
 			</div>

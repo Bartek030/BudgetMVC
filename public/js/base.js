@@ -1,6 +1,10 @@
 $(document).ready(function() {
 	setTime();
 	setDate();
+
+	$('.chatButton').click(function() {
+		$("#myForm").toggle();
+	});
 });
 
 let setTime = function() {
@@ -41,3 +45,6 @@ let setDate = function() {
 	$('#operationDate').val(year + '-' + month + '-' + day);
 }
 
+/*let toggleForm = function() {
+	$("#myForm").toggle();
+}*/
