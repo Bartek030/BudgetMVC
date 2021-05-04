@@ -173,21 +173,6 @@ img {
     transform: translateY(1px);
 }
 
-/*.table {
-    background-color: #333333;
-    color: white;
-    border-radius: 10px;
-}
-
-th, td {
-    border: none;
-}
-
-tbody tr:hover {
-    background-color: #444444;
-    color: white !important;
-}*/
-
 .errors, div > ul > li {
     font-size: 18px;
     color: #ff3300;

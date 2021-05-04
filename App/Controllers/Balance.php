@@ -30,7 +30,6 @@ class Balance extends Authenticated {
         $balance = new Operation($_POST);
         $balance -> balanceTime = $this -> route_params['period'];
 
-
         $incomeData = Operation::getIncomeData($balance, $_SESSION['user_id']);
         $expenseData = Operation::getExpenseData($balance, $_SESSION['user_id']);
 
