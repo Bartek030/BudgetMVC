@@ -17,10 +17,34 @@
 }
 
 .accordion-collapse {
-    background-color: #444444;
+    background-color: #333333;
 }
 
 .accordion-item {
     border-radius: 5px;
+    background-color: #333333;
+}
+
+.collapse-body-item:hover {
     background-color: #444444;
+}
+
+.add-category-btn {
+    background-color: #36b03c;
+    color: #f2f2f2;
+    letter-spacing: 1px;
+    height: 40px;
+}
+
+.add-category-btn:hover {
+    opacity: 0.8;
+    color: #f2f2f2;
+}
+
+.add-category-btn:focus {
+    box-shadow: none;
+}
+
+.add-category-btn:active {
+    transform: translateY(1px);
 }

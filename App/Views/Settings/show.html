@@ -20,9 +20,30 @@
                     </h2>
 
                     <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">text</div>
+                        <div class="accordion-body m-0 p-0">
+
+                            {% for incomeCategory in incomeCategories %}
+
+                            <div class="d-flex justify-content-between collapse-body-item">
+
+                                <div class="m-2 mx-4 fs-5">{{ incomeCategory.name }} </div>
+
+                                <div class="m-2 mx-4">
+                                    <i class="fas fa-edit m-2"></i>
+                                    <i class="far fa-trash-alt m-2"></i>
+                                </div>
+
+                            </div>
+
+                            {% endfor %}
+
+                            <div>
+                                <button type="button" class="btn fw-bold m-3 w-75 add-category-btn">Dodaj nową kategorię</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
                 <div class="accordion-item border-0">
                     <h2 class="accordion-header" id="flush-headingTwo">
                         <button class="accordion-button collapsed collapseBtn fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
@@ -31,9 +52,27 @@
                     </h2>
 
                     <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">text</div>
+                        <div class="accordion-body m-0 p-0">
+
+                            {% for expenseCategory in expenseCategories %}
+
+                            <div class="d-flex justify-content-between collapse-body-item">
+
+                                <div class="m-2 mx-4 fs-5">{{ expenseCategory.name }} </div>
+
+                                <div class="m-2 mx-4">
+                                    <i class="fas fa-edit m-2"></i>
+                                    <i class="far fa-trash-alt m-2"></i>
+                                </div>
+
+                            </div>
+
+                            {% endfor %}
+
+                        </div>
                     </div>
                 </div>
+
                 <div class="accordion-item border-0">
                     <h2 class="accordion-header" id="flush-headingThree">
                         <button class="accordion-button collapsed collapseBtn fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
@@ -42,7 +81,24 @@
                     </h2>
 
                     <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">text</div>
+                        <div class="accordion-body">
+                            
+                            {% for paymentMethod in paymentMethods %}
+
+                            <div class="d-flex justify-content-between collapse-body-item">
+
+                                <div class="m-2 mx-4 fs-5">{{ paymentMethod.name }} </div>
+
+                                <div class="m-2 mx-4">
+                                    <i class="fas fa-edit m-2"></i>
+                                    <i class="far fa-trash-alt m-2"></i>
+                                </div>
+
+                            </div>
+
+                            {% endfor %}
+
+                        </div>
                     </div>
                 </div>
 

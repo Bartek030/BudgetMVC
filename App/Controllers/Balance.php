@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use \App\Auth;
 use \Core\View;
 use \App\Models\Operation;
 
