@@ -9,12 +9,14 @@ $(document).ready(function() {
     includeChartToView(expenseTable, document.getElementById('expensePiechart'));
 
     addSummaryInfo();
+
+    $(window).resize(function() {
+        includeChartToView(incomeTable, document.getElementById('incomePiechart'));
+        includeChartToView(expenseTable, document.getElementById('expensePiechart'));
+    });
 });
 
-$(window).resize(function() {
-    includeChartToView(incomeTable, document.getElementById('incomePiechart'));
-    includeChartToView(expenseTable, document.getElementById('expensePiechart'));
-});
+
 
 let comparator = function(a, b) {
     if (a[1] < b[1]) return 1;
@@ -69,7 +71,7 @@ let includeChartToView = function(table, element) {
     var options = {
         title:'Rozkład przychodów',
         width:'100%',
-        height:'auto',
+        height:300,
         is3D:true,
         chartArea: {
             backgroundColor: {

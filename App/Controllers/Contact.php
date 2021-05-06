@@ -7,14 +7,14 @@ use App\Auth;
 use \Core\View;
 
 /**
- * Login controller
+ * Contact controller
  * 
  * PHP version 7.0
  */
 
 class Contact extends \Core\Controller {
     /**
-     * Show the login page
+     * Send message to author
      * 
      * @return void
      */
