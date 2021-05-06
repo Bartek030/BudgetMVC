@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Budżet osobisty{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="/css/settings.css">
+{% endblock %}
+
+{% block body %}
+    <div class="row p-0 m-0">
+        <div class="col-10 col-md-8 col-xl-6 mx-auto text-center py-4">
+            <h1 class="h2 mb-4">Ustawienia</h1>
+
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item border-0">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed collapseBtn fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        Kategorie przychodów
+                        </button>
+                    </h2>
+
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">text</div>
+                    </div>
+                </div>
+                <div class="accordion-item border-0">
+                    <h2 class="accordion-header" id="flush-headingTwo">
+                        <button class="accordion-button collapsed collapseBtn fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                        Kategorie wydatków
+                        </button>
+                    </h2>
+
+                    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">text</div>
+                    </div>
+                </div>
+                <div class="accordion-item border-0">
+                    <h2 class="accordion-header" id="flush-headingThree">
+                        <button class="accordion-button collapsed collapseBtn fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                        Sposoby płatności
+                        </button>
+                    </h2>
+
+                    <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">text</div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0">
+                    <h2 class="accordion-header" id="flush-headingFour">
+                        <button class="accordion-button collapsed collapseBtn fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                        Użytkownik
+                        </button>
+                    </h2>
+
+                    <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">text</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+
+{% endblock %}

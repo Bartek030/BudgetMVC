@@ -36,9 +36,9 @@ class Operation extends \Core\Model {
      * @return boolean true if success, false otherwise
      */
 
-    public function saveIncome($user) {
+    public function saveIncome($userID) {
         $this -> validate();
-        $categoryID = static::getIncomeCategoryID($user, $this -> category);
+        $categoryID = static::getIncomeCategoryID($userID, $this -> category);
 
         if(empty($this -> errors) && $categoryID) {
             $sql = 'INSERT INTO incomes
@@ -47,7 +47,7 @@ class Operation extends \Core\Model {
             $db = static::getDB();
             $stmt = $db -> prepare($sql);
 
-            $stmt -> bindValue(':userID', $user -> id, PDO::PARAM_INT);
+            $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
             $stmt -> bindValue(':categoryID', $categoryID, PDO::PARAM_INT);
             $stmt -> bindValue(':amount', $this -> amount, PDO::PARAM_STR);
             $stmt -> bindValue(':date', $this -> operationDate, PDO::PARAM_STR);
@@ -64,10 +64,10 @@ class Operation extends \Core\Model {
      * @return boolean true if success, false otherwise
      */
 
-    public function saveExpense($user) {
+    public function saveExpense($userID) {
         $this -> validate();
-        $categoryID = static::getExpenseCategoryID($user, $this -> category);
-        $paymentMethodID = static::getPaymentMethodID($user, $this -> paymentMethod);
+        $categoryID = static::getExpenseCategoryID($userID, $this -> category);
+        $paymentMethodID = static::getPaymentMethodID($userID, $this -> paymentMethod);
 
         if(empty($this -> errors) && $categoryID && $paymentMethodID) {
             $sql = 'INSERT INTO expenses
@@ -76,7 +76,7 @@ class Operation extends \Core\Model {
             $db = static::getDB();
             $stmt = $db -> prepare($sql);
 
-            $stmt -> bindValue(':userID', $user -> id, PDO::PARAM_INT);
+            $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
             $stmt -> bindValue(':categoryID', $categoryID, PDO::PARAM_INT);
             $stmt -> bindValue(':paymentMethodID', $paymentMethodID, PDO::PARAM_INT);
             $stmt -> bindValue(':amount', $this -> amount, PDO::PARAM_STR);
@@ -128,7 +128,7 @@ class Operation extends \Core\Model {
      * 
      * @return mixed ID - category ID assigned to the current user, NULL otherwise
      */
-    protected static function getIncomeCategoryID($user, $category) {
+    protected static function getIncomeCategoryID($userID, $category) {
         $sql = 'SELECT id
                 FROM incomes_category_assigned_to_users
                 WHERE user_id = :id
@@ -137,7 +137,7 @@ class Operation extends \Core\Model {
         $db = static::getDB();
         $stmt = $db -> prepare($sql);
 
-        $stmt -> bindValue(':id', $user -> id, PDO::PARAM_INT);
+        $stmt -> bindValue(':id', $userID, PDO::PARAM_INT);
         $stmt -> bindValue(':category', $category, PDO::PARAM_STR);
         
         $stmt -> execute();
@@ -154,7 +154,7 @@ class Operation extends \Core\Model {
      * 
      * @return mixed ID - category ID assigned to the current user, NULL otherwise
      */
-    protected static function getExpenseCategoryID($user, $category) {
+    protected static function getExpenseCategoryID($userID, $category) {
         $sql = 'SELECT id
                 FROM expenses_category_assigned_to_users
                 WHERE user_id = :id
@@ -163,7 +163,7 @@ class Operation extends \Core\Model {
         $db = static::getDB();
         $stmt = $db -> prepare($sql);
 
-        $stmt -> bindValue(':id', $user -> id, PDO::PARAM_INT);
+        $stmt -> bindValue(':id', $userID, PDO::PARAM_INT);
         $stmt -> bindValue(':category', $category, PDO::PARAM_STR);
         
         $stmt -> execute();
@@ -180,7 +180,7 @@ class Operation extends \Core\Model {
      * 
      * @return mixed ID - category ID assigned to the current user, NULL otherwise
      */
-    protected static function getPaymentMethodID($user, $paymentMethod) {
+    protected static function getPaymentMethodID($userID, $paymentMethod) {
         $sql = 'SELECT id
                 FROM payment_methods_assigned_to_users
                 WHERE user_id = :id
@@ -189,7 +189,7 @@ class Operation extends \Core\Model {
         $db = static::getDB();
         $stmt = $db -> prepare($sql);
 
-        $stmt -> bindValue(':id', $user -> id, PDO::PARAM_INT);
+        $stmt -> bindValue(':id', $userID, PDO::PARAM_INT);
         $stmt -> bindValue(':paymentMethod', $paymentMethod, PDO::PARAM_STR);
         
         $stmt -> execute();
@@ -206,12 +206,12 @@ class Operation extends \Core\Model {
      * 
      * @return mixed array of incomes data, null otherwise
      */
-    public static function getIncomeData($balance, $user) {
+    public static function getIncomeData($balance, $userID) {
 
         if($balance -> balanceTime == 'other_period') {
-            return static::getIncomeDataFromOtherTimePeriod($balance, $user);
+            return static::getIncomeDataFromOtherTimePeriod($balance, $userID);
         } else {
-            return static::getIncomeDataFromDefinedTimePeriod($balance, $user);
+            return static::getIncomeDataFromDefinedTimePeriod($balance, $userID);
         }   
     }
     
@@ -223,12 +223,12 @@ class Operation extends \Core\Model {
      * 
      * @return mixed array of expenses data, null otherwise
      */
-    public static function getExpenseData($balance, $user) {
+    public static function getExpenseData($balance, $userID) {
 
         if($balance -> balanceTime == 'other_period') {
-            return static::getExpenseDataFromOtherTimePeriod($balance, $user);
+            return static::getExpenseDataFromOtherTimePeriod($balance, $userID);
         } else {
-            return static::getExpenseDataFromDefinedTimePeriod($balance, $user);
+            return static::getExpenseDataFromDefinedTimePeriod($balance, $userID);
         }   
     }
 
@@ -240,7 +240,7 @@ class Operation extends \Core\Model {
      * 
      * @return mixed array of incomes data, null otherwise
      */
-    protected static function getIncomeDataFromOtherTimePeriod($balance, $user) {
+    protected static function getIncomeDataFromOtherTimePeriod($balance, $userID) {
 
         $sql = 'SELECT inc.name, incomes.amount, incomes.date_of_income, incomes.income_comment
                 FROM incomes_category_assigned_to_users AS inc, incomes
@@ -252,7 +252,7 @@ class Operation extends \Core\Model {
         $db = static::getDB();
         $stmt = $db -> prepare($sql);
         
-        $stmt -> bindValue(':userID', $user -> id, PDO::PARAM_INT);
+        $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
         $stmt -> bindValue(':startDate', $balance -> startDate, PDO::PARAM_STR);
         $stmt -> bindValue(':endDate', $balance -> endDate, PDO::PARAM_STR);
         
@@ -270,7 +270,7 @@ class Operation extends \Core\Model {
      * 
      * @return mixed array of incomes data, null otherwise
      */
-    protected static function getIncomeDataFromDefinedTimePeriod($balance, $user) {
+    protected static function getIncomeDataFromDefinedTimePeriod($balance, $userID) {
 
         if($balance -> balanceTime == 'current_month') {
             $time = date("Y-m");
@@ -302,7 +302,7 @@ class Operation extends \Core\Model {
         $db = static::getDB();
         $stmt = $db -> prepare($sql);
         
-        $stmt -> bindValue(':userID', $user -> id, PDO::PARAM_INT);
+        $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
         $stmt -> bindValue(':time', "$time%", PDO::PARAM_STR);
         
         //$stmt -> setFetchMode(PDO::FETCH_CLASS, get_called_class());
@@ -319,7 +319,7 @@ class Operation extends \Core\Model {
      * 
      * @return mixed array of incomes data, null otherwise
      */
-    protected static function getExpenseDataFromOtherTimePeriod($balance, $user) {
+    protected static function getExpenseDataFromOtherTimePeriod($balance, $userID) {
 
         $sql = 'SELECT exp.name, expenses.amount, expenses.date_of_expense, expenses.expense_comment, pay.name
                 FROM expenses_category_assigned_to_users AS exp, expenses, payment_methods_assigned_to_users AS pay
@@ -332,10 +332,10 @@ class Operation extends \Core\Model {
         $db = static::getDB();
         $stmt = $db -> prepare($sql);
         
-        $stmt -> bindValue(':userID', $user -> id, PDO::PARAM_INT);
+        $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
         $stmt -> bindValue(':startDate', $balance -> startDate, PDO::PARAM_STR);
         $stmt -> bindValue(':endDate', $balance -> endDate, PDO::PARAM_STR);
-        
+
         //$stmt -> setFetchMode(PDO::FETCH_CLASS, get_called_class());
         $stmt -> execute();
 
@@ -350,7 +350,7 @@ class Operation extends \Core\Model {
      * 
      * @return mixed array of expenses data, null otherwise
      */
-    protected static function getExpenseDataFromDefinedTimePeriod($balance, $user) {
+    protected static function getExpenseDataFromDefinedTimePeriod($balance, $userID) {
 
         if($balance -> balanceTime == 'current_month') {
             $time = date("Y-m");
@@ -384,7 +384,7 @@ class Operation extends \Core\Model {
         $db = static::getDB();
         $stmt = $db -> prepare($sql);
         
-        $stmt -> bindValue(':userID', $user -> id, PDO::PARAM_INT);
+        $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
         $stmt -> bindValue(':time', "$time%", PDO::PARAM_STR);
         
         //$stmt -> setFetchMode(PDO::FETCH_CLASS, get_called_class());

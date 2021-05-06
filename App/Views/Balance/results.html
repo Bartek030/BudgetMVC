@@ -2,6 +2,10 @@
 
 {% block title %}Przeglądaj bilans{% endblock %}
 
+{% block style %}
+    <link rel="stylesheet" href="/css/balance.css">
+{% endblock %}
+
 {% block body %}
 
     <div class="row p-0 m-0">
@@ -10,60 +14,61 @@
         </div>
 
         <div class="row text-center col-12 m-0 p-0">
-            <div class="col-12 col-lg-8 test">
+            <div class="col-12 col-lg-8">
                 <h4 class="mb-3">PRZYCHODY</h4>
                 <table class="table table-hover">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Kategoria</th>
-                            <th scope="col">Kwota</th>
+                            <th scope="col">Kwota [zł]</th>
                             <th scope="col">Data operacji</th>
                         </tr>
                     </thead>
                     <tbody>
                             {% for income in incomeData %}
-                            <tr>
-                                <th scope="row"></th>
-                                <td> {{ income.name }}</td>
-                                <td> {{ income.amount }}</td>
-                                <td> {{ income.date_of_income }}</td>
+                            <tr class="forTooltip" data-bs-toggle="tooltip" title="{{ income.income_comment }}">
+                                <th class="indexValue" scope="row">{{ loop.index }}</th>
+                                <td>{{ income.name }}</td>
+                                <td>{{ income.amount }}</td>
+                                <td>{{ income.date_of_income }}</td>
                             </tr>
                             {% endfor %}
                     </tbody>
                 </table>
             </div>
-            <div class="col-12 col-lg-4">
-                Miejsce na wykres kołowy
-            </div>
-            <div class="col-12 col-lg-8 test">
+
+            <div class="col-12 col-lg-4 p-3 pt-5" id="incomePiechart"></div>
+
+            <div class="col-12 col-lg-8">
                 <h4 class="mb-3">WYDATKI</h4>
                 <table class="table table-hover">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Kategoria</th>
-                            <th scope="col">Kwota</th>
+                            <th scope="col">Metoda płatności</th>
+                            <th scope="col">Kwota [zł]</th>
                             <th scope="col">Data operacji</th>
                         </tr>
                     </thead>
                     <tbody>
                             {% for expense in expenseData %}
-                            <tr>
-                                <th scope="row"></th>
-                                <td> {{ expense.name }}</td>
-                                <td> {{ expense.payname }}</td>
-                                <td> {{ expense.amount }}</td>
-                                <td> {{ expense.date_of_expense}}</td>
+                            <tr class="forTooltip" data-bs-toggle="tooltip" title="{{ expense.expense_comment }}">
+                                <th scope="row">{{ loop.index }}</th>
+                                <td>{{ expense.name }}</td>
+                                <td>{{ expense.payname }}</td>
+                                <td>{{ expense.amount }}</td>
+                                <td>{{ expense.date_of_expense}}</td>
                             </tr>
                             {% endfor %}
                     </tbody>
                 </table>
             </div>
-            <div class="col-12 col-lg-4">
-                Miejsce na wykres kołowy
-            </div>
-            <div class="col-12 col-lg-8 test">
+
+            <div class="col-12 col-lg-4 p-3 pt-5"  id="expensePiechart"></div>
+
+            <div class="col-12 col-lg-8">
                 <h4 class="mb-3">BILANS</h4>
                 <table class="table table-hover">
                     <thead>
@@ -76,15 +81,13 @@
                     <tbody>
                             <tr>
                                 <th scope="row">{{ incomeSummary }}</th>
-                                <td> {{ expenseSummary }}</td>
-                                <td> {{ balanceSummary }}</td>
+                                <td>{{ expenseSummary }}</td>
+                                <td>{{ balanceSummary }}</td>
                             </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="col-12 col-lg-4">
-                Miejsce na ocenę wyniku
-            </div>
+            <div class="col-12 col-lg-4 m-auto pt-4"><h4 id="resultSummary"></h4></div>
         </div>
 
         <div class="text-center col-10 mx-auto my-4">
@@ -95,4 +98,15 @@
 
     </div>
 
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        let incomeEncoded = "{{ incomeData|json_encode|e('js') }}";
+        let expenseEncoded = "{{ expenseData|json_encode|e('js') }}";
+        let balanceSummary = "{{ balanceSummary }}";
+    </script>
+    <script src="/js/balance.js"></script>
+    
 {% endblock %}

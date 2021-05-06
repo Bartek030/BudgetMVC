@@ -1,3 +1,8 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 body {
     /* Background pattern from Toptal Subtle Patterns */
     background-image: url("../img/footer_lodyas.png");
@@ -8,7 +13,7 @@ body {
 }
 
 .test {
-    border: 1px solid white;
+    border: 3px solid white;
 }
 
 h1 {
@@ -19,12 +24,7 @@ h1 {
     letter-spacing: 1px;
 }
 
-h1 > a {
-    text-decoration: none;
-    color: #e6e600;
-}
-
-h1 > a:hover {
+h1 > a, h1 > a:hover {
     text-decoration: none;
     color: #e6e600;
 }
@@ -48,27 +48,52 @@ h1 > a:hover {
     min-height: calc(100vh - 60px);
 }
 
-
-.mainNav {
+.mainNav, .dropdown-menu {
     background-color: #36b03c;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
 
-#mainNav_navbar a {
-    color: white;
-    font-size: 20px;
-    margin: 0 10px;
+#mainNav_navbar a,
+.dropdown-item,
+.dropdown > button {
+    color: #f2f2f2 !important;
+    font-size: 20px; 
     border-radius: 5px;
+    letter-spacing: 1px;
+    background-color: #36b03c;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
-#mainNav_navbar a:hover {
+.dropdown-item:hover {
+    background-color: #36b03c !important;
+}
+
+#mainNav_navbar a:hover,
+.dropdown-item:hover,
+.dropdown > button:hover,
+.dropdown-item > a:hover {
     background-color: #47c14d;
+    color: #f2f2f2;
+}
+
+.navbar-toggler {
+    color: #f2f2f2 !important;
+}
+
+.dropdown > button:focus,
+.navbar-toggler:focus {
+    box-shadow: none;
 }
 
 .mainFooter {
     font-size: 20px;
     height: 40px;
+}
+
+.fa-linkedin {
+    color: white !important;
 }
 
 img {
@@ -77,13 +102,13 @@ img {
     height: auto;
 }
 
-p {
+/*p {
     letter-spacing: 1px;
-}
+}*/
 
-p.mainMenu {
+/*p.mainMenu {
     text-align: justify;
-}
+}*/
 
 .smallGreenButton {
     background-color: #36b03c;
@@ -94,7 +119,7 @@ p.mainMenu {
 }
 
 .smallGreenButton:hover {
-    background-color: #25a02b;
+    opacity: 0.8;
     color: #f2f2f2;
 }
 
@@ -115,7 +140,7 @@ p.mainMenu {
 }
 
 .smallOrangeButton:hover {
-    background-color: #ee8800;
+    opacity: 0.8;
     color: #f2f2f2;
 }
 
@@ -136,7 +161,7 @@ p.mainMenu {
 }
 
 .smallRedButton:hover {
-    background-color: #ee2200;
+    opacity: 0.8;
     color: #f2f2f2;
 }
 
@@ -146,21 +171,6 @@ p.mainMenu {
 
 .smallRedButton:active {
     transform: translateY(1px);
-}
-
-.table {
-    background-color: #333333;
-    color: white;
-    border-radius: 10px;
-}
-
-th, td {
-    border: none;
-}
-
-tbody tr:hover {
-    background-color: #444444;
-    color: white !important;
 }
 
 .errors, div > ul > li {
@@ -178,7 +188,8 @@ tbody tr:hover {
     }
 
     #comment,
-    #expenseCategory {
+    #expenseCategory,
+    #incomeCategory {
         width: 75% !important;
     }
 }
@@ -195,4 +206,42 @@ tbody tr:hover {
     .mainFooter {
         height: 100px;
     }
+}
+
+.contact {
+    cursor: pointer;
+}
+  
+.chat-popup {
+    display: none;
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    border: 2px solid #f1f1f1;
+    border-radius: 10px;
+    z-index: 9;
+}
+  
+.form-container {
+    max-width: 300px;
+    padding: 10px;
+    background-color: #222222;
+    border-radius: 10px;
+}
+
+.form-container textarea {
+    width: 100%;
+    border: none;
+    background: #f2f2f2;
+    resize: none;
+    min-height: 200px;
+}
+  
+.form-container textarea:focus {
+    background-color: #f2f2f2;
+    outline: none;
+}
+  
+.form-container .btn {
+    width: 100%;
 }

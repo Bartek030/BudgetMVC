@@ -1,0 +1,26 @@
+.collapseBtn[aria-expanded="true"],
+.collapseBtn[aria-expanded="false"] {
+    background-color:#36b03c;
+    color:#f2f2f2;
+    border: none;
+}
+
+.collapseBtn[aria-expanded="true"]:hover,
+.collapseBtn[aria-expanded="false"]:hover {
+    background-color:#47c14d;
+}
+
+.collapseBtn[aria-expanded="true"]:focus,
+.collapseBtn[aria-expanded="false"]:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.accordion-collapse {
+    background-color: #444444;
+}
+
+.accordion-item {
+    border-radius: 5px;
+    background-color: #444444;
+}

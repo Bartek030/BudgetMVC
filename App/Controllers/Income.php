@@ -13,16 +13,6 @@ use \App\Models\Operation;
  */
 class Income extends Authenticated {
     /**
-     * Before filter - called before each action method
-     * 
-     * @return void
-     */
-    protected function before() {
-        parent::before();
-        $this -> user = Auth::getUser();
-    }
-
-    /**
      * Show new income page
      * 
      * @return void
@@ -39,7 +29,7 @@ class Income extends Authenticated {
     public function createAction() {
         $income = new Operation($_POST);
 
-        if($income -> saveIncome($this -> user)) {
+        if($income -> saveIncome($_SESSION['user_id'])) {
             $this -> redirect('/income/success');
         } else {
             View::renderTemplate('Income/new.html',[
