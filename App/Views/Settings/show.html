@@ -3,7 +3,7 @@
 {% block title %}Budżet osobisty{% endblock %}
 
 {% block style %}
-<link rel="stylesheet" href="/css/settings.css">
+    <link rel="stylesheet" href="/css/settings.css">
 {% endblock %}
 
 {% block body %}
@@ -68,19 +68,22 @@
 
                             {% for incomeCategory in incomeCategories %}
 
-                            <div class="d-flex justify-content-between collapse-body-item">
+                                <div class="d-flex justify-content-between collapse-body-item">
 
-                                <div class="m-2 mx-4 fs-5">{{ incomeCategory.name }} </div>
+                                    <div class="m-2 mx-4 fs-5">{{ incomeCategory.name }} </div>
 
-                                {% if incomeCategory.name != "Inne" %}
+                                    {% if incomeCategory.name != "Inne" %}
 
-                                <div class="m-2 mx-4">
-                                    <i class="far fa-trash-alt m-2 edit" title="Usuń"></i>
+                                        <form action="/settings/deleteCategory" method="GET">
+                                            <div class="m-2 mx-4">
+                                                <input type="hidden" value="{{ incomeCategory.name }}" >
+                                                <button type="submit"><i class="far fa-trash-alt m-2 edit" title="Usuń"></i></button>
+                                            </div>
+                                        </form>
+
+                                    {% endif %}
+
                                 </div>
-
-                                {% endif %}
-
-                            </div>
 
                             {% endfor %}
 
@@ -131,20 +134,20 @@
 
                             {% for expenseCategory in expenseCategories %}
 
-                            <div class="d-flex justify-content-between collapse-body-item">
+                                <div class="d-flex justify-content-between collapse-body-item">
 
-                                <div class="m-2 mx-4 fs-5">{{ expenseCategory.name }} </div>
+                                    <div class="m-2 mx-4 fs-5">{{ expenseCategory.name }} </div>
 
-                                {% if expenseCategory.name != "Inne" %}
+                                    {% if expenseCategory.name != "Inne" %}
 
-                                <div class="m-2 mx-4">
-                                    <i class="fas fa-edit m-2 edit" title="Ustaw limit"></i>
-                                    <i class="far fa-trash-alt m-2 edit" title="Usuń"></i>
+                                    <div class="m-2 mx-4">
+                                        <i class="fas fa-edit m-2 edit" title="Ustaw limit"></i>
+                                        <i class="far fa-trash-alt m-2 edit" title="Usuń"></i>
+                                    </div>
+
+                                    {% endif %}
+
                                 </div>
-
-                                {% endif %}
-
-                            </div>
 
                             {% endfor %}
 
@@ -195,20 +198,20 @@
                             
                             {% for paymentMethod in paymentMethods %}
 
-                            <div class="d-flex justify-content-between collapse-body-item">
+                                <div class="d-flex justify-content-between collapse-body-item">
 
-                                <div class="m-2 mx-4 fs-5">{{ paymentMethod.name }} </div>
+                                    <div class="m-2 mx-4 fs-5">{{ paymentMethod.name }} </div>
 
-                                {% if paymentMethod.name != "Inne" %}
+                                    {% if paymentMethod.name != "Inne" %}
 
-                                <div class="m-2 mx-4">
-                                    <i class="fas fa-edit m-2 edit" title="Ustaw limit"></i>
-                                    <i class="far fa-trash-alt m-2 edit" title="Usuń"></i>
+                                    <div class="m-2 mx-4">
+                                        <i class="fas fa-edit m-2 edit" title="Ustaw limit"></i>
+                                        <i class="far fa-trash-alt m-2 edit" title="Usuń"></i>
+                                    </div>
+
+                                    {% endif %}
+
                                 </div>
-
-                                {% endif %}
-
-                            </div>
 
                             {% endfor %}
 

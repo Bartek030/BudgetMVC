@@ -97,31 +97,20 @@ class Categories extends \Core\Model {
      * @return boolean true if success, false otherwise
      */
     public function addCategoryToDatabase($operation, $userID) {
-        $this -> newCategory = ucwords($this -> newCategory);
+        $name = ucfirst($this -> newCategory);
             
         if($operation == 'income') {
-            $this -> addIncomeCategoryToDatabase($userID);
-        } else if($operation == 'expense') {
-            $this -> addExpenseCategoryToDatabase($userID);
-        } else {
-            $this -> addPaymentMethodToDatabase($userID);
-        }
-    }
-
-    /**
-     * Add an income category to the database
-     * 
-     * @param int user ID
-     * 
-     * @return true if success, false otherwise
-     */
-    protected function addIncomeCategoryToDatabase($userID) {
-        $name = ucfirst($this -> newCategory);
-
-        if(!empty($name)) {
             $sql = 'INSERT INTO incomes_category_assigned_to_users
                     VALUES(NULL, :userID, :name)';
+        } else if($operation == 'expense') {
+            $sql = 'INSERT INTO expenses_category_assigned_to_users
+                    VALUES(NULL, :userID, :name, NULL)';
+        } else {
+            $sql = 'INSERT INTO payment_methods_assigned_to_users
+                    VALUES(NULL, :userID, :name)';
+        }
 
+        if(!empty($name)) {
             $db = static::getDB();
             $stmt = $db -> prepare($sql);
 
