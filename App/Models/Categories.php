@@ -28,7 +28,7 @@ class Categories extends \Core\Model {
      * 
      * @param int user ID
      * 
-     * return array Array of categories assigned to user
+     * @return array Array of categories assigned to user
      */
     public static function getIncomeCategories($userID) {
         $sql = 'SELECT name
@@ -50,7 +50,7 @@ class Categories extends \Core\Model {
      * 
      * @param int user ID
      * 
-     * return array Array of categories assigned to user
+     * @return array Array of categories assigned to user
      */
     public static function getExpenseCategories($userID) {
         $sql = 'SELECT name
@@ -72,7 +72,7 @@ class Categories extends \Core\Model {
      * 
      * @param int user ID
      * 
-     * return array Array of categories assigned to user
+     * @return array Array of categories assigned to user
      */
     public static function getPaymentMethods($userID) {
         $sql = 'SELECT name
@@ -87,5 +87,49 @@ class Categories extends \Core\Model {
         $stmt -> execute();
 
        return ($stmt -> fetchAll());
+    }
+
+    /**
+     * Add category to the database
+     * 
+     * @param int user ID
+     * 
+     * @return boolean true if success, false otherwise
+     */
+    public function addCategoryToDatabase($operation, $userID) {
+        $this -> newCategory = ucwords($this -> newCategory);
+            
+        if($operation == 'income') {
+            $this -> addIncomeCategoryToDatabase($userID);
+        } else if($operation == 'expense') {
+            $this -> addExpenseCategoryToDatabase($userID);
+        } else {
+            $this -> addPaymentMethodToDatabase($userID);
+        }
+    }
+
+    /**
+     * Add an income category to the database
+     * 
+     * @param int user ID
+     * 
+     * @return true if success, false otherwise
+     */
+    protected function addIncomeCategoryToDatabase($userID) {
+        $name = ucfirst($this -> newCategory);
+
+        if(!empty($name)) {
+            $sql = 'INSERT INTO incomes_category_assigned_to_users
+                    VALUES(NULL, :userID, :name)';
+
+            $db = static::getDB();
+            $stmt = $db -> prepare($sql);
+
+            $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
+            $stmt -> bindValue(':name', $name, PDO::PARAM_STR);
+
+            return $stmt -> execute();
+        }
+        return false;
     }
 }

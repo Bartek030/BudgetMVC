@@ -36,15 +36,39 @@
     height: 40px;
 }
 
-.add-category-btn:hover {
+.clear-base-btn {
+    background-color: #ff9900;
+    color: #f2f2f2;
+    letter-spacing: 1px;
+    height: 40px;
+}
+
+.delete-account-btn {
+    background-color: #ff3300;
+    color: #f2f2f2;
+    letter-spacing: 1px;
+    height: 40px;
+}
+
+.add-category-btn:hover,
+.clear-base-btn:hover,
+.delete-account-btn:hover {
     opacity: 0.8;
     color: #f2f2f2;
 }
 
-.add-category-btn:focus {
+.add-category-btn:focus,
+.clear-base-btn:focus,
+.delete-account-btn:focus {
     box-shadow: none;
 }
 
-.add-category-btn:active {
+.add-category-btn:active,
+.clear-base-btn:active,
+.delete-account-btn:active {
     transform: translateY(1px);
+}
+
+.edit:hover {
+    cursor: pointer;
 }

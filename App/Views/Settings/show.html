@@ -13,6 +13,50 @@
 
             <div class="accordion accordion-flush" id="accordionFlushExample">
                 <div class="accordion-item border-0">
+                    <h2 class="accordion-header" id="flush-headingFour">
+                        <button class="accordion-button collapsed collapseBtn fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                        Użytkownik
+                        </button>
+                    </h2>
+
+                    <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <div class="d-flex justify-content-between collapse-body-item">
+
+                                <div class="m-2 mx-4 fs-5">Imię:&nbsp; {{ user.name }} </div>
+
+                                <div class="m-2 mx-4">
+                                    <i class="fas fa-edit m-2 edit" title="Edytuj"></i>
+                                </div>
+
+                            </div>
+
+                            <div class="d-flex justify-content-between collapse-body-item">
+
+                                <div class="m-2 mx-4 fs-5">Email:&nbsp; {{ user.email }} </div>
+
+                                <div class="m-2 mx-4">
+                                    <i class="fas fa-edit m-2 edit" title="Edytuj"></i>
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <button type="button" class="btn fw-bold m-1 w-75 add-category-btn">Zmień hasło</button>
+                            </div>
+
+                            <div>
+                                <button type="button" class="btn fw-bold m-1 w-75 clear-base-btn">Wyczyść dane budżetu</button>
+                            </div>
+
+                            <div>
+                                <button type="button" class="btn fw-bold m-1 w-75 delete-account-btn">Usuń konto</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0">
                     <h2 class="accordion-header" id="flush-headingOne">
                         <button class="accordion-button collapsed collapseBtn fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
                         Kategorie przychodów
@@ -28,18 +72,49 @@
 
                                 <div class="m-2 mx-4 fs-5">{{ incomeCategory.name }} </div>
 
+                                {% if incomeCategory.name != "Inne" %}
+
                                 <div class="m-2 mx-4">
-                                    <i class="fas fa-edit m-2"></i>
-                                    <i class="far fa-trash-alt m-2"></i>
+                                    <i class="far fa-trash-alt m-2 edit" title="Usuń"></i>
                                 </div>
+
+                                {% endif %}
 
                             </div>
 
                             {% endfor %}
 
                             <div>
-                                <button type="button" class="btn fw-bold m-3 w-75 add-category-btn">Dodaj nową kategorię</button>
+                                <button type="button" class="btn fw-bold m-3 w-75 add-category-btn" data-bs-toggle="modal" data-bs-target="#newIncomeModal">Dodaj nową kategorię</button>
                             </div>
+
+                            <!-- Modal Income -->
+                            <div class="modal fade" id="newIncomeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newIncomeModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form action="/settings/addCategory/income" method="GET">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="newIncomeModalLabel">Nowa kategoria</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+
+                                            <div class="modal-body text-start">
+                                                
+                                                    <label class="w-100 p-2" for="newCategory">Podaj nazwę nowej kategorii</label>
+                                                    <input class="w-100 m-2 newIncomeCategoryInput" name="newCategory" id="newCategory" type="text">
+                                                    <p class="repeatedCategory"></p>
+                                                
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                                                <button type="submit" class="btn btn-primary">Dodaj</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal Income end-->
                         </div>
                     </div>
                 </div>
@@ -60,15 +135,50 @@
 
                                 <div class="m-2 mx-4 fs-5">{{ expenseCategory.name }} </div>
 
+                                {% if expenseCategory.name != "Inne" %}
+
                                 <div class="m-2 mx-4">
-                                    <i class="fas fa-edit m-2"></i>
-                                    <i class="far fa-trash-alt m-2"></i>
+                                    <i class="fas fa-edit m-2 edit" title="Ustaw limit"></i>
+                                    <i class="far fa-trash-alt m-2 edit" title="Usuń"></i>
                                 </div>
+
+                                {% endif %}
 
                             </div>
 
                             {% endfor %}
 
+                            <div>
+                                <button type="button" class="btn fw-bold m-3 w-75 add-category-btn" data-bs-toggle="modal" data-bs-target="#newExpenseModal">Dodaj nową kategorię</button>
+                            </div>
+
+                            <!-- Modal Expense -->
+                            <div class="modal fade" id="newExpenseModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newExpenseModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form action="/settings/addCategory/expense" method="GET">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="newExpenseModalLabel">Nowa kategoria</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+
+                                            <div class="modal-body text-start">
+                                                
+                                                    <label class="w-100 p-2" for="newCategory">Podaj nazwę nowej kategorii</label>
+                                                    <input class="w-100 m-2 newExpenseCategoryInput" name="newCategory" id="newCategory" type="text">
+                                                    <p class="repeatedCategory"></p>
+                                                
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                                                <button type="submit" class="btn btn-primary">Dodaj</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal Expense end -->
                         </div>
                     </div>
                 </div>
@@ -81,7 +191,7 @@
                     </h2>
 
                     <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">
+                        <div class="accordion-body m-0 p-0">
                             
                             {% for paymentMethod in paymentMethods %}
 
@@ -89,32 +199,63 @@
 
                                 <div class="m-2 mx-4 fs-5">{{ paymentMethod.name }} </div>
 
+                                {% if paymentMethod.name != "Inne" %}
+
                                 <div class="m-2 mx-4">
-                                    <i class="fas fa-edit m-2"></i>
-                                    <i class="far fa-trash-alt m-2"></i>
+                                    <i class="fas fa-edit m-2 edit" title="Ustaw limit"></i>
+                                    <i class="far fa-trash-alt m-2 edit" title="Usuń"></i>
                                 </div>
+
+                                {% endif %}
 
                             </div>
 
                             {% endfor %}
 
+                            <div>
+                                <button type="button" class="btn fw-bold m-3 w-75 add-category-btn" data-bs-toggle="modal" data-bs-target="#newPaymentModal">Dodaj nową kategorię</button>
+                            </div>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="newPaymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newPaymentModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form action="/settings/addCategory/payment" method="GET">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="newPaymentModalLabel">Nowa kategoria</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+
+                                            <div class="modal-body text-start">
+                                                
+                                                    <label class="w-100 p-2" for="newCategory">Podaj nazwę nowej kategorii</label>
+                                                    <input class="w-100 m-2 newPaymentCategoryInput" name="newCategory" id="newCategory" type="text">
+                                                    <p class="repeatedCategory"></p>
+                                                
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                                                <button type="submit" class="btn btn-primary">Dodaj</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item border-0">
-                    <h2 class="accordion-header" id="flush-headingFour">
-                        <button class="accordion-button collapsed collapseBtn fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
-                        Użytkownik
-                        </button>
-                    </h2>
-
-                    <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">text</div>
                     </div>
                 </div>
             </div>
         </div>
     
 
+{% endblock %}
+
+{% block scripts %}
+    <script src="/js/settings.js"></script>
+    <script>
+        let incomeCategoriesEncoded = "{{ incomeCategories|json_encode|e('js') }}";
+        let expenseCategoriesEncoded = "{{ expenseCategories|json_encode|e('js') }}";
+        let paymentMethodsCategoriesEncoded = "{{ paymentMethods|json_encode|e('js') }}";
+    </script>
 {% endblock %}

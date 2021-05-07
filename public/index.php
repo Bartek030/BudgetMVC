@@ -33,6 +33,7 @@ $router->add('', ['controller' => 'Home', 'action' => 'index']);
 $router->add('password/reset/{token:[\da-f]+}', ['controller' => 'Password', 'action' => 'reset']);
 $router->add('signup/activate/{token:[\da-f]+}', ['controller' => 'Signup', 'action' => 'activate']);
 $router->add('balance/show/{period:.+}', ['controller' => 'Balance', 'action' => 'show']);
+$router->add('settings/addCategory/{operation:.+}', ['controller' => 'Settings', 'action' => 'addCategory']);
 $router->add('{controller}/{action}');
     
 $router->dispatch($_SERVER['QUERY_STRING']);
