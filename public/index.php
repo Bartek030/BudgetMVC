@@ -34,6 +34,7 @@ $router->add('password/reset/{token:[\da-f]+}', ['controller' => 'Password', 'ac
 $router->add('signup/activate/{token:[\da-f]+}', ['controller' => 'Signup', 'action' => 'activate']);
 $router->add('balance/show/{period:.+}', ['controller' => 'Balance', 'action' => 'show']);
 $router->add('settings/addCategory/{operation:.+}', ['controller' => 'Settings', 'action' => 'addCategory']);
+$router->add('settings/deleteCategory/{operation:.+}', ['controller' => 'Settings', 'action' => 'deleteCategory']);
 $router->add('{controller}/{action}');
     
 $router->dispatch($_SERVER['QUERY_STRING']);

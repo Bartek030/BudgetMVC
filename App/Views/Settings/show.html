@@ -42,12 +42,40 @@
                             </div>
 
                             <div>
-                                <button type="button" class="btn fw-bold m-1 w-75 add-category-btn">Zmień hasło</button>
+                                <form action="/password/requestReset" method="POST">
+                                    <input type="hidden" name="email" value="{{ user.email }}">
+                                    <button type="submit" class="btn fw-bold m-1 w-75 add-category-btn">Zmień hasło</button>
+                                </form>
                             </div>
 
                             <div>
-                                <button type="button" class="btn fw-bold m-1 w-75 clear-base-btn">Wyczyść dane budżetu</button>
+                                <button type="button" class="btn fw-bold m-1 w-75 clear-base-btn" data-bs-toggle="modal" data-bs-target="#clearData">Wyczyść dane budżetu</button>
                             </div>
+
+                            <!-- Modal Clear Data -->
+                            <div class="modal fade" id="clearData" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="clearDataLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form action="/settings/clearOperationData" method="GET">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="clearDataLabel">Czyszczenie bazy operacji</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+
+                                            <div class="modal-body text-start">
+                                                
+                                                    <label class="w-100 p-2" for="newCategory">Czy chcesz usunąć wszystkie operacje, przypisane do tego konta?</label>                                
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nie</button>
+                                                <button type="submit" class="btn btn-primary">Tak</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal Income end-->
 
                             <div>
                                 <button type="button" class="btn fw-bold m-1 w-75 delete-account-btn">Usuń konto</button>
@@ -74,9 +102,9 @@
 
                                     {% if incomeCategory.name != "Inne" %}
 
-                                        <form action="/settings/deleteCategory" method="GET">
+                                        <form action="/settings/deleteCategory/income" method="GET">
                                             <div class="m-2 mx-4">
-                                                <input type="hidden" value="{{ incomeCategory.name }}" >
+                                                <input type="hidden" name="deletedCategory" value="{{ incomeCategory.id }}" >
                                                 <button type="submit"><i class="far fa-trash-alt m-2 edit" title="Usuń"></i></button>
                                             </div>
                                         </form>

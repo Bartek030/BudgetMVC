@@ -43,4 +43,25 @@ class Settings extends Authenticated {
 
         $newCategory -> addCategoryToDatabase($operation, $_SESSION['user_id']);
     }
+
+    /**
+     * Delete category from database
+     *
+     * @return void
+     */
+    public function deleteCategoryAction() {
+        $deletedCategory = new Categories($_GET);
+        $operation = $this -> route_params['operation'];
+
+        $deletedCategory -> deleteCategoryFromDatabase($operation, $_SESSION['user_id']);
+    }
+
+    /**
+     * Delete all operations from database
+     *
+     * @return void
+     */
+    public function clearOperationData() {
+        Categories::clearUserDatabase($_SESSION['user_id']);
+    }
 }
