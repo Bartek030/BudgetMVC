@@ -276,4 +276,90 @@ class Categories extends \Core\Model {
 
         $stmt -> execute();
     }
+
+    /**
+     * Delete user from database
+     * 
+     * @param int user ID
+     * 
+     * @return void
+     */
+    public static function deleteUserAccount($userID) {
+        static::clearUserIncomes($userID);
+        static::clearUserExpenses($userID);
+        static::deleteUserIncomeCategories($userID);
+        static::deleteUserExpenseCategories($userID);
+        static::deleteUserPaymentMethods($userID);
+        
+        $sql = 'DELETE 
+                FROM users
+                WHERE id = :userID';
+
+        $db = static::getDB();
+        $stmt = $db -> prepare($sql);
+
+        $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
+
+        $stmt -> execute();
+    }
+
+    /**
+     * Delete user income categories from database
+     * 
+     * @param int user ID
+     * 
+     * @return void
+     */
+    public static function deleteUserIncomeCategories($userID) {
+        $sql = 'DELETE 
+                FROM incomes_category_assigned_to_users
+                WHERE user_id = :userID';
+
+        $db = static::getDB();
+        $stmt = $db -> prepare($sql);
+
+        $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
+
+        $stmt -> execute();
+    }
+
+    /**
+     * Delete user expense categories from database
+     * 
+     * @param int user ID
+     * 
+     * @return void
+     */
+    public static function deleteUserExpenseCategories($userID) {
+        $sql = 'DELETE 
+                FROM expenses_category_assigned_to_users
+                WHERE user_id = :userID';
+
+        $db = static::getDB();
+        $stmt = $db -> prepare($sql);
+
+        $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
+
+        $stmt -> execute();
+    }
+
+    /**
+     * Delete user payment methods from database
+     * 
+     * @param int user ID
+     * 
+     * @return void
+     */
+    public static function deleteUserPaymentMethods($userID) {
+        $sql = 'DELETE 
+                FROM payment_methods_assigned_to_users
+                WHERE user_id = :userID';
+
+        $db = static::getDB();
+        $stmt = $db -> prepare($sql);
+
+        $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
+
+        $stmt -> execute();
+    }
 }

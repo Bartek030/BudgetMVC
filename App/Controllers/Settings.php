@@ -61,7 +61,17 @@ class Settings extends Authenticated {
      *
      * @return void
      */
-    public function clearOperationData() {
+    public function clearOperationDataAction() {
         Categories::clearUserDatabase($_SESSION['user_id']);
+    }
+
+    /**
+     * Delete user account
+     *
+     * @return void
+     */
+    public function deleteAccountAction() {
+        Categories::deleteUserAccount($_SESSION['user_id']);
+        Auth::logout();
     }
 }
