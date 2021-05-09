@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Models\Categories;
+use \App\Models\User;
 use \App\Auth;
 
 /**
@@ -71,7 +72,8 @@ class Settings extends Authenticated {
      * @return void
      */
     public function deleteAccountAction() {
-        Categories::deleteUserAccount($_SESSION['user_id']);
+        Categories::deleteUserOperationData($_SESSION['user_id']);
+        User::deleteUserAccount($_SESSION['user_id']);
         Auth::logout();
     }
 }

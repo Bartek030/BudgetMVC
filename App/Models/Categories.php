@@ -278,29 +278,18 @@ class Categories extends \Core\Model {
     }
 
     /**
-     * Delete user from database
+     * Delete all users operation datas from database
      * 
      * @param int user ID
      * 
      * @return void
      */
-    public static function deleteUserAccount($userID) {
+    public static function deleteUserOperationData($userID) {
         static::clearUserIncomes($userID);
         static::clearUserExpenses($userID);
         static::deleteUserIncomeCategories($userID);
         static::deleteUserExpenseCategories($userID);
         static::deleteUserPaymentMethods($userID);
-        
-        $sql = 'DELETE 
-                FROM users
-                WHERE id = :userID';
-
-        $db = static::getDB();
-        $stmt = $db -> prepare($sql);
-
-        $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
-
-        $stmt -> execute();
     }
 
     /**
