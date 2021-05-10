@@ -3,7 +3,7 @@
 {% block title %}Budżet osobisty{% endblock %}
 
 {% block style %}
-<link rel="stylesheet" href="/css/settings.css">
+    <link rel="stylesheet" href="/css/settings.css">
 {% endblock %}
 
 {% block body %}
@@ -13,6 +13,154 @@
 
             <div class="accordion accordion-flush" id="accordionFlushExample">
                 <div class="accordion-item border-0">
+                    <h2 class="accordion-header" id="flush-headingFour">
+                        <button class="accordion-button collapsed collapseBtn fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                        Użytkownik
+                        </button>
+                    </h2>
+
+                    <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <div class="d-flex justify-content-between collapse-body-item">
+
+                                <div class="m-2 mx-4 fs-5">Imię:&nbsp; {{ user.name }} </div>
+
+                                <div class="m-2 mx-4">
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#changeName"><i class="fas fa-edit m-2 edit" title="Edytuj"></i></button>
+                                </div>
+
+                                <!-- Modal Change name -->
+                                <div class="modal fade" id="changeName" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="changeNameLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form action="/settings/changeName" method="POST">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="changeNameLabel">Zmień imię</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+
+                                                <div class="modal-body text-start">                                             
+                                                        <label class="w-100 p-2" for="name">Podaj nowe imię:</label>
+                                                        <input class="w-100 m-2 newIncomeCategoryInput" name="name" id="name" type="text">                            
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                                                    <button type="submit" class="btn btn-primary">Zmień</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Modal Change name end-->
+
+                            </div>
+
+                            <div class="d-flex justify-content-between collapse-body-item">
+
+                                <div class="m-2 mx-4 fs-5">Email:&nbsp; {{ user.email }} </div>
+
+                                <div class="m-2 mx-4">
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#changeEmail"><i class="fas fa-edit m-2 edit" title="Edytuj"></i></button>
+                                </div>
+
+                                <!-- Modal Change email -->
+                                <div class="modal fade" id="changeEmail" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="changeEmailLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form action="/settings/changeEmail" method="POST">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="changeEmailLabel">Zmień email</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+
+                                                <div class="modal-body text-start">                                             
+                                                    <label class="w-100 p-2" for="email">Podaj nowy adres email:</label>
+                                                    <input class="w-100 m-2 newIncomeCategoryInput" name="email" id="email" type="text">
+                                                    <input type="hidden" name="name" value="{{ user.name }}">                    
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                                                    <button type="submit" class="btn btn-primary">Zmień</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Modal Change email end-->
+
+                            </div>
+
+                            <div>
+                                <form action="/password/requestReset" method="POST">
+                                    <input type="hidden" name="email" value="{{ user.email }}">
+                                    <button type="submit" class="btn fw-bold m-1 w-75 add-category-btn">Zmień hasło</button>
+                                </form>
+                            </div>
+
+                            <div>
+                                <button type="button" class="btn fw-bold m-1 w-75 clear-base-btn" data-bs-toggle="modal" data-bs-target="#clearData">Wyczyść dane budżetu</button>
+                            </div>
+
+                            <!-- Modal Clear Data -->
+                            <div class="modal fade" id="clearData" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="clearDataLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form action="/settings/clearOperationData" method="GET">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="clearDataLabel">Czyszczenie bazy operacji</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+
+                                            <div class="modal-body text-start">
+                                                
+                                                    <label class="w-100 p-2" for="newCategory">Czy chcesz usunąć wszystkie operacje, przypisane do tego konta?</label>                                
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nie</button>
+                                                <button type="submit" class="btn btn-primary">Tak</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal Clear Data end-->
+
+                            <div>
+                                <button type="button" class="btn fw-bold m-1 w-75 delete-account-btn" data-bs-toggle="modal" data-bs-target="#deleteAccount">Usuń konto</button>
+                            </div>
+
+                            <!-- Modal Delete account -->
+                            <div class="modal fade" id="deleteAccount" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteAccountLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form action="/settings/deleteAccount" method="GET">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteAccountLabel">Usuwanie konta</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+
+                                            <div class="modal-body text-start">
+                                                
+                                                    <label class="w-100 p-2" for="newCategory">Czy chcesz usunąć swoje konto?</label>                                
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nie</button>
+                                                <button type="submit" class="btn btn-primary">Tak</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal Delete account end -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0">
                     <h2 class="accordion-header" id="flush-headingOne">
                         <button class="accordion-button collapsed collapseBtn fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
                         Kategorie przychodów
@@ -20,9 +168,64 @@
                     </h2>
 
                     <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">text</div>
+                        <div class="accordion-body m-0 p-0">
+
+                            {% for incomeCategory in incomeCategories %}
+
+                                <div class="d-flex justify-content-between collapse-body-item">
+
+                                    <div class="m-2 mx-4 fs-5">{{ incomeCategory.name }} </div>
+
+                                    {% if incomeCategory.name != "Inne" %}
+
+                                        <form action="/settings/deleteCategory/income" method="GET">
+                                            <div class="m-2 mx-4">
+                                                <input type="hidden" name="deletedCategory" value="{{ incomeCategory.id }}" >
+                                                <button type="submit"><i class="far fa-trash-alt m-2 edit" title="Usuń"></i></button>
+                                            </div>
+                                        </form>
+
+                                    {% endif %}
+
+                                </div>
+
+                            {% endfor %}
+
+                            <div>
+                                <button type="button" class="btn fw-bold m-3 w-75 add-category-btn" data-bs-toggle="modal" data-bs-target="#newIncomeModal">Dodaj nową kategorię</button>
+                            </div>
+
+                            <!-- Modal Income -->
+                            <div class="modal fade" id="newIncomeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newIncomeModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form action="/settings/addCategory/income" method="GET">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="newIncomeModalLabel">Nowa kategoria</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+
+                                            <div class="modal-body text-start">
+                                                
+                                                    <label class="w-100 p-2" for="newCategory">Podaj nazwę nowej kategorii</label>
+                                                    <input class="w-100 m-2 newIncomeCategoryInput" name="newCategory" id="newCategory" type="text">
+                                                    <p class="repeatedCategory"></p>
+                                                
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                                                <button type="submit" class="btn btn-primary">Dodaj</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal Income end-->
+                        </div>
                     </div>
                 </div>
+
                 <div class="accordion-item border-0">
                     <h2 class="accordion-header" id="flush-headingTwo">
                         <button class="accordion-button collapsed collapseBtn fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
@@ -31,9 +234,62 @@
                     </h2>
 
                     <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">text</div>
+                        <div class="accordion-body m-0 p-0">
+
+                            {% for expenseCategory in expenseCategories %}
+
+                                <div class="d-flex justify-content-between collapse-body-item">
+
+                                    <div class="m-2 mx-4 fs-5">{{ expenseCategory.name }} </div>
+
+                                    {% if expenseCategory.name != "Inne" %}
+
+                                    <div class="m-2 mx-4">
+                                        <i class="fas fa-edit m-2 edit" title="Ustaw limit"></i>
+                                        <i class="far fa-trash-alt m-2 edit" title="Usuń"></i>
+                                    </div>
+
+                                    {% endif %}
+
+                                </div>
+
+                            {% endfor %}
+
+                            <div>
+                                <button type="button" class="btn fw-bold m-3 w-75 add-category-btn" data-bs-toggle="modal" data-bs-target="#newExpenseModal">Dodaj nową kategorię</button>
+                            </div>
+
+                            <!-- Modal Expense -->
+                            <div class="modal fade" id="newExpenseModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newExpenseModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form action="/settings/addCategory/expense" method="GET">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="newExpenseModalLabel">Nowa kategoria</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+
+                                            <div class="modal-body text-start">
+                                                
+                                                    <label class="w-100 p-2" for="newCategory">Podaj nazwę nowej kategorii</label>
+                                                    <input class="w-100 m-2 newExpenseCategoryInput" name="newCategory" id="newCategory" type="text">
+                                                    <p class="repeatedCategory"></p>
+                                                
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                                                <button type="submit" class="btn btn-primary">Dodaj</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal Expense end -->
+                        </div>
                     </div>
                 </div>
+
                 <div class="accordion-item border-0">
                     <h2 class="accordion-header" id="flush-headingThree">
                         <button class="accordion-button collapsed collapseBtn fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
@@ -42,23 +298,71 @@
                     </h2>
 
                     <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">text</div>
-                    </div>
-                </div>
+                        <div class="accordion-body m-0 p-0">
+                            
+                            {% for paymentMethod in paymentMethods %}
 
-                <div class="accordion-item border-0">
-                    <h2 class="accordion-header" id="flush-headingFour">
-                        <button class="accordion-button collapsed collapseBtn fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
-                        Użytkownik
-                        </button>
-                    </h2>
+                                <div class="d-flex justify-content-between collapse-body-item">
 
-                    <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">text</div>
+                                    <div class="m-2 mx-4 fs-5">{{ paymentMethod.name }} </div>
+
+                                    {% if paymentMethod.name != "Inne" %}
+
+                                    <div class="m-2 mx-4">
+                                        <i class="fas fa-edit m-2 edit" title="Ustaw limit"></i>
+                                        <i class="far fa-trash-alt m-2 edit" title="Usuń"></i>
+                                    </div>
+
+                                    {% endif %}
+
+                                </div>
+
+                            {% endfor %}
+
+                            <div>
+                                <button type="button" class="btn fw-bold m-3 w-75 add-category-btn" data-bs-toggle="modal" data-bs-target="#newPaymentModal">Dodaj nową kategorię</button>
+                            </div>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="newPaymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newPaymentModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form action="/settings/addCategory/payment" method="GET">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="newPaymentModalLabel">Nowa kategoria</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+
+                                            <div class="modal-body text-start">
+                                                
+                                                    <label class="w-100 p-2" for="newCategory">Podaj nazwę nowej kategorii</label>
+                                                    <input class="w-100 m-2 newPaymentCategoryInput" name="newCategory" id="newCategory" type="text">
+                                                    <p class="repeatedCategory"></p>
+                                                
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                                                <button type="submit" class="btn btn-primary">Dodaj</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     
 
+{% endblock %}
+
+{% block scripts %}
+    <script src="/js/settings.js"></script>
+    <script>
+        let incomeCategoriesEncoded = "{{ incomeCategories|json_encode|e('js') }}";
+        let expenseCategoriesEncoded = "{{ expenseCategories|json_encode|e('js') }}";
+        let paymentMethodsCategoriesEncoded = "{{ paymentMethods|json_encode|e('js') }}";
+    </script>
 {% endblock %}

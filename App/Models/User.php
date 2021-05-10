@@ -449,4 +449,93 @@ class User extends \Core\Model
 
         $stmt -> execute();
     }
+
+    /**
+     * Delete user from database
+     * 
+     * @param int user ID
+     * 
+     * @return void
+     */
+    public static function deleteUserOperationData($userID) {   
+        $sql = 'DELETE 
+                FROM users
+                WHERE id = :userID';
+
+        $db = static::getDB();
+        $stmt = $db -> prepare($sql);
+
+        $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
+
+        $stmt -> execute();
+    }
+
+    /**
+     * Change user name in database
+     * 
+     * @param int user ID
+     * 
+     * @return void
+     */
+    public function changeUserName($userID) {  
+        if($this -> name == '') {
+            $this -> errors[] = 'Imię jest wymagane!';
+        }
+
+        if(empty($this -> errors)) {
+            $sql = 'UPDATE users
+                    SET name = :name 
+                    WHERE id = :userID';
+
+            $db = static::getDB();
+            $stmt = $db -> prepare($sql);
+
+            $stmt -> bindValue(':name', $name, PDO::PARAM_STR);
+            $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
+
+            return $stmt -> execute();
+        }
+        return false;
+    }
+
+    /**
+     * Change user email in database
+     * 
+     * @param int user ID
+     * 
+     * @return void
+     */
+    public function changeUserEmail($userID) {
+
+        if(filter_var($this -> email, FILTER_VALIDATE_EMAIL) === false) {
+            $this -> errors[] = 'Niepoprawny adres e-mail!';
+        }
+
+        if(static::emailExists($this -> email, $this -> id ?? null)) {
+            $this -> errors[] = 'E-mail jest już przypisany do innego konta!';
+        }
+
+        if(empty($this -> errors)) {
+            $token = new Token();
+            $hashed_token = $token -> getHash();
+            $this -> activation_token = $token -> getValue();
+
+            $sql = 'UPDATE users
+                    SET email = :email,
+                        activation_hash = :activation_hash,
+                        is_active = 0
+                    WHERE id = :userID';
+
+            $db = static::getDB();
+            $stmt = $db -> prepare($sql);
+
+            $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
+            $stmt -> bindValue(':email', $this -> email, PDO::PARAM_STR);
+            
+            $stmt -> bindValue(':activation_hash', $hashed_token, PDO::PARAM_STR);
+
+            return $stmt -> execute();
+        }
+        return false;
+    }
 }
