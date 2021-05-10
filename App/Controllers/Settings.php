@@ -76,4 +76,34 @@ class Settings extends Authenticated {
         User::deleteUserAccount($_SESSION['user_id']);
         Auth::logout();
     }
+
+    /**
+     * Change user name
+     *
+     * @return void
+     */
+    public function changeNameAction() {
+        $changeName = new User($_POST);
+        if($changeName -> changeUserName($_SESSION['user_id'])) {
+
+        } else {
+
+        }
+    }
+
+    /**
+     * Change user email
+     *
+     * @return void
+     */
+    public function changeEmailAction() {
+        $changeEmail = new User($_POST);
+        if($changeEmail -> changeUserEmail($_SESSION['user_id'])) {
+            $changeEmail -> sendActivationEmail();
+
+            Auth::logout();
+        } else {
+
+        }
+    }
 }

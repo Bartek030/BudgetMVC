@@ -33,15 +33,15 @@
                                 <div class="modal fade" id="changeName" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="changeNameLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <form action="/settings/changeName" method="GET">
+                                            <form action="/settings/changeName" method="POST">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="changeNameLabel">Zmień imię</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
 
                                                 <div class="modal-body text-start">                                             
-                                                        <label class="w-100 p-2" for="newCategory">Podaj nowe imię:</label>
-                                                        <input class="w-100 m-2 newIncomeCategoryInput" name="newCategory" id="newCategory" type="text">                            
+                                                        <label class="w-100 p-2" for="name">Podaj nowe imię:</label>
+                                                        <input class="w-100 m-2 newIncomeCategoryInput" name="name" id="name" type="text">                            
                                                 </div>
 
                                                 <div class="modal-footer">
@@ -61,8 +61,34 @@
                                 <div class="m-2 mx-4 fs-5">Email:&nbsp; {{ user.email }} </div>
 
                                 <div class="m-2 mx-4">
-                                    <i class="fas fa-edit m-2 edit" title="Edytuj"></i>
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#changeEmail"><i class="fas fa-edit m-2 edit" title="Edytuj"></i></button>
                                 </div>
+
+                                <!-- Modal Change email -->
+                                <div class="modal fade" id="changeEmail" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="changeEmailLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form action="/settings/changeEmail" method="POST">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="changeEmailLabel">Zmień email</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+
+                                                <div class="modal-body text-start">                                             
+                                                    <label class="w-100 p-2" for="email">Podaj nowy adres email:</label>
+                                                    <input class="w-100 m-2 newIncomeCategoryInput" name="email" id="email" type="text">
+                                                    <input type="hidden" name="name" value="{{ user.name }}">                    
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                                                    <button type="submit" class="btn btn-primary">Zmień</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Modal Change email end-->
 
                             </div>
 
