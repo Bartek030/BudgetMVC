@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Models\Operation;
+use \App\Models\Categories;
 
 /**
  * Add an expense to the database into expense table
@@ -17,7 +18,12 @@ class Expense extends Authenticated {
      * @return void
      */
     public function newAction() {
-        View::renderTemplate('Expense/new.html');
+        $expenseCategories = Categories::getExpenseCategories($_SESSION['user_id']);
+        $paymentMethods = Categories::getPaymentMethods($_SESSION['user_id']);
+        View::renderTemplate('Expense/new.html', [
+            'expenseCategories' => $expenseCategories,
+            'paymentMethods' => $paymentMethods
+        ]);
     }
 
     /**
@@ -44,5 +50,18 @@ class Expense extends Authenticated {
      */
     public function successAction() {
         View::renderTemplate('Expense/success.html');
+    }
+
+    /**
+     * Get the expense summary for every category
+     * 
+     * 
+     * @return void
+     */
+    public function getExpenseSummaryAction() {
+        $expenseSummary = Categories::getExpenseSummary($_SESSION['user_id']);
+
+        header('Content-Type: application/json');
+        echo json_encode($expenseSummary);
     }
 }

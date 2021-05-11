@@ -351,4 +351,30 @@ class Categories extends \Core\Model {
 
         $stmt -> execute();
     }
+
+    /**
+     * Return expense summary for every category
+     * 
+     * @param int user ID
+     * 
+     * @return void
+     */
+    public static function getExpenseSummary($userID) {
+        
+        $sql = 'SELECT exp.id, exp.name, exp.expense_limit, COALESCE(SUM(expenses.amount),0) as summary
+                FROM expenses_category_assigned_to_users as exp
+                LEFT JOIN expenses
+                ON exp.id = expenses.expense_category_assigned_to_user_id
+                WHERE exp.user_id = :userID
+                GROUP BY exp.id';
+
+        $db = static::getDB();
+        $stmt = $db -> prepare($sql);
+        
+        $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
+
+        $stmt -> execute();
+
+        return ($stmt -> fetchAll());
+    }
 }

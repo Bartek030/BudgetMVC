@@ -178,12 +178,34 @@
 
                                     {% if incomeCategory.name != "Inne" %}
 
-                                        <form action="/settings/deleteCategory/income" method="GET">
-                                            <div class="m-2 mx-4">
-                                                <input type="hidden" name="deletedCategory" value="{{ incomeCategory.id }}" >
-                                                <button type="submit"><i class="far fa-trash-alt m-2 edit" title="Usuń"></i></button>
+                                        <div class="m-2 mx-4">
+                                            <button type="button" data-bs-toggle="modal" data-bs-target="#deleteIncomeModal"><i class="far fa-trash-alt m-2 edit" title="Usuń kategorię"></i></button>
+                                        </div>
+
+                                        <!-- Modal Delete Income Category -->
+                                        <div class="modal fade" id="deleteIncomeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteIncomeModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <form action="/settings/deleteCategory/income" method="GET">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="deleteIncomeModalLabel">Usuń kategorię</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+
+                                                        <div class="modal-body text-start">
+                                                            <p class="w-100 p-2">Czy chcesz usunąć kategorię {{ incomeCategory.name }}?</p>
+                                                        </div>
+
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" name="deletedCategory" value="{{ incomeCategory.id }}" >
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                                                            <button type="submit" class="btn btn-primary">Usuń</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
                                             </div>
-                                        </form>
+                                        </div>
+                                        <!-- Modal Delete Income Category end-->
 
                                     {% endif %}
 
@@ -309,7 +331,6 @@
                                     {% if paymentMethod.name != "Inne" %}
 
                                     <div class="m-2 mx-4">
-                                        <i class="fas fa-edit m-2 edit" title="Ustaw limit"></i>
                                         <i class="far fa-trash-alt m-2 edit" title="Usuń"></i>
                                     </div>
 
@@ -323,7 +344,7 @@
                                 <button type="button" class="btn fw-bold m-3 w-75 add-category-btn" data-bs-toggle="modal" data-bs-target="#newPaymentModal">Dodaj nową kategorię</button>
                             </div>
 
-                            <!-- Modal -->
+                            <!-- Modal payment methods -->
                             <div class="modal fade" id="newPaymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newPaymentModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -349,6 +370,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Modal payment methods end -->
                         </div>
                     </div>
                 </div>
