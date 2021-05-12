@@ -3,8 +3,8 @@ $(document).ready(function() {
 	setDate();
 
 	$('.chatButton').click(function() {
-		$("#myForm").toggle();
-	});
+		$("#messageBox").toggle();
+	});             	
 });
 
 let setTime = function() {
@@ -45,6 +45,4 @@ let setDate = function() {
 	$('#operationDate').val(year + '-' + month + '-' + day);
 }
 
-/*let toggleForm = function() {
-	$("#myForm").toggle();
-}*/
+
