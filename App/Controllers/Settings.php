@@ -46,6 +46,18 @@ class Settings extends Authenticated {
     }
 
     /**
+     * Change category data
+     * 
+     * @return void
+     */
+    public function editCategoryAction() {
+        $editedCategory = new Categories($_GET);
+        $operation = $this -> route_params['operation'];
+
+        $editedCategory -> editCategoryInDatabase($operation);
+    }
+
+    /**
      * Delete category from database
      *
      * @return void

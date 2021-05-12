@@ -122,6 +122,39 @@ class Categories extends \Core\Model {
         }
         return false;
     }
+
+     /**
+     * Edit category in database
+     * 
+     * @param string operation type
+     * @param int user ID
+     * 
+     * @return boolean true if success, false otherwise
+     */
+    public function editCategoryInDatabase($operation) {
+        if($operation == 'income') {
+            $sql = 'UPDATE incomes_category_assigned_to_users
+                    SET name = :editedName
+                    WHERE id = :categoryID';
+        } else if($operation == 'expense') {
+            $sql = 'UPDATE expenses_category_assigned_to_users
+                    SET name = :editedName
+                    WHERE id = :categoryID';
+        } else {
+            $sql = 'DELETE 
+                    FROM payment_methods_assigned_to_users
+                    WHERE payment_methods_assigned_to_users.id = :categoryID';
+        }
+
+        $db = static::getDB();
+        $stmt = $db -> prepare($sql);
+
+        $stmt -> bindValue(':editedName', $this -> editedName, PDO::PARAM_STR);
+        $stmt -> bindValue(':categoryID', $this -> editedCategory, PDO::PARAM_INT);
+
+        return $stmt -> execute();
+    }
+
     /**
      * Delete category from the database
      * 

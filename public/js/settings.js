@@ -9,20 +9,16 @@ $(document).ready(function () {
         let newPaymentCategoryInput = $('.newPaymentCategoryInput');
         let errorMessageBox = $('.repeatedCategory');
         
-
         newIncomeCategoryInput.on('input', function() {
-            checkIfCategoryExists(incomeCategories, newIncomeCategoryInput);
-                
+            checkIfCategoryExists(incomeCategories, newIncomeCategoryInput);               
         });
 
         newExpenseCategoryInput.on('input', function() {
-            checkIfCategoryExists(expenseCategories, newExpenseCategoryInput);
-                
+            checkIfCategoryExists(expenseCategories, newExpenseCategoryInput);     
         });
 
         newPaymentCategoryInput.on('input', function() {
-            checkIfCategoryExists(paymentMethodsCategories, newPaymentCategoryInput);
-                
+            checkIfCategoryExists(paymentMethodsCategories, newPaymentCategoryInput);               
         });
 
         let checkIfCategoryExists = function(categoryTable, inputValue) {
@@ -39,5 +35,24 @@ $(document).ready(function () {
                 errorMessageBox.html('');
             }
         }
+/*
+        switchLimitInput();
+        $('.limitCheckbox').click(switchLimitInput);
+
+        switchLimitInput = function() {
+            if(this.checked) {
+                $(".limitValue").removeAttr("disabled");
+            } else {
+                $(".limitValue").attr("disabled", true);
+            }
+        }
+        let switchLimitInput = function() {
+            if ($(".limitCheckbox").is(":checked")) {
+                $(".limitValue").removeAttr("disabled");
+            } else {
+                $(".limitValue").attr("disabled", true);
+            }
+        }*/
+        
     })
 });
