@@ -13,7 +13,8 @@ $(document).ready(function() {
                 validPassword: true
             },
             repeatedPassword: {
-                required: true
+                required: true,
+                confirmPassword: true
             }
         },
         messages: {
@@ -25,7 +26,7 @@ $(document).ready(function() {
             },
             password: {
                 required: 'Hasło jest wymagane!',
-                minlength: 'Długość hasła musi wynosić conajmniej 6 znaków!',
+                minlength: 'Długość hasła musi wynosić conajmniej 6 znaków!'
             },
             repeatedPassword: {
                 required: 'Hasło jest wymagane!'

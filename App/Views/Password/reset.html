@@ -10,7 +10,7 @@
             <h1 class="h2">Resetowanie hasła</h1>
         </div>  
 
-        <form method="POST" action="/password/resetPassword" id="formPassword">
+        <form method="POST" action="/password/resetPassword" id="formPasswordReset">
 
             <input type="hidden" name="token" value="{{ token }}" />
 
@@ -39,11 +39,11 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="/js/app.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+    <script src="/js/plugin.js"></script>
     <script>
         $(document).ready(function() {
-            $('#formPassword').validate({
+            $('#formPasswordReset').validate({
                 rules: {
                     password: {
                         required: true,

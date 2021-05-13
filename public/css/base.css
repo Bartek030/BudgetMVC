@@ -196,7 +196,7 @@ img {
 
 .errors, div > ul > li {
     font-size: 18px;
-    color: #ff3300;
+    color: #a94442;
 }
 
 .contact {
@@ -252,6 +252,11 @@ tbody tr:hover {
     color: white !important;
 }
 
+label.error,
+div.error {
+    color: #a94442;
+    padding-bottom: 20px;
+}
 
 @media (max-width: 768px) {
     h1 {
