@@ -102,14 +102,6 @@ img {
     height: auto;
 }
 
-/*p {
-    letter-spacing: 1px;
-}*/
-
-/*p.mainMenu {
-    text-align: justify;
-}*/
-
 .smallGreenButton {
     background-color: #36b03c;
     color: #f2f2f2;
@@ -197,6 +189,7 @@ img {
 .errors, div > ul > li {
     font-size: 18px;
     color: #a94442;
+    list-style-type: none;
 }
 
 .contact {
