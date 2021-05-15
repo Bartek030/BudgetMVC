@@ -96,11 +96,5 @@
 {% endblock %}
 
 {% block scripts %}
-    <script>
-        let incomeEncoded = "{{ incomeData|json_encode|e('js') }}";
-        let expenseEncoded = "{{ expenseData|json_encode|e('js') }}";
-        let balanceSummary = "{{ balanceSummary }}";
-    </script>
     <script src="/js/expense.js"></script>
-    
 {% endblock %}

@@ -4,7 +4,15 @@ $(document).ready(function() {
 
 	$('.chatButton').click(function() {
 		$("#messageBox").toggle();
-	});             	
+	});
+	
+	$('.dropdown').on('show.bs.dropdown', function() {
+		$(this).find('.dropdown-menu').first().stop(true, true).slideDown();
+	});
+	
+	$('.dropdown').on('hide.bs.dropdown', function() {
+		$(this).find('.dropdown-menu').first().stop(true, true).slideUp();
+	});
 });
 
 let setTime = function() {
