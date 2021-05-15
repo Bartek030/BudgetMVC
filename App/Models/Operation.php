@@ -247,7 +247,8 @@ class Operation extends \Core\Model {
                 WHERE incomes.income_category_assigned_to_user_id = inc.id
                 AND incomes.user_id = :userID
                 AND incomes.date_of_income >= :startDate
-                AND incomes.date_of_income <= :endDate';
+                AND incomes.date_of_income <= :endDate
+                ORDER BY incomes.date_of_income DESC';
 
         $db = static::getDB();
         $stmt = $db -> prepare($sql);
@@ -297,7 +298,8 @@ class Operation extends \Core\Model {
                 FROM incomes_category_assigned_to_users AS inc, incomes
                 WHERE incomes.income_category_assigned_to_user_id = inc.id
                 AND incomes.user_id = :userID
-                AND incomes.date_of_income LIKE :time';
+                AND incomes.date_of_income LIKE :time
+                ORDER BY incomes.date_of_income DESC';
 
         $db = static::getDB();
         $stmt = $db -> prepare($sql);
@@ -327,7 +329,8 @@ class Operation extends \Core\Model {
                 AND expenses.payment_method_assigned_to_user_id = pay.id
                 AND expenses.user_id = :userID
                 AND expenses.date_of_expense >= :startDate
-                AND expenses.date_of_expense <= :endDate';
+                AND expenses.date_of_expense <= :endDate
+                ORDER BY expenses.date_of_expense DESC';
 
         $db = static::getDB();
         $stmt = $db -> prepare($sql);
@@ -378,7 +381,8 @@ class Operation extends \Core\Model {
                 WHERE expenses.expense_category_assigned_to_user_id = exp.id
                 AND expenses.payment_method_assigned_to_user_id = pay.id
                 AND expenses.user_id = :userID
-                AND expenses.date_of_expense LIKE :time';
+                AND expenses.date_of_expense LIKE :time
+                ORDER BY expenses.date_of_expense DESC';
 
 
         $db = static::getDB();
