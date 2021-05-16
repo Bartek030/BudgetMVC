@@ -7,7 +7,7 @@ use \App\Models\Operation;
 use \App\Models\Categories;
 
 /**
- * Add an expense to the database into expense table
+ * Expense controller
  * 
  * PHP version 7.0
  */

@@ -147,7 +147,7 @@ class User extends \Core\Model
     /**
      * Get user ID
      * 
-     * @param string user's email
+     * @param string $email user's email
      * 
      * @return int User ID
      */
@@ -451,29 +451,9 @@ class User extends \Core\Model
     }
 
     /**
-     * Delete user from database
-     * 
-     * @param int user ID
-     * 
-     * @return void
-     */
-    public static function deleteUserOperationData($userID) {   
-        $sql = 'DELETE 
-                FROM users
-                WHERE id = :userID';
-
-        $db = static::getDB();
-        $stmt = $db -> prepare($sql);
-
-        $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
-
-        $stmt -> execute();
-    }
-
-    /**
      * Change user name in database
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return boolean true if success, false otherwise
      */
@@ -501,7 +481,7 @@ class User extends \Core\Model
     /**
      * Change user email in database
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return boolean true if success, false otherwise
      */
@@ -542,7 +522,7 @@ class User extends \Core\Model
     /**
      * Delete user from database
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return void
      */

@@ -5,7 +5,7 @@ namespace App\Models;
 use PDO;
 
 /**
- * Example operaion model
+ * Operation model
  * 
  * PHP version 7.0
  */
@@ -32,6 +32,8 @@ class Operation extends \Core\Model {
 
     /**
      * Save income model with the current property values
+     * 
+     * @param int $userID user ID
      * 
      * @return boolean true if success, false otherwise
      */
@@ -60,6 +62,8 @@ class Operation extends \Core\Model {
 
     /**
      * Save expense model with the current property values
+     * 
+     * @param int $userID user ID
      * 
      * @return boolean true if success, false otherwise
      */
@@ -98,7 +102,6 @@ class Operation extends \Core\Model {
         if($this -> amount < 0) {
             $this -> errors[] = 'Podana kwota musi być większa od 0';
         }
-
         // Date
         static::validateData($this -> operationDate);
     }
@@ -106,7 +109,7 @@ class Operation extends \Core\Model {
     /**
      * Validate date if belong to the specific period of time
      * 
-     * @param string date for validate
+     * @param string $date date for validate
      * 
      * @return void 
      */
@@ -121,12 +124,12 @@ class Operation extends \Core\Model {
     }
 
     /**
-     * Get category ID assigned to the current user
+     * Get income category ID assigned to the current user
      * 
-     * @param user current user
-     * @param string category for searching ID
+     * @param int $userID current user ID
+     * @param string $category category for searching ID
      * 
-     * @return mixed ID - category ID assigned to the current user, NULL otherwise
+     * @return mixed ID - income category ID assigned to the current user, NULL otherwise
      */
     protected static function getIncomeCategoryID($userID, $category) {
         $sql = 'SELECT id
@@ -147,12 +150,12 @@ class Operation extends \Core\Model {
     }
 
     /**
-     * Get category ID assigned to the current user
+     * Get expense category ID assigned to the current user
      * 
-     * @param user current user
-     * @param string category for searching ID
+     * @param int $userID current user ID
+     * @param string $category category for searching ID
      * 
-     * @return mixed ID - category ID assigned to the current user, NULL otherwise
+     * @return mixed ID - expense category ID assigned to the current user, NULL otherwise
      */
     protected static function getExpenseCategoryID($userID, $category) {
         $sql = 'SELECT id
@@ -173,12 +176,12 @@ class Operation extends \Core\Model {
     }
 
     /**
-     * Get category ID assigned to the current user
+     * Get payment method ID assigned to the current user
      * 
-     * @param user current user
-     * @param string category for searching ID
+     * @param int $userID current user ID
+     * @param string $paymentMethod category for searching ID
      * 
-     * @return mixed ID - category ID assigned to the current user, NULL otherwise
+     * @return mixed ID - payment method ID assigned to the current user, NULL otherwise
      */
     protected static function getPaymentMethodID($userID, $paymentMethod) {
         $sql = 'SELECT id
@@ -201,8 +204,8 @@ class Operation extends \Core\Model {
     /**
      * Get incomes data
      * 
-     * @param Operation input operation data from user
-     * @param user current user
+     * @param Operation $balance input operation data from user
+     * @param int $userID current user ID
      * 
      * @return mixed array of incomes data, null otherwise
      */
@@ -218,8 +221,8 @@ class Operation extends \Core\Model {
     /**
      * Get expenses data
      * 
-     * @param Operation input operation data from user
-     * @param user current user
+     * @param Operation $balance input operation data from user
+     * @param int $userID current user ID
      * 
      * @return mixed array of expenses data, null otherwise
      */
@@ -235,8 +238,8 @@ class Operation extends \Core\Model {
     /**
      * Get incomes data from other period of time
      * 
-     * @param Operation input operation data from user
-     * @param user current user
+     * @param Operation $balance input operation data from user
+     * @param int $userID current user ID
      * 
      * @return mixed array of incomes data, null otherwise
      */
@@ -266,8 +269,8 @@ class Operation extends \Core\Model {
     /**
      * Get incomes data from defined period of time
      * 
-     * @param Operation input operation data from user
-     * @param user current user
+     * @param Operation $balance input operation data from user
+     * @param int $userID current user ID
      * 
      * @return mixed array of incomes data, null otherwise
      */
@@ -306,8 +309,7 @@ class Operation extends \Core\Model {
         
         $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
         $stmt -> bindValue(':time', "$time%", PDO::PARAM_STR);
-        
-        //$stmt -> setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
         $stmt -> execute();
 
         return $stmt -> fetchAll();
@@ -316,8 +318,8 @@ class Operation extends \Core\Model {
     /**
      * Get expenses data from other period of time
      * 
-     * @param Operation input operation data from user
-     * @param user current user
+     * @param Operation $balance input operation data from user
+     * @param int $userID current user ID
      * 
      * @return mixed array of incomes data, null otherwise
      */
@@ -339,7 +341,6 @@ class Operation extends \Core\Model {
         $stmt -> bindValue(':startDate', $balance -> startDate, PDO::PARAM_STR);
         $stmt -> bindValue(':endDate', $balance -> endDate, PDO::PARAM_STR);
 
-        //$stmt -> setFetchMode(PDO::FETCH_CLASS, get_called_class());
         $stmt -> execute();
 
        return ($stmt -> fetchAll());
@@ -348,8 +349,8 @@ class Operation extends \Core\Model {
     /**
      * Get expenses data from defined period of time
      * 
-     * @param Operation input operation data from user
-     * @param user current user
+     * @param Operation $balance input operation data from user
+     * @param int $userID current user ID
      * 
      * @return mixed array of expenses data, null otherwise
      */
@@ -391,7 +392,6 @@ class Operation extends \Core\Model {
         $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
         $stmt -> bindValue(':time', "$time%", PDO::PARAM_STR);
         
-        //$stmt -> setFetchMode(PDO::FETCH_CLASS, get_called_class());
         $stmt -> execute();
  
         return $stmt -> fetchAll();

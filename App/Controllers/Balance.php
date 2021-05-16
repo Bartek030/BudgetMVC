@@ -6,13 +6,13 @@ use \Core\View;
 use \App\Models\Operation;
 
 /**
- * Show the budget balance from choosen period of time
+ * Budget balance controller
  * 
  * PHP version 7.0
  */
 class Balance extends Authenticated {
     /**
-     * Show new income page
+     * Show new balance page
      * 
      * @return void
      */

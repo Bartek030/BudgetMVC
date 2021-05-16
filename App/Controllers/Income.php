@@ -7,7 +7,7 @@ use \App\Models\Operation;
 use \App\Models\Categories;
 
 /**
- * Add an income to the database into income table
+ * Income controller
  * 
  * PHP version 7.0
  */

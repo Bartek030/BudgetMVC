@@ -5,7 +5,7 @@ namespace App\Models;
 use PDO;
 
 /**
- * Remembered login model
+ * Categories model
  * 
  * PHP version 7.0
  */
@@ -33,7 +33,7 @@ class Categories extends \Core\Model {
     /**
      * Get income categories assigned to user
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return array Array of categories assigned to user
      */
@@ -53,9 +53,9 @@ class Categories extends \Core\Model {
     }
 
     /**
-     * Get income categories assigned to user
+     * Get expense categories assigned to user
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return array Array of categories assigned to user
      */
@@ -75,9 +75,9 @@ class Categories extends \Core\Model {
     }
 
     /**
-     * Get income categories assigned to user
+     * Get payment methods assigned to user
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return array Array of categories assigned to user
      */
@@ -99,8 +99,8 @@ class Categories extends \Core\Model {
     /**
      * Add category to the database
      * 
-     * @param string operation type
-     * @param int user ID
+     * @param string $operation operation type
+     * @param int $userID user ID
      * 
      * @return boolean true if success, false otherwise
      */
@@ -137,8 +137,8 @@ class Categories extends \Core\Model {
      /**
      * Edit category in database
      * 
-     * @param string operation type
-     * @param int user ID
+     * @param string $operation operation type
+     * @param int $userID user ID
      * 
      * @return boolean true if success, false otherwise
      */
@@ -188,8 +188,8 @@ class Categories extends \Core\Model {
     /**
      * Delete category from the database
      * 
-     * @param string operation type
-     * @param int user ID
+     * @param string $operation operation type
+     * @param int $userID user ID
      * 
      * @return boolean true if success, false otherwise
      */
@@ -223,8 +223,8 @@ class Categories extends \Core\Model {
     /**
      * Get ID of other category assigned to the given type of operation
      * 
-     * @param string operation type
-     * @param int user ID
+     * @param string $operation operation type
+     * @param int $userID user ID
      * 
      * @return int other category ID
      */
@@ -260,10 +260,10 @@ class Categories extends \Core\Model {
     /**
      * Change ID of deleted category to ID of other category
      * 
-     * @param string operation type
-     * @param int ID of deleted category
+     * @param string $operation operation type
+     * @param int $otherCategoryId ID of deleted category
      * 
-     * @return boolean true if success, false otherwise
+     * @return mixed true if success, NULL otherwise
      */
     protected function changeCategoryId($operation, $otherCategoryId) {
         if($operation == 'income') {
@@ -292,7 +292,7 @@ class Categories extends \Core\Model {
     /**
      * Clear operation datas, assigned to user
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return void
      */
@@ -304,7 +304,7 @@ class Categories extends \Core\Model {
     /**
      * Clear income operation datas, assigned to user
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return void
      */
@@ -324,7 +324,7 @@ class Categories extends \Core\Model {
     /**
      * Clear expense operation datas, assigned to user
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return void
      */
@@ -344,7 +344,7 @@ class Categories extends \Core\Model {
     /**
      * Delete all users operation datas from database
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return void
      */
@@ -359,7 +359,7 @@ class Categories extends \Core\Model {
     /**
      * Delete user income categories from database
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return void
      */
@@ -379,7 +379,7 @@ class Categories extends \Core\Model {
     /**
      * Delete user expense categories from database
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return void
      */
@@ -399,7 +399,7 @@ class Categories extends \Core\Model {
     /**
      * Delete user payment methods from database
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return void
      */
@@ -419,9 +419,9 @@ class Categories extends \Core\Model {
     /**
      * Return expense summary for every category
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
-     * @return void
+     * @return array Array of expense summary for every category
      */
     public static function getExpenseSummary($userID) {
         

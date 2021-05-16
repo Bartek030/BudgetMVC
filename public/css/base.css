@@ -12,10 +12,6 @@ body {
     padding: 0;
 }
 
-.test {
-    border: 3px solid white;
-}
-
 h1 {
     font-family: 'Russo One', sans-serif;
     font-size: 64px;
