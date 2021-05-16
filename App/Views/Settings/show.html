@@ -463,7 +463,7 @@
                                                     </div>
 
                                                     <div class="modal-footer">
-                                                        <input type="hidden" name="editedCategory" value="{{ paymentCategory.id }}" >
+                                                        <input type="hidden" name="editedCategory" value="{{ paymentMethod.id }}" >
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
                                                         <button type="submit" class="btn btn-primary">Zmień</button>
                                                     </div>
@@ -488,7 +488,7 @@
                                                     </div>
 
                                                     <div class="modal-footer">
-                                                        <input type="hidden" name="deletedCategory" value="{{ paymentCategory.id }}" >
+                                                        <input type="hidden" name="deletedCategory" value="{{ paymentMethod.id }}" >
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
                                                         <button type="submit" class="btn btn-primary">Usuń</button>
                                                     </div>
@@ -504,13 +504,13 @@
 
                             {% endfor %}
 
-                            {% for expenseCategory in expenseCategories %}
+                            {% for paymentMethod in paymentMethods %}
 
                                 <div class="d-flex justify-content-between collapse-body-item">
 
-                                    {% if expenseCategory.name == "Inne" %}
+                                    {% if paymentMethod.name == "Inne" %}
 
-                                    <div class="m-2 mx-4 fs-5">{{ expenseCategory.name }} </div>
+                                    <div class="m-2 mx-4 fs-5">{{ paymentMethod.name }} </div>
 
                                     {% endif %}
 
@@ -519,16 +519,16 @@
                             {% endfor %}
 
                             <div>
-                                <button type="button" class="btn fw-bold m-3 w-75 add-category-btn" data-bs-toggle="modal" data-bs-target="#newExpenseModal">Dodaj nową kategorię</button>
+                                <button type="button" class="btn fw-bold m-3 w-75 add-category-btn" data-bs-toggle="modal" data-bs-target="#newPaymentModal">Dodaj nową kategorię</button>
                             </div>
 
-                            <!-- Modal Add Payment Category -->
-                            <div class="modal fade" id="newExpenseModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newExpenseModalLabel" aria-hidden="true">
+                            <!-- Modal Add Payment Method -->
+                            <div class="modal fade" id="newPaymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newPaymentModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
-                                        <form action="/settings/addCategory/expense" method="GET">
+                                        <form action="/settings/addCategory/payment" method="GET">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="newExpenseModalLabel">Nowa kategoria</h5>
+                                                <h5 class="modal-title" id="newPaymentModalLabel">Nowa kategoria</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
 
@@ -548,7 +548,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Modal Add Payment Category end -->
+                            <!-- Modal Add Payment Method end-->
                         </div>
                     </div>
                 </div>

@@ -110,18 +110,18 @@ class Categories extends \Core\Model {
         }
 
         if(empty($this -> errors)) {
-        $name = ucfirst($this -> newCategory);
-            
-        if($operation == 'income') {
-            $sql = 'INSERT INTO incomes_category_assigned_to_users
-                    VALUES(NULL, :userID, :name)';
-        } else if($operation == 'expense') {
-            $sql = 'INSERT INTO expenses_category_assigned_to_users
-                    VALUES(NULL, :userID, :name, NULL)';
-        } else {
-            $sql = 'INSERT INTO payment_methods_assigned_to_users
-                    VALUES(NULL, :userID, :name)';
-        }
+            $name = ucfirst($this -> newCategory);
+                
+            if($operation == 'income') {
+                $sql = 'INSERT INTO incomes_category_assigned_to_users
+                        VALUES(NULL, :userID, :name)';
+            } else if($operation == 'expense') {
+                $sql = 'INSERT INTO expenses_category_assigned_to_users
+                        VALUES(NULL, :userID, :name, NULL)';
+            } else {
+                $sql = 'INSERT INTO payment_methods_assigned_to_users
+                        VALUES(NULL, :userID, :name)';
+            }
 
             $db = static::getDB();
             $stmt = $db -> prepare($sql);
@@ -146,7 +146,7 @@ class Categories extends \Core\Model {
         if($this -> editedName == '') {
             $this -> errors[] = 'Nie podano nazwy kategorii!';
         }
-
+        
         if($operation == 'income') {
             $sql = 'UPDATE incomes_category_assigned_to_users
                     SET name = :editedName
@@ -156,9 +156,9 @@ class Categories extends \Core\Model {
                     SET name = :editedName
                     WHERE id = :categoryID';
         } else {
-            $sql = 'DELETE 
-                    FROM payment_methods_assigned_to_users
-                    WHERE payment_methods_assigned_to_users.id = :categoryID';
+            $sql = 'UPDATE payment_methods_assigned_to_users
+                    SET name = :editedName
+                    WHERE id = :categoryID';
         }
 
         if(empty($this -> errors)) {
