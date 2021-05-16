@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Budżet osobisty{% endblock %}
+{% block title %}Ustawienia{% endblock %}
 
 {% block style %}
     <link rel="stylesheet" href="/css/settings.css">
@@ -26,7 +26,7 @@
                                 <div class="m-2 mx-4 fs-5">Imię:&nbsp; {{ user.name }} </div>
 
                                 <div class="m-2 mx-4">
-                                    <button type="button" data-bs-toggle="modal" data-bs-target="#changeName"><i class="fas fa-edit m-2 edit" title="Edytuj"></i></button>
+                                    <button class="settingButton" type="button" data-bs-toggle="modal" data-bs-target="#changeName"><i class="fas fa-edit m-2 edit" title="Edytuj"></i></button>
                                 </div>
 
                                 <!-- Modal Change name -->
@@ -41,7 +41,7 @@
 
                                                 <div class="modal-body text-start">                                             
                                                         <label class="w-100 p-2" for="name">Podaj nowe imię:</label>
-                                                        <input class="w-100 m-2 newIncomeCategoryInput" name="name" id="name" type="text">                            
+                                                        <input class="w-100 m-2" name="name" id="name" type="text">                            
                                                 </div>
 
                                                 <div class="modal-footer">
@@ -61,7 +61,7 @@
                                 <div class="m-2 mx-4 fs-5">Email:&nbsp; {{ user.email }} </div>
 
                                 <div class="m-2 mx-4">
-                                    <button type="button" data-bs-toggle="modal" data-bs-target="#changeEmail"><i class="fas fa-edit m-2 edit" title="Edytuj"></i></button>
+                                    <button class="settingButton" type="button" data-bs-toggle="modal" data-bs-target="#changeEmail"><i class="fas fa-edit m-2 edit" title="Edytuj"></i></button>
                                 </div>
 
                                 <!-- Modal Change email -->
@@ -174,13 +174,13 @@
 
                                 <div class="d-flex justify-content-between collapse-body-item">
 
-                                    <div class="m-2 mx-4 fs-5">{{ incomeCategory.name }} </div>
-
                                     {% if incomeCategory.name != "Inne" %}
 
+                                    <div class="m-2 mx-4 fs-5">{{ incomeCategory.name }} </div>
+
                                         <div class="m-2 mx-4">
-                                            <button type="button" data-bs-toggle="modal" data-bs-target="#editIncomeModal{{ loop.index }}"><i class="fas fa-edit m-2 edit" title="Edytuj"></i></button>
-                                            <button type="button" data-bs-toggle="modal" data-bs-target="#deleteIncomeModal{{ loop.index }}"><i class="far fa-trash-alt m-2 edit" title="Usuń kategorię"></i></button>
+                                            <button class="settingButton" type="button" data-bs-toggle="modal" data-bs-target="#editIncomeModal{{ loop.index }}"><i class="fas fa-edit m-2 edit" title="Edytuj"></i></button>
+                                            <button class="settingButton" type="button" data-bs-toggle="modal" data-bs-target="#deleteIncomeModal{{ loop.index }}"><i class="far fa-trash-alt m-2 edit" title="Usuń kategorię"></i></button>
                                         </div>
 
                                         <!-- Modal Edit Income Category -->
@@ -194,7 +194,7 @@
                                                         </div>
 
                                                         <div class="modal-body text-start">
-                                                            <label class="w-100 p-2" for="editedName">Podaj nazwę kategorii</label>
+                                                            <label class="w-100 p-2" for="editedName">Podaj nową nazwę kategorii</label>
                                                             <input class="w-100 m-2 newIncomeCategoryInput" name="editedName" id="editedName" type="text">
                                                         </div>
 
@@ -233,6 +233,20 @@
                                             </div>
                                         </div>
                                         <!-- Modal Delete Income Category end-->
+
+                                    {% endif %}
+
+                                </div>
+
+                            {% endfor %}
+
+                            {% for incomeCategory in incomeCategories %}
+
+                                <div class="d-flex justify-content-between collapse-body-item">
+
+                                    {% if incomeCategory.name == "Inne" %}
+
+                                    <div class="m-2 mx-4 fs-5">{{ incomeCategory.name }} </div>
 
                                     {% endif %}
 
@@ -289,13 +303,13 @@
 
                                 <div class="d-flex justify-content-between collapse-body-item">
 
-                                    <div class="m-2 mx-4 fs-5">{{ expenseCategory.name }} </div>
-
                                     {% if expenseCategory.name != "Inne" %}
 
+                                    <div class="m-2 mx-4 fs-5">{{ expenseCategory.name }} </div>
+
                                     <div class="m-2 mx-4">
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#editExpenseModal{{ loop.index }}"><i class="fas fa-edit m-2 edit" title="Edytuj"></i></button>
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#deleteExpenseModal{{ loop.index }}"><i class="far fa-trash-alt m-2 edit" title="Usuń kategorię"></i></button>
+                                        <button class="settingButton" type="button" data-bs-toggle="modal" data-bs-target="#editExpenseModal{{ loop.index }}"><i class="fas fa-edit m-2 edit" title="Edytuj"></i></button>
+                                        <button class="settingButton" type="button" data-bs-toggle="modal" data-bs-target="#deleteExpenseModal{{ loop.index }}"><i class="far fa-trash-alt m-2 edit" title="Usuń kategorię"></i></button>
                                     </div>
 
                                     <!-- Modal Edit Expense Category -->
@@ -357,6 +371,20 @@
 
                             {% endfor %}
 
+                            {% for expenseCategory in expenseCategories %}
+
+                                <div class="d-flex justify-content-between collapse-body-item">
+
+                                    {% if expenseCategory.name == "Inne" %}
+
+                                    <div class="m-2 mx-4 fs-5">{{ expenseCategory.name }} </div>
+
+                                    {% endif %}
+
+                                </div>
+
+                            {% endfor %}
+
                             <div>
                                 <button type="button" class="btn fw-bold m-3 w-75 add-category-btn" data-bs-toggle="modal" data-bs-target="#newExpenseModal">Dodaj nową kategorię</button>
                             </div>
@@ -395,24 +423,92 @@
                 <div class="accordion-item border-0">
                     <h2 class="accordion-header" id="flush-headingThree">
                         <button class="accordion-button collapsed collapseBtn fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                        Sposoby płatności
+                        Sposoby płatości
                         </button>
                     </h2>
 
                     <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
                         <div class="accordion-body m-0 p-0">
-                            
+
                             {% for paymentMethod in paymentMethods %}
 
                                 <div class="d-flex justify-content-between collapse-body-item">
 
-                                    <div class="m-2 mx-4 fs-5">{{ paymentMethod.name }} </div>
-
                                     {% if paymentMethod.name != "Inne" %}
 
+                                    <div class="m-2 mx-4 fs-5">{{ paymentMethod.name }} </div>
+
                                     <div class="m-2 mx-4">
-                                        <i class="far fa-trash-alt m-2 edit" title="Usuń"></i>
+                                        <button class="settingButton" type="button" data-bs-toggle="modal" data-bs-target="#editPaymentModal{{ loop.index }}"><i class="fas fa-edit m-2 edit" title="Edytuj"></i></button>
+                                        <button class="settingButton" type="button" data-bs-toggle="modal" data-bs-target="#deletePaymentModal{{ loop.index }}"><i class="far fa-trash-alt m-2 edit" title="Usuń kategorię"></i></button>
                                     </div>
+
+                                    <!-- Modal Edit Payment Category -->
+                                    <div class="modal fade" id="editPaymentModal{{ loop.index }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editPaymentModal{{ loop.index }}Label" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <form action="/settings/editCategory/payment" method="GET">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="editPaymentModal{{ loop.index }}Label">Edycja kategorii</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+
+                                                    <div class="modal-body text-start">
+                                                        <label class="w-100 p-2" for="editedName">Podaj nazwę kategorii</label>
+                                                        <input class="w-100 m-2 newIncomeCategoryInput" name="editedName" id="editedName" type="text">
+                                                        <label class="w-100"><input type="checkbox" class="limitCheckbox">Ustaw limit</label>
+                                                        <input type="number" class="w-100 limitValue" name="limitValue" min="0" step="0.01" disabled>
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" name="editedCategory" value="{{ paymentCategory.id }}" >
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                                                        <button type="submit" class="btn btn-primary">Zmień</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Modal Edit Payment Category end-->
+
+                                    <!-- Modal Delete Payment Category -->
+                                    <div class="modal fade" id="deletePaymentModal{{ loop.index }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletePaymentModal{{ loop.index }}Label" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <form action="/settings/deleteCategory/payment" method="GET">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="deletePaymentModal{{ loop.index }}Label">Usuń kategorię</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+
+                                                    <div class="modal-body text-start">
+                                                        <p class="w-100 p-2">Czy chcesz usunąć kategorię {{ paymentCategory.name }}?</p>
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" name="deletedCategory" value="{{ paymentCategory.id }}" >
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                                                        <button type="submit" class="btn btn-primary">Usuń</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Modal Delete Payment Category end-->
+
+                                    {% endif %}
+
+                                </div>
+
+                            {% endfor %}
+
+                            {% for expenseCategory in expenseCategories %}
+
+                                <div class="d-flex justify-content-between collapse-body-item">
+
+                                    {% if expenseCategory.name == "Inne" %}
+
+                                    <div class="m-2 mx-4 fs-5">{{ expenseCategory.name }} </div>
 
                                     {% endif %}
 
@@ -421,23 +517,23 @@
                             {% endfor %}
 
                             <div>
-                                <button type="button" class="btn fw-bold m-3 w-75 add-category-btn" data-bs-toggle="modal" data-bs-target="#newPaymentModal">Dodaj nową kategorię</button>
+                                <button type="button" class="btn fw-bold m-3 w-75 add-category-btn" data-bs-toggle="modal" data-bs-target="#newExpenseModal">Dodaj nową kategorię</button>
                             </div>
 
-                            <!-- Modal Add payment methods -->
-                            <div class="modal fade" id="newPaymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newPaymentModalLabel" aria-hidden="true">
+                            <!-- Modal Add Expense -->
+                            <div class="modal fade" id="newExpenseModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newExpenseModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
-                                        <form action="/settings/addCategory/payment" method="GET">
+                                        <form action="/settings/addCategory/expense" method="GET">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="newPaymentModalLabel">Nowa kategoria</h5>
+                                                <h5 class="modal-title" id="newExpenseModalLabel">Nowa kategoria</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
 
                                             <div class="modal-body text-start">
                                                 
                                                     <label class="w-100 p-2" for="newCategory">Podaj nazwę nowej kategorii</label>
-                                                    <input class="w-100 m-2 newPaymentCategoryInput" name="newCategory" id="newCategory" type="text">
+                                                    <input class="w-100 m-2 newExpenseCategoryInput" name="newCategory" id="newCategory" type="text">
                                                     <p class="repeatedCategory"></p>
                                                 
                                             </div>
@@ -450,7 +546,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Modal Add payment methods end -->
+                            <!-- Modal Add Expense end -->
                         </div>
                     </div>
                 </div>
