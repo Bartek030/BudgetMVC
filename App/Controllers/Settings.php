@@ -42,7 +42,13 @@ class Settings extends Authenticated {
         $newCategory = new Categories($_GET);
         $operation = $this -> route_params['operation'];
 
-        $newCategory -> addCategoryToDatabase($operation, $_SESSION['user_id']);
+        if($newCategory -> addCategoryToDatabase($operation, $_SESSION['user_id'])) {
+            View::renderTemplate('Settings/newCategorySuccess.html');
+        } else {
+            View::renderTemplate('Settings/newCategoryFail.html', [
+                'category' => $newCategory
+            ]);
+        }
     }
 
     /**

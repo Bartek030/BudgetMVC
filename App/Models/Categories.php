@@ -105,6 +105,11 @@ class Categories extends \Core\Model {
      * @return boolean true if success, false otherwise
      */
     public function addCategoryToDatabase($operation, $userID) {
+        if($this -> newCategory == '') {
+            $this -> errors[] = 'Nie podano nazwy kategorii!';
+        }
+
+        if(empty($this -> errors)) {
         $name = ucfirst($this -> newCategory);
             
         if($operation == 'income') {
@@ -118,7 +123,6 @@ class Categories extends \Core\Model {
                     VALUES(NULL, :userID, :name)';
         }
 
-        if(!empty($name)) {
             $db = static::getDB();
             $stmt = $db -> prepare($sql);
 
