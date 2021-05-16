@@ -5,11 +5,18 @@ namespace App\Models;
 use PDO;
 
 /**
- * Remembered login model
+ * Categories model
  * 
  * PHP version 7.0
  */
 class Categories extends \Core\Model {
+    /**
+     * Error messages
+     * 
+     * @var array
+     */
+    public $errors = [];
+
     /**
      * Class contructor
      * 
@@ -26,7 +33,7 @@ class Categories extends \Core\Model {
     /**
      * Get income categories assigned to user
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return array Array of categories assigned to user
      */
@@ -46,14 +53,14 @@ class Categories extends \Core\Model {
     }
 
     /**
-     * Get income categories assigned to user
+     * Get expense categories assigned to user
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return array Array of categories assigned to user
      */
     public static function getExpenseCategories($userID) {
-        $sql = 'SELECT id, name
+        $sql = 'SELECT id, name, expense_limit
                 FROM expenses_category_assigned_to_users as exp
                 WHERE exp.user_id = :userID';
 
@@ -68,9 +75,9 @@ class Categories extends \Core\Model {
     }
 
     /**
-     * Get income categories assigned to user
+     * Get payment methods assigned to user
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return array Array of categories assigned to user
      */
@@ -92,26 +99,30 @@ class Categories extends \Core\Model {
     /**
      * Add category to the database
      * 
-     * @param string operation type
-     * @param int user ID
+     * @param string $operation operation type
+     * @param int $userID user ID
      * 
      * @return boolean true if success, false otherwise
      */
     public function addCategoryToDatabase($operation, $userID) {
-        $name = ucfirst($this -> newCategory);
-            
-        if($operation == 'income') {
-            $sql = 'INSERT INTO incomes_category_assigned_to_users
-                    VALUES(NULL, :userID, :name)';
-        } else if($operation == 'expense') {
-            $sql = 'INSERT INTO expenses_category_assigned_to_users
-                    VALUES(NULL, :userID, :name, NULL)';
-        } else {
-            $sql = 'INSERT INTO payment_methods_assigned_to_users
-                    VALUES(NULL, :userID, :name)';
+        if($this -> newCategory == '') {
+            $this -> errors[] = 'Nie podano nazwy kategorii!';
         }
 
-        if(!empty($name)) {
+        if(empty($this -> errors)) {
+            $name = ucfirst($this -> newCategory);
+                
+            if($operation == 'income') {
+                $sql = 'INSERT INTO incomes_category_assigned_to_users
+                        VALUES(NULL, :userID, :name)';
+            } else if($operation == 'expense') {
+                $sql = 'INSERT INTO expenses_category_assigned_to_users
+                        VALUES(NULL, :userID, :name, NULL)';
+            } else {
+                $sql = 'INSERT INTO payment_methods_assigned_to_users
+                        VALUES(NULL, :userID, :name)';
+            }
+
             $db = static::getDB();
             $stmt = $db -> prepare($sql);
 
@@ -122,11 +133,63 @@ class Categories extends \Core\Model {
         }
         return false;
     }
+
+     /**
+     * Edit category in database
+     * 
+     * @param string $operation operation type
+     * @param int $userID user ID
+     * 
+     * @return boolean true if success, false otherwise
+     */
+    public function editCategoryInDatabase($operation, $userID) {
+        if($this -> editedName == '') {
+            $this -> errors[] = 'Nie podano nazwy kategorii!';
+        }
+        
+        if($operation == 'income') {
+            $sql = 'UPDATE incomes_category_assigned_to_users
+                    SET name = :editedName
+                    WHERE id = :categoryID';
+        } else if($operation == 'expense') {
+            
+            if (isset($this -> limitValue)) {
+                $sql = 'UPDATE  expenses_category_assigned_to_users
+                        SET name = :editedName,
+                            expense_limit = :expense_limit
+                        WHERE id = :categoryID';
+            } else {
+                $sql = 'UPDATE expenses_category_assigned_to_users
+                        SET name = :editedName,
+                        expense_limit = NULL
+                        WHERE id = :categoryID';
+            }
+        } else {
+            $sql = 'UPDATE payment_methods_assigned_to_users
+                    SET name = :editedName
+                    WHERE id = :categoryID';
+        }
+
+        if(empty($this -> errors)) {
+            $db = static::getDB();
+            $stmt = $db -> prepare($sql);
+
+            $stmt -> bindValue(':editedName', $this -> editedName, PDO::PARAM_STR);
+            $stmt -> bindValue(':categoryID', $this -> editedCategory, PDO::PARAM_INT);
+            if (isset($this -> limitValue)) {
+                $stmt -> bindValue(':expense_limit', $this -> limitValue, PDO::PARAM_STR);
+            }
+
+            return $stmt -> execute();
+        }
+        return false;
+    }
+
     /**
      * Delete category from the database
      * 
-     * @param string operation type
-     * @param int user ID
+     * @param string $operation operation type
+     * @param int $userID user ID
      * 
      * @return boolean true if success, false otherwise
      */
@@ -154,13 +217,14 @@ class Categories extends \Core\Model {
 
             return $stmt -> execute();
         }
+        return false;
     }
 
     /**
      * Get ID of other category assigned to the given type of operation
      * 
-     * @param string operation type
-     * @param int user ID
+     * @param string $operation operation type
+     * @param int $userID user ID
      * 
      * @return int other category ID
      */
@@ -196,10 +260,10 @@ class Categories extends \Core\Model {
     /**
      * Change ID of deleted category to ID of other category
      * 
-     * @param string operation type
-     * @param int ID of deleted category
+     * @param string $operation operation type
+     * @param int $otherCategoryId ID of deleted category
      * 
-     * @return boolean true if success, false otherwise
+     * @return mixed true if success, NULL otherwise
      */
     protected function changeCategoryId($operation, $otherCategoryId) {
         if($operation == 'income') {
@@ -228,7 +292,7 @@ class Categories extends \Core\Model {
     /**
      * Clear operation datas, assigned to user
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return void
      */
@@ -240,7 +304,7 @@ class Categories extends \Core\Model {
     /**
      * Clear income operation datas, assigned to user
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return void
      */
@@ -260,7 +324,7 @@ class Categories extends \Core\Model {
     /**
      * Clear expense operation datas, assigned to user
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return void
      */
@@ -280,7 +344,7 @@ class Categories extends \Core\Model {
     /**
      * Delete all users operation datas from database
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return void
      */
@@ -295,7 +359,7 @@ class Categories extends \Core\Model {
     /**
      * Delete user income categories from database
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return void
      */
@@ -315,7 +379,7 @@ class Categories extends \Core\Model {
     /**
      * Delete user expense categories from database
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return void
      */
@@ -335,7 +399,7 @@ class Categories extends \Core\Model {
     /**
      * Delete user payment methods from database
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
      * @return void
      */
@@ -355,9 +419,9 @@ class Categories extends \Core\Model {
     /**
      * Return expense summary for every category
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
-     * @return void
+     * @return array Array of expense summary for every category
      */
     public static function getExpenseSummary($userID) {
         

@@ -17,3 +17,13 @@ $.validator.addMethod('validPassword',
     },
     'Musi zawierać conajmniej 1 literę i 1 liczbę!'
 );
+
+$.validator.addMethod('confirmPassword',
+    function(value, element, param) {
+        if($('#password').val() != $('#repeatedPassword').val()) {
+            return false;
+        }
+        return true;
+    },
+    'Podane hasła muszą być identyczne!'
+);

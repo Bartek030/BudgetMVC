@@ -5,7 +5,6 @@ $(document).ready(function() {
         fetch(url)
         .then(expenseTable => expenseTable.json())
         .then(expenseTable => {
-            console.log(expenseTable);
             let category = $(this).children('option:selected').val();
             expenseTable.forEach(element => {
                 if(element['name'] == category) {

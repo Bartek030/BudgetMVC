@@ -4,9 +4,10 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Models\Operation;
+use \App\Models\Categories;
 
 /**
- * Add an income to the database into income table
+ * Income controller
  * 
  * PHP version 7.0
  */
@@ -17,7 +18,10 @@ class Income extends Authenticated {
      * @return void
      */
     public function newAction() {
-        View::renderTemplate('Income/new.html');
+        $incomeCategories = Categories::getIncomeCategories($_SESSION['user_id']);
+        View::renderTemplate('Income/new.html', [
+            'incomeCategories' => $incomeCategories
+        ]);
     }
 
     /**
@@ -31,8 +35,10 @@ class Income extends Authenticated {
         if($income -> saveIncome($_SESSION['user_id'])) {
             $this -> redirect('/income/success');
         } else {
+            $incomeCategories = Categories::getIncomeCategories($_SESSION['user_id']);
             View::renderTemplate('Income/new.html',[
-                'income' => $income
+                'income' => $income,
+                'incomeCategories' => $incomeCategories
             ]);
         }
     }

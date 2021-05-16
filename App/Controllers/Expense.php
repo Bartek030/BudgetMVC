@@ -7,7 +7,7 @@ use \App\Models\Operation;
 use \App\Models\Categories;
 
 /**
- * Add an expense to the database into expense table
+ * Expense controller
  * 
  * PHP version 7.0
  */
@@ -33,12 +33,16 @@ class Expense extends Authenticated {
      */
     public function createAction() {
         $expense = new Operation($_POST);
-
+        
         if($expense -> saveExpense($_SESSION['user_id'])) {
             $this -> redirect('/expense/success');
         } else {
+            $expenseCategories = Categories::getExpenseCategories($_SESSION['user_id']);
+            $paymentMethods = Categories::getPaymentMethods($_SESSION['user_id']);
             View::renderTemplate('Expense/new.html',[
-                'expense' => $expense
+                'expense' => $expense,
+                'expenseCategories' => $expenseCategories,
+                'paymentMethods' => $paymentMethods
             ]);
         }
     }

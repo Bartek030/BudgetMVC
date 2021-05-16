@@ -72,3 +72,13 @@
 .edit:hover {
     cursor: pointer;
 }
+
+.settingButton {
+    background-color: #444444 ;
+    color: white;
+    border-radius: 3px;
+}
+
+.modal {
+    color: black;
+}

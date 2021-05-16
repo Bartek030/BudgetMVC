@@ -147,7 +147,7 @@ class User extends \Core\Model
     /**
      * Get user ID
      * 
-     * @param string user's email
+     * @param string $email user's email
      * 
      * @return int User ID
      */
@@ -451,35 +451,15 @@ class User extends \Core\Model
     }
 
     /**
-     * Delete user from database
-     * 
-     * @param int user ID
-     * 
-     * @return void
-     */
-    public static function deleteUserOperationData($userID) {   
-        $sql = 'DELETE 
-                FROM users
-                WHERE id = :userID';
-
-        $db = static::getDB();
-        $stmt = $db -> prepare($sql);
-
-        $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
-
-        $stmt -> execute();
-    }
-
-    /**
      * Change user name in database
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
-     * @return void
+     * @return boolean true if success, false otherwise
      */
     public function changeUserName($userID) {  
         if($this -> name == '') {
-            $this -> errors[] = 'Imię jest wymagane!';
+            $this -> errors[] = 'Aby zmienić imię, musisz je najpierw wpisać!';
         }
 
         if(empty($this -> errors)) {
@@ -490,7 +470,7 @@ class User extends \Core\Model
             $db = static::getDB();
             $stmt = $db -> prepare($sql);
 
-            $stmt -> bindValue(':name', $name, PDO::PARAM_STR);
+            $stmt -> bindValue(':name', $this -> name, PDO::PARAM_STR);
             $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
 
             return $stmt -> execute();
@@ -501,9 +481,9 @@ class User extends \Core\Model
     /**
      * Change user email in database
      * 
-     * @param int user ID
+     * @param int $userID user ID
      * 
-     * @return void
+     * @return boolean true if success, false otherwise
      */
     public function changeUserEmail($userID) {
 
@@ -511,7 +491,7 @@ class User extends \Core\Model
             $this -> errors[] = 'Niepoprawny adres e-mail!';
         }
 
-        if(static::emailExists($this -> email, $this -> id ?? null)) {
+        if(static::emailExists($this -> email, $userID ?? null)) {
             $this -> errors[] = 'E-mail jest już przypisany do innego konta!';
         }
 
@@ -537,5 +517,25 @@ class User extends \Core\Model
             return $stmt -> execute();
         }
         return false;
+    }
+
+    /**
+     * Delete user from database
+     * 
+     * @param int $userID user ID
+     * 
+     * @return void
+     */
+    public static function deleteUserAccount($userID) {
+        $sql = 'DELETE 
+                FROM users
+                WHERE id = :userID';
+
+        $db = static::getDB();
+        $stmt = $db -> prepare($sql);
+
+        $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
+
+        $stmt -> execute();
     }
 }

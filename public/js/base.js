@@ -3,7 +3,15 @@ $(document).ready(function() {
 	setDate();
 
 	$('.chatButton').click(function() {
-		$("#myForm").toggle();
+		$("#messageBox").toggle();
+	});
+	
+	$('.dropdown').on('show.bs.dropdown', function() {
+		$(this).find('.dropdown-menu').first().stop(true, true).slideDown();
+	});
+	
+	$('.dropdown').on('hide.bs.dropdown', function() {
+		$(this).find('.dropdown-menu').first().stop(true, true).slideUp();
 	});
 });
 
@@ -45,6 +53,4 @@ let setDate = function() {
 	$('#operationDate').val(year + '-' + month + '-' + day);
 }
 
-/*let toggleForm = function() {
-	$("#myForm").toggle();
-}*/
+

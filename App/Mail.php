@@ -51,7 +51,7 @@ use \PHPMailer\PHPMailer\Exception;
          $mail->Subject = $subject;
          $mail->Body    = $html;
          $mail->AltBody = $text;
-     
+        
          $mail->send();
          //echo 'Message has been sent';
      } catch (Exception $e) {

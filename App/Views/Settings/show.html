@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Budżet osobisty{% endblock %}
+{% block title %}Ustawienia{% endblock %}
 
 {% block style %}
     <link rel="stylesheet" href="/css/settings.css">
@@ -26,7 +26,7 @@
                                 <div class="m-2 mx-4 fs-5">Imię:&nbsp; {{ user.name }} </div>
 
                                 <div class="m-2 mx-4">
-                                    <button type="button" data-bs-toggle="modal" data-bs-target="#changeName"><i class="fas fa-edit m-2 edit" title="Edytuj"></i></button>
+                                    <button class="settingButton" type="button" data-bs-toggle="modal" data-bs-target="#changeName"><i class="fas fa-edit m-2 edit" title="Edytuj"></i></button>
                                 </div>
 
                                 <!-- Modal Change name -->
@@ -41,7 +41,7 @@
 
                                                 <div class="modal-body text-start">                                             
                                                         <label class="w-100 p-2" for="name">Podaj nowe imię:</label>
-                                                        <input class="w-100 m-2 newIncomeCategoryInput" name="name" id="name" type="text">                            
+                                                        <input class="w-100 m-2" name="name" id="name" type="text">                            
                                                 </div>
 
                                                 <div class="modal-footer">
@@ -61,7 +61,7 @@
                                 <div class="m-2 mx-4 fs-5">Email:&nbsp; {{ user.email }} </div>
 
                                 <div class="m-2 mx-4">
-                                    <button type="button" data-bs-toggle="modal" data-bs-target="#changeEmail"><i class="fas fa-edit m-2 edit" title="Edytuj"></i></button>
+                                    <button class="settingButton" type="button" data-bs-toggle="modal" data-bs-target="#changeEmail"><i class="fas fa-edit m-2 edit" title="Edytuj"></i></button>
                                 </div>
 
                                 <!-- Modal Change email -->
@@ -76,7 +76,7 @@
 
                                                 <div class="modal-body text-start">                                             
                                                     <label class="w-100 p-2" for="email">Podaj nowy adres email:</label>
-                                                    <input class="w-100 m-2 newIncomeCategoryInput" name="email" id="email" type="text">
+                                                    <input class="w-100 m-2" name="email" id="email" type="text">
                                                     <input type="hidden" name="name" value="{{ user.name }}">                    
                                                 </div>
 
@@ -174,21 +174,49 @@
 
                                 <div class="d-flex justify-content-between collapse-body-item">
 
-                                    <div class="m-2 mx-4 fs-5">{{ incomeCategory.name }} </div>
-
                                     {% if incomeCategory.name != "Inne" %}
 
+                                    <div class="m-2 mx-4 fs-5">{{ incomeCategory.name }} </div>
+
                                         <div class="m-2 mx-4">
-                                            <button type="button" data-bs-toggle="modal" data-bs-target="#deleteIncomeModal"><i class="far fa-trash-alt m-2 edit" title="Usuń kategorię"></i></button>
+                                            <button class="settingButton" type="button" data-bs-toggle="modal" data-bs-target="#editIncomeModal{{ loop.index }}"><i class="fas fa-edit m-2 edit" title="Edytuj"></i></button>
+                                            <button class="settingButton" type="button" data-bs-toggle="modal" data-bs-target="#deleteIncomeModal{{ loop.index }}"><i class="far fa-trash-alt m-2 edit" title="Usuń kategorię"></i></button>
                                         </div>
 
+                                        <!-- Modal Edit Income Category -->
+                                        <div class="modal fade" id="editIncomeModal{{ loop.index }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editIncomeModal{{ loop.index }}Label" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <form action="/settings/editCategory/income" method="GET">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="editIncomeModal{{ loop.index }}Label">Edycja kategorii</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+
+                                                        <div class="modal-body text-start">
+                                                            <label class="w-100 p-2" for="editedIncomeName{{ loop.index }}">Podaj nową nazwę kategorii</label>
+                                                            <input class="w-100 px-2 incomeCategoryInput" name="editedName" id="editedIncomeName{{ loop.index }}" type="text">
+                                                            <p class="errorMessageBox"></p>
+                                                        </div>
+
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" name="editedCategory" value="{{ incomeCategory.id }}" >
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                                                            <button type="submit" class="btn btn-primary">Zmień</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Modal Edit Income Category end-->
+
                                         <!-- Modal Delete Income Category -->
-                                        <div class="modal fade" id="deleteIncomeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteIncomeModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="deleteIncomeModal{{ loop.index }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteIncomeModal{{ loop.index }}Label" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <form action="/settings/deleteCategory/income" method="GET">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="deleteIncomeModalLabel">Usuń kategorię</h5>
+                                                            <h5 class="modal-title" id="deleteIncomeModal{{ loop.index }}Label">Usuń kategorię</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
 
@@ -213,11 +241,25 @@
 
                             {% endfor %}
 
+                            {% for incomeCategory in incomeCategories %}
+
+                                <div class="d-flex justify-content-between collapse-body-item">
+
+                                    {% if incomeCategory.name == "Inne" %}
+
+                                    <div class="m-2 mx-4 fs-5">{{ incomeCategory.name }} </div>
+
+                                    {% endif %}
+
+                                </div>
+
+                            {% endfor %}
+
                             <div>
                                 <button type="button" class="btn fw-bold m-3 w-75 add-category-btn" data-bs-toggle="modal" data-bs-target="#newIncomeModal">Dodaj nową kategorię</button>
                             </div>
 
-                            <!-- Modal Income -->
+                            <!-- Modal Add Income -->
                             <div class="modal fade" id="newIncomeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newIncomeModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -229,9 +271,9 @@
 
                                             <div class="modal-body text-start">
                                                 
-                                                    <label class="w-100 p-2" for="newCategory">Podaj nazwę nowej kategorii</label>
-                                                    <input class="w-100 m-2 newIncomeCategoryInput" name="newCategory" id="newCategory" type="text">
-                                                    <p class="repeatedCategory"></p>
+                                                    <label class="w-100 p-2" for="newIncomeCategory">Podaj nazwę nowej kategorii</label>
+                                                    <input class="w-100 px-2 incomeCategoryInput" name="newCategory" id="newIncomeCategory" type="text">
+                                                    <p class="errorMessageBox"></p>
                                                 
                                             </div>
 
@@ -243,7 +285,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Modal Income end-->
+                            <!-- Modal Add Income end-->
                         </div>
                     </div>
                 </div>
@@ -261,15 +303,92 @@
                             {% for expenseCategory in expenseCategories %}
 
                                 <div class="d-flex justify-content-between collapse-body-item">
-
-                                    <div class="m-2 mx-4 fs-5">{{ expenseCategory.name }} </div>
-
                                     {% if expenseCategory.name != "Inne" %}
 
-                                    <div class="m-2 mx-4">
-                                        <i class="fas fa-edit m-2 edit" title="Ustaw limit"></i>
-                                        <i class="far fa-trash-alt m-2 edit" title="Usuń"></i>
+                                    <div class="m-0 p-0 text-start">
+                                        <div class="m-2 mx-4 fs-5">{{ expenseCategory.name }} </div>
+
+                                        {% if expenseCategory.expense_limit != NULL %}
+
+                                            <div class="m-2 mx-4 fs-6">Limit: {{ expenseCategory.expense_limit }} </div>
+
+                                        {% endif %}
+
                                     </div>
+
+                                    <div class="mx-4 my-auto">
+                                        <button class="settingButton" type="button" data-bs-toggle="modal" data-bs-target="#editExpenseModal{{ loop.index }}"><i class="fas fa-edit m-2 edit" title="Edytuj"></i></button>
+                                        <button class="settingButton" type="button" data-bs-toggle="modal" data-bs-target="#deleteExpenseModal{{ loop.index }}"><i class="far fa-trash-alt m-2 edit" title="Usuń kategorię"></i></button>
+                                    </div>
+
+                                    <!-- Modal Edit Expense Category -->
+                                    <div class="modal fade" id="editExpenseModal{{ loop.index }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editExpenseModal{{ loop.index }}Label" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <form action="/settings/editCategory/expense" method="GET">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="editExpenseModal{{ loop.index }}Label">Edycja kategorii</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+
+                                                    <div class="modal-body text-start">
+                                                        <label class="w-100 p-2" for="editedExpenseName{{ loop.index }}">Podaj nazwę kategorii</label>
+                                                        <input class="w-100 px-2 expenseCategoryInput" name="editedName" id="editedExpenseName{{ loop.index }}" type="text" value="{{ expenseCategory.name }}">
+                                                        <p class="errorMessageBox"></p>
+
+                                                        <label class="w-100"><input type="checkbox" class="limitCheckbox" id="limitCheckBox{{ loop.index }}">&nbsp; Ustaw limit</label>
+                                                        <input type="number" class="w-100 limitValue" name="limitValue" id="limitValue{{ loop.index }}" min="0" step="0.01" value="{{ expenseCategory.expense_limit }}" disabled>
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" name="editedCategory" value="{{ expenseCategory.id }}" >
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                                                        <button type="submit" class="btn btn-primary">Zmień</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Modal Edit Expense Category end-->
+
+                                    <!-- Modal Delete Expense Category -->
+                                    <div class="modal fade" id="deleteExpenseModal{{ loop.index }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteExpenseModal{{ loop.index }}Label" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <form action="/settings/deleteCategory/expense" method="GET">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="deleteExpenseModal{{ loop.index }}Label">Usuń kategorię</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+
+                                                    <div class="modal-body text-start">
+                                                        <p class="w-100 p-2">Czy chcesz usunąć kategorię {{ expenseCategory.name }}?</p>
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" name="deletedCategory" value="{{ expenseCategory.id }}" >
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                                                        <button type="submit" class="btn btn-primary">Usuń</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Modal Delete Income Category end-->
+
+                                    {% endif %}
+
+                                </div>
+
+                            {% endfor %}
+
+                            {% for expenseCategory in expenseCategories %}
+
+                                <div class="d-flex justify-content-between collapse-body-item">
+
+                                    {% if expenseCategory.name == "Inne" %}
+
+                                    <div class="m-2 mx-4 fs-5">{{ expenseCategory.name }} </div>
 
                                     {% endif %}
 
@@ -281,7 +400,7 @@
                                 <button type="button" class="btn fw-bold m-3 w-75 add-category-btn" data-bs-toggle="modal" data-bs-target="#newExpenseModal">Dodaj nową kategorię</button>
                             </div>
 
-                            <!-- Modal Expense -->
+                            <!-- Modal Add Expense -->
                             <div class="modal fade" id="newExpenseModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newExpenseModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -293,9 +412,9 @@
 
                                             <div class="modal-body text-start">
                                                 
-                                                    <label class="w-100 p-2" for="newCategory">Podaj nazwę nowej kategorii</label>
-                                                    <input class="w-100 m-2 newExpenseCategoryInput" name="newCategory" id="newCategory" type="text">
-                                                    <p class="repeatedCategory"></p>
+                                                    <label class="w-100 p-2" for="newExpenseCategory">Podaj nazwę nowej kategorii</label>
+                                                    <input class="w-100 px-2 expenseCategoryInput" name="newCategory" id="newExpenseCategory" type="text">
+                                                    <p class="errorMessageBox"></p>
                                                 
                                             </div>
 
@@ -307,7 +426,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Modal Expense end -->
+                            <!-- Modal Add Expense end -->
                         </div>
                     </div>
                 </div>
@@ -315,24 +434,91 @@
                 <div class="accordion-item border-0">
                     <h2 class="accordion-header" id="flush-headingThree">
                         <button class="accordion-button collapsed collapseBtn fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                        Sposoby płatności
+                        Sposoby płatości
                         </button>
                     </h2>
 
                     <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
                         <div class="accordion-body m-0 p-0">
-                            
+
                             {% for paymentMethod in paymentMethods %}
 
                                 <div class="d-flex justify-content-between collapse-body-item">
 
-                                    <div class="m-2 mx-4 fs-5">{{ paymentMethod.name }} </div>
-
                                     {% if paymentMethod.name != "Inne" %}
 
+                                    <div class="m-2 mx-4 fs-5">{{ paymentMethod.name }} </div>
+
                                     <div class="m-2 mx-4">
-                                        <i class="far fa-trash-alt m-2 edit" title="Usuń"></i>
+                                        <button class="settingButton" type="button" data-bs-toggle="modal" data-bs-target="#editPaymentModal{{ loop.index }}"><i class="fas fa-edit m-2 edit" title="Edytuj"></i></button>
+                                        <button class="settingButton" type="button" data-bs-toggle="modal" data-bs-target="#deletePaymentModal{{ loop.index }}"><i class="far fa-trash-alt m-2 edit" title="Usuń kategorię"></i></button>
                                     </div>
+
+                                    <!-- Modal Edit Payment Category -->
+                                    <div class="modal fade" id="editPaymentModal{{ loop.index }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editPaymentModal{{ loop.index }}Label" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <form action="/settings/editCategory/payment" method="GET">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="editPaymentModal{{ loop.index }}Label">Edycja kategorii</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+
+                                                    <div class="modal-body text-start">
+                                                        <label class="w-100 p-2" for="editedPaymentName{{ loop.index }}">Podaj nazwę kategorii</label>
+                                                        <input class="w-100 px-2 paymentCategoryInput" name="editedName" id="editedPaymentName{{ loop.index }}" type="text">
+                                                        <p class="errorMessageBox"></p>   
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" name="editedCategory" value="{{ paymentMethod.id }}" >
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                                                        <button type="submit" class="btn btn-primary">Zmień</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Modal Edit Payment Category end-->
+
+                                    <!-- Modal Delete Payment Category -->
+                                    <div class="modal fade" id="deletePaymentModal{{ loop.index }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletePaymentModal{{ loop.index }}Label" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <form action="/settings/deleteCategory/payment" method="GET">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="deletePaymentModal{{ loop.index }}Label">Usuń kategorię</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+
+                                                    <div class="modal-body text-start">
+                                                        <p class="w-100 p-2">Czy chcesz usunąć kategorię {{ paymentCategory.name }}?</p>
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" name="deletedCategory" value="{{ paymentMethod.id }}" >
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                                                        <button type="submit" class="btn btn-primary">Usuń</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Modal Delete Payment Category end-->
+
+                                    {% endif %}
+
+                                </div>
+
+                            {% endfor %}
+
+                            {% for paymentMethod in paymentMethods %}
+
+                                <div class="d-flex justify-content-between collapse-body-item">
+
+                                    {% if paymentMethod.name == "Inne" %}
+
+                                    <div class="m-2 mx-4 fs-5">{{ paymentMethod.name }} </div>
 
                                     {% endif %}
 
@@ -344,7 +530,7 @@
                                 <button type="button" class="btn fw-bold m-3 w-75 add-category-btn" data-bs-toggle="modal" data-bs-target="#newPaymentModal">Dodaj nową kategorię</button>
                             </div>
 
-                            <!-- Modal payment methods -->
+                            <!-- Modal Add Payment Method -->
                             <div class="modal fade" id="newPaymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newPaymentModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -356,9 +542,9 @@
 
                                             <div class="modal-body text-start">
                                                 
-                                                    <label class="w-100 p-2" for="newCategory">Podaj nazwę nowej kategorii</label>
-                                                    <input class="w-100 m-2 newPaymentCategoryInput" name="newCategory" id="newCategory" type="text">
-                                                    <p class="repeatedCategory"></p>
+                                                    <label class="w-100 p-2" for="newPaymentCategory">Podaj nazwę nowej kategorii</label>
+                                                    <input class="w-100 px-2 paymentCategoryInput" name="newCategory" id="newPaymentCategory" type="text">
+                                                    <p class="errorMessageBox"></p>
                                                 
                                             </div>
 
@@ -370,7 +556,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Modal payment methods end -->
+                            <!-- Modal Add Payment Method end-->
                         </div>
                     </div>
                 </div>

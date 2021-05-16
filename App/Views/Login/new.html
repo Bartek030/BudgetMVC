@@ -2,6 +2,10 @@
 
 {% block title %}Logowanie{% endblock %}
 
+{% block style %}
+    <link rel="stylesheet" href="/css/login.css">   
+{% endblock %}
+
 {% block body %}
 
     <div class="row p-0 m-0"> 
@@ -10,13 +14,13 @@
             <h1 class="h2">Logowanie</h1>
         </div>  
 
-        <form method="POST" action="/login/create">
+        <form method="POST" action="/login/create" id="formLogin">
             <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
                 <label for="email" class="fs-5">Podaj adres e-mail:</label>
                 <input id="email" name="email" type="email" class="form-control mx-auto my-3 userInput" placeholder="adres e-mail" required>
             </div>
 
-            <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
+            <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto mb-4">
                 <label for="password" class="fs-5">Podaj hasło:</label>
                 <input id="password" name="password" type="password" class="form-control mx-auto my-3 userInput" placeholder="hasło" required>
             </div>
@@ -27,37 +31,37 @@
             </div>
             {% endif %}
 
-            <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto row">
-                <div class="checkbox col-6">
-                    <label class="fs-6">
-                        <input class="mx-3" type="checkbox" name="remember_me" {% if remember_me %} checked="checked" {% endif %} /> Zapamiętaj mnie
-                    </label>
-                </div>
-                <div class="form-group col-6 fs-6">
-                    <a href="/password/forgot">Nie pamiętasz hasła?</a>
-                </div>
-            </div>
-            
-           <!-- {% if user.errors is not empty %}
             <div class="form-group text-center col-10 col-md-6 col-lg-4 mx-auto">
-                <p class="errors">Niepoprawne dane:</p>
-                <ul>
-                    {% for error in user.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
+                <label class="fs-5 p-2 pe-4 boxButton">
+                    <input class="mx-3" type="checkbox" name="remember_me" {% if remember_me %} checked="checked" {% endif %} /> Zapamiętaj mnie
+                </label>
             </div>
-            {% endif %}-->
 
             <div class="col-12 text-center py-4">
                 <button type="submit" class="btn fw-bold mx-2 my-2 smallGreenButton">Zaloguj</button>
                 <a href="/"><button type="button" class="btn fw-bold mx-2 my-2 smallRedButton">Powrót</button></a>
             </div>
         </form>
-        <div class="col-12 text-center pb-4">
-            <span class="me-3">Lub jeśli nie masz jeszcze konta: </span>
-            <a href="/signup/new">Zarejestruj się</a>
+
+        <div class="text-center col-12 row m-0 p-0">
+            <div class="text-center col-10 col-md-6 col-lg-4 p-2 mx-auto">
+                <p class="me-3 fs-5">Nie pamiętasz hasła?</p>
+                <a href="/password/forgot"><p class="boxButton fs-5 p-2">Kliknij tutaj aby zresetować</p></a>
+            </div>
+        </div>
+        
+        <div class="text-center col-12 row m-0 p-0">
+            <div class="text-center col-10 col-md-6 col-lg-4 p-2 mx-auto">
+                <p class="me-3 fs-5">Nie masz jeszcze konta?</p>
+                <a href="/signup/new"><p class="boxButton fs-5 p-2">Zarejestruj się</p></a>
+            </div>
         </div>
     </div>
 
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+    <script src="/js/plugin.js"></script>
+    <script src="/js/login.js"></script>
 {% endblock %}

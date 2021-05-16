@@ -8,7 +8,7 @@ use \App\Models\User;
 use \App\Auth;
 
 /**
- * Home controller
+ * Settings controller
  *
  * PHP version 7.0
  */
@@ -42,7 +42,31 @@ class Settings extends Authenticated {
         $newCategory = new Categories($_GET);
         $operation = $this -> route_params['operation'];
 
-        $newCategory -> addCategoryToDatabase($operation, $_SESSION['user_id']);
+        if($newCategory -> addCategoryToDatabase($operation, $_SESSION['user_id'])) {
+            View::renderTemplate('Settings/newCategorySuccess.html');
+        } else {
+            View::renderTemplate('Settings/newCategoryFail.html', [
+                'category' => $newCategory
+            ]);
+        }
+    }
+
+    /**
+     * Edit category data
+     * 
+     * @return void
+     */
+    public function editCategoryAction() {
+        $editedCategory = new Categories($_GET);
+        $operation = $this -> route_params['operation'];
+
+        if($editedCategory -> editCategoryInDatabase($operation, $_SESSION['user_id'])) {
+            View::renderTemplate('Settings/editCategorySuccess.html');
+        } else {
+            View::renderTemplate('Settings/editCategoryFail.html', [
+                'category' => $editedCategory
+            ]);
+        }
     }
 
     /**
@@ -54,7 +78,11 @@ class Settings extends Authenticated {
         $deletedCategory = new Categories($_GET);
         $operation = $this -> route_params['operation'];
 
-        $deletedCategory -> deleteCategoryFromDatabase($operation, $_SESSION['user_id']);
+        if($deletedCategory -> deleteCategoryFromDatabase($operation, $_SESSION['user_id'])) {
+            View::renderTemplate('Settings/deleteCategorySuccess.html');
+        } else {
+            View::renderTemplate('500.html');
+        }
     }
 
     /**
@@ -64,6 +92,7 @@ class Settings extends Authenticated {
      */
     public function clearOperationDataAction() {
         Categories::clearUserDatabase($_SESSION['user_id']);
+        View::renderTemplate('Settings/dataDeleted.html');
     }
 
     /**
@@ -74,6 +103,7 @@ class Settings extends Authenticated {
     public function deleteAccountAction() {
         Categories::deleteUserOperationData($_SESSION['user_id']);
         User::deleteUserAccount($_SESSION['user_id']);
+        View::renderTemplate('Settings/userDeleted.html');
         Auth::logout();
     }
 
@@ -85,9 +115,11 @@ class Settings extends Authenticated {
     public function changeNameAction() {
         $changeName = new User($_POST);
         if($changeName -> changeUserName($_SESSION['user_id'])) {
-
+            View::renderTemplate('Settings/changeNameSuccess.html');
         } else {
-
+            View::renderTemplate('Settings/changeNameFail.html', [
+                'user' => $changeName
+            ]);
         }
     }
 
@@ -100,10 +132,12 @@ class Settings extends Authenticated {
         $changeEmail = new User($_POST);
         if($changeEmail -> changeUserEmail($_SESSION['user_id'])) {
             $changeEmail -> sendActivationEmail();
-
             Auth::logout();
+            View::renderTemplate('Settings/changeEmailSuccess.html');
         } else {
-
+            View::renderTemplate('Settings/changeEmailFail.html', [
+                'user' => $changeEmail
+            ]);
         }
     }
 }

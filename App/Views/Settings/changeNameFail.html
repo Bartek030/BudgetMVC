@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Zmień imię{% endblock %}
+
+{% block body %}
+
+    <div class="row p-0 m-0">
+        <div class="col-12 text-center py-4">
+            <h1 class="h2">Coś poszło nie tak</h1>
+            <p>
+                {% for error in user.errors %}
+                    {{ error }}
+                {% endfor %}
+            </p>
+        </div>
+        
+        <div class="col-12 py-2 text-center">
+            <a href="/settings/show"><button type="button" class="btn fw-bold m-3 smallRedButton">Powrót</button></a>
+        </div>
+    </div>
+
+{% endblock %}
