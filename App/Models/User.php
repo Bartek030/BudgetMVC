@@ -503,7 +503,7 @@ class User extends \Core\Model
      * 
      * @param int user ID
      * 
-     * @return void
+     * @return boolean true if success, false otherwise
      */
     public function changeUserEmail($userID) {
 
@@ -511,7 +511,7 @@ class User extends \Core\Model
             $this -> errors[] = 'Niepoprawny adres e-mail!';
         }
 
-        if(static::emailExists($this -> email, $this -> id ?? null)) {
+        if(static::emailExists($this -> email, $userID ?? null)) {
             $this -> errors[] = 'E-mail jest już przypisany do innego konta!';
         }
 

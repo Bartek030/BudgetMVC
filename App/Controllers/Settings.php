@@ -114,10 +114,12 @@ class Settings extends Authenticated {
         $changeEmail = new User($_POST);
         if($changeEmail -> changeUserEmail($_SESSION['user_id'])) {
             $changeEmail -> sendActivationEmail();
-
             Auth::logout();
+            View::renderTemplate('Settings/changeEmailSuccess.html');
         } else {
-
+            View::renderTemplate('Settings/changeEmailFail.html', [
+                'user' => $changeEmail
+            ]);
         }
     }
 }
