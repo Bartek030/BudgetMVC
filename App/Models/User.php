@@ -475,11 +475,11 @@ class User extends \Core\Model
      * 
      * @param int user ID
      * 
-     * @return void
+     * @return boolean true if success, false otherwise
      */
     public function changeUserName($userID) {  
         if($this -> name == '') {
-            $this -> errors[] = 'Imię jest wymagane!';
+            $this -> errors[] = 'Aby zmienić imię, musisz je najpierw wpisać!';
         }
 
         if(empty($this -> errors)) {
@@ -490,7 +490,7 @@ class User extends \Core\Model
             $db = static::getDB();
             $stmt = $db -> prepare($sql);
 
-            $stmt -> bindValue(':name', $name, PDO::PARAM_STR);
+            $stmt -> bindValue(':name', $this -> name, PDO::PARAM_STR);
             $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
 
             return $stmt -> execute();

@@ -97,9 +97,11 @@ class Settings extends Authenticated {
     public function changeNameAction() {
         $changeName = new User($_POST);
         if($changeName -> changeUserName($_SESSION['user_id'])) {
-
+            View::renderTemplate('Settings/changeNameSuccess.html');
         } else {
-
+            View::renderTemplate('Settings/changeNameFail.html', [
+                'user' => $changeName
+            ]);
         }
     }
 
