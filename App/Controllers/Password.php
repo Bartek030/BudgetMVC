@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Models\User;
+use \App\Auth;
 
 /**
  * Password controller
@@ -58,6 +59,7 @@ class Password extends \Core\Controller {
 
         if($user -> resetPassword($_POST['password'])) {
             View::renderTemplate('Password/reset_success.html');
+            Auth::logout();
         } else {
             View::renderTemplate('Password/reset.html', [
                 'token' => $token,
