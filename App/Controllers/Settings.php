@@ -54,7 +54,13 @@ class Settings extends Authenticated {
         $editedCategory = new Categories($_GET);
         $operation = $this -> route_params['operation'];
 
-        $editedCategory -> editCategoryInDatabase($operation);
+        if($editedCategory -> editCategoryInDatabase($operation, $_SESSION['user_id'])) {
+            View::renderTemplate('Settings/editCategorySuccess.html');
+        } else {
+            View::renderTemplate('Settings/editCategoryFail.html', [
+                'category' => $editedCategory
+            ]);
+        }
     }
 
     /**

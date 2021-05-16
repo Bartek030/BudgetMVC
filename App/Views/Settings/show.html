@@ -194,8 +194,9 @@
                                                         </div>
 
                                                         <div class="modal-body text-start">
-                                                            <label class="w-100 p-2" for="editedName">Podaj nową nazwę kategorii</label>
-                                                            <input class="w-100 m-2 newIncomeCategoryInput" name="editedName" id="editedName" type="text">
+                                                            <label class="w-100 p-2" for="editedIncomeName">Podaj nową nazwę kategorii</label>
+                                                            <input class="w-100 m-2 incomeCategoryInput" name="editedName" id="editedIncomeName" type="text">
+                                                            <p class="errorMessageBox"></p>
                                                         </div>
 
                                                         <div class="modal-footer">
@@ -270,9 +271,9 @@
 
                                             <div class="modal-body text-start">
                                                 
-                                                    <label class="w-100 p-2" for="newCategory">Podaj nazwę nowej kategorii</label>
-                                                    <input class="w-100 m-2 newIncomeCategoryInput" name="newCategory" id="newCategory" type="text">
-                                                    <p class="repeatedCategory"></p>
+                                                    <label class="w-100 p-2" for="newIncomeCategory">Podaj nazwę nowej kategorii</label>
+                                                    <input class="w-100 m-2 incomeCategoryInput" name="newCategory" id="newIncomeCategory" type="text">
+                                                    <p class="errorMessageBox"></p>
                                                 
                                             </div>
 
@@ -323,8 +324,10 @@
                                                     </div>
 
                                                     <div class="modal-body text-start">
-                                                        <label class="w-100 p-2" for="editedName">Podaj nazwę kategorii</label>
-                                                        <input class="w-100 m-2 newIncomeCategoryInput" name="editedName" id="editedName" type="text">
+                                                        <label class="w-100 p-2" for="editedExpenseName">Podaj nazwę kategorii</label>
+                                                        <input class="w-100 m-2 expenseCategoryInput" name="editedName" id="editedExpenseName" type="text">
+                                                        <p class="errorMessageBox"></p>
+
                                                         <label class="w-100"><input type="checkbox" class="limitCheckbox">Ustaw limit</label>
                                                         <input type="number" class="w-100 limitValue" name="limitValue" min="0" step="0.01" disabled>
                                                     </div>
@@ -401,9 +404,9 @@
 
                                             <div class="modal-body text-start">
                                                 
-                                                    <label class="w-100 p-2" for="newCategory">Podaj nazwę nowej kategorii</label>
-                                                    <input class="w-100 m-2 newExpenseCategoryInput" name="newCategory" id="newCategory" type="text">
-                                                    <p class="repeatedCategory"></p>
+                                                    <label class="w-100 p-2" for="newExpenseCategory">Podaj nazwę nowej kategorii</label>
+                                                    <input class="w-100 m-2 expenseCategoryInput" name="newCategory" id="newExpenseCategory" type="text">
+                                                    <p class="errorMessageBox"></p>
                                                 
                                             </div>
 
@@ -454,10 +457,9 @@
                                                     </div>
 
                                                     <div class="modal-body text-start">
-                                                        <label class="w-100 p-2" for="editedName">Podaj nazwę kategorii</label>
-                                                        <input class="w-100 m-2 newIncomeCategoryInput" name="editedName" id="editedName" type="text">
-                                                        <label class="w-100"><input type="checkbox" class="limitCheckbox">Ustaw limit</label>
-                                                        <input type="number" class="w-100 limitValue" name="limitValue" min="0" step="0.01" disabled>
+                                                        <label class="w-100 p-2" for="editedPaymentName">Podaj nazwę kategorii</label>
+                                                        <input class="w-100 m-2 paymentCategoryInput" name="editedName" id="editedPaymentName" type="text">
+                                                        <p class="errorMessageBox"></p>   
                                                     </div>
 
                                                     <div class="modal-footer">
@@ -520,7 +522,7 @@
                                 <button type="button" class="btn fw-bold m-3 w-75 add-category-btn" data-bs-toggle="modal" data-bs-target="#newExpenseModal">Dodaj nową kategorię</button>
                             </div>
 
-                            <!-- Modal Add Expense -->
+                            <!-- Modal Add Payment Category -->
                             <div class="modal fade" id="newExpenseModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newExpenseModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -532,9 +534,9 @@
 
                                             <div class="modal-body text-start">
                                                 
-                                                    <label class="w-100 p-2" for="newCategory">Podaj nazwę nowej kategorii</label>
-                                                    <input class="w-100 m-2 newExpenseCategoryInput" name="newCategory" id="newCategory" type="text">
-                                                    <p class="repeatedCategory"></p>
+                                                    <label class="w-100 p-2" for="newPaymentCategory">Podaj nazwę nowej kategorii</label>
+                                                    <input class="w-100 m-2 paymentCategoryInput" name="newCategory" id="newPaymentCategory" type="text">
+                                                    <p class="errorMessageBox"></p>
                                                 
                                             </div>
 
@@ -546,7 +548,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Modal Add Expense end -->
+                            <!-- Modal Add Payment Category end -->
                         </div>
                     </div>
                 </div>

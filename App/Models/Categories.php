@@ -11,6 +11,13 @@ use PDO;
  */
 class Categories extends \Core\Model {
     /**
+     * Error messages
+     * 
+     * @var array
+     */
+    public $errors = [];
+
+    /**
      * Class contructor
      * 
      * @param array $data Initial property values
@@ -131,7 +138,11 @@ class Categories extends \Core\Model {
      * 
      * @return boolean true if success, false otherwise
      */
-    public function editCategoryInDatabase($operation) {
+    public function editCategoryInDatabase($operation, $userID) {
+        if($this -> editedName == '') {
+            $this -> errors[] = 'Nie podano nazwy kategorii!';
+        }
+
         if($operation == 'income') {
             $sql = 'UPDATE incomes_category_assigned_to_users
                     SET name = :editedName
@@ -146,13 +157,16 @@ class Categories extends \Core\Model {
                     WHERE payment_methods_assigned_to_users.id = :categoryID';
         }
 
-        $db = static::getDB();
-        $stmt = $db -> prepare($sql);
+        if(empty($this -> errors)) {
+            $db = static::getDB();
+            $stmt = $db -> prepare($sql);
 
-        $stmt -> bindValue(':editedName', $this -> editedName, PDO::PARAM_STR);
-        $stmt -> bindValue(':categoryID', $this -> editedCategory, PDO::PARAM_INT);
+            $stmt -> bindValue(':editedName', $this -> editedName, PDO::PARAM_STR);
+            $stmt -> bindValue(':categoryID', $this -> editedCategory, PDO::PARAM_INT);
 
-        return $stmt -> execute();
+            return $stmt -> execute();
+        }
+        return false;
     }
 
     /**
