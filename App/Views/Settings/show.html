@@ -194,8 +194,8 @@
                                                         </div>
 
                                                         <div class="modal-body text-start">
-                                                            <label class="w-100 p-2" for="editedIncomeName">Podaj nową nazwę kategorii</label>
-                                                            <input class="w-100 m-2 incomeCategoryInput" name="editedName" id="editedIncomeName" type="text">
+                                                            <label class="w-100 p-2" for="editedIncomeName{{ loop.index }}">Podaj nową nazwę kategorii</label>
+                                                            <input class="w-100 px-2 incomeCategoryInput" name="editedName" id="editedIncomeName{{ loop.index }}" type="text">
                                                             <p class="errorMessageBox"></p>
                                                         </div>
 
@@ -272,7 +272,7 @@
                                             <div class="modal-body text-start">
                                                 
                                                     <label class="w-100 p-2" for="newIncomeCategory">Podaj nazwę nowej kategorii</label>
-                                                    <input class="w-100 m-2 incomeCategoryInput" name="newCategory" id="newIncomeCategory" type="text">
+                                                    <input class="w-100 px-2 incomeCategoryInput" name="newCategory" id="newIncomeCategory" type="text">
                                                     <p class="errorMessageBox"></p>
                                                 
                                             </div>
@@ -303,12 +303,20 @@
                             {% for expenseCategory in expenseCategories %}
 
                                 <div class="d-flex justify-content-between collapse-body-item">
-
                                     {% if expenseCategory.name != "Inne" %}
 
-                                    <div class="m-2 mx-4 fs-5">{{ expenseCategory.name }} </div>
+                                    <div class="m-0 p-0 text-start">
+                                        <div class="m-2 mx-4 fs-5">{{ expenseCategory.name }} </div>
 
-                                    <div class="m-2 mx-4">
+                                        {% if expenseCategory.expense_limit != NULL %}
+
+                                            <div class="m-2 mx-4 fs-6">Limit: {{ expenseCategory.expense_limit }} </div>
+
+                                        {% endif %}
+
+                                    </div>
+
+                                    <div class="mx-4 my-auto">
                                         <button class="settingButton" type="button" data-bs-toggle="modal" data-bs-target="#editExpenseModal{{ loop.index }}"><i class="fas fa-edit m-2 edit" title="Edytuj"></i></button>
                                         <button class="settingButton" type="button" data-bs-toggle="modal" data-bs-target="#deleteExpenseModal{{ loop.index }}"><i class="far fa-trash-alt m-2 edit" title="Usuń kategorię"></i></button>
                                     </div>
@@ -324,12 +332,12 @@
                                                     </div>
 
                                                     <div class="modal-body text-start">
-                                                        <label class="w-100 p-2" for="editedExpenseName">Podaj nazwę kategorii</label>
-                                                        <input class="w-100 m-2 expenseCategoryInput" name="editedName" id="editedExpenseName" type="text">
+                                                        <label class="w-100 p-2" for="editedExpenseName{{ loop.index }}">Podaj nazwę kategorii</label>
+                                                        <input class="w-100 px-2 expenseCategoryInput" name="editedName" id="editedExpenseName{{ loop.index }}" type="text" value="{{ expenseCategory.name }}">
                                                         <p class="errorMessageBox"></p>
 
-                                                        <label class="w-100"><input type="checkbox" class="limitCheckbox">Ustaw limit</label>
-                                                        <input type="number" class="w-100 limitValue" name="limitValue" min="0" step="0.01" disabled>
+                                                        <label class="w-100"><input type="checkbox" class="limitCheckbox" id="limitCheckBox{{ loop.index }}">&nbsp; Ustaw limit</label>
+                                                        <input type="number" class="w-100 limitValue" name="limitValue" id="limitValue{{ loop.index }}" min="0" step="0.01" value="{{ expenseCategory.expense_limit }}" disabled>
                                                     </div>
 
                                                     <div class="modal-footer">
@@ -405,7 +413,7 @@
                                             <div class="modal-body text-start">
                                                 
                                                     <label class="w-100 p-2" for="newExpenseCategory">Podaj nazwę nowej kategorii</label>
-                                                    <input class="w-100 m-2 expenseCategoryInput" name="newCategory" id="newExpenseCategory" type="text">
+                                                    <input class="w-100 px-2 expenseCategoryInput" name="newCategory" id="newExpenseCategory" type="text">
                                                     <p class="errorMessageBox"></p>
                                                 
                                             </div>
@@ -457,8 +465,8 @@
                                                     </div>
 
                                                     <div class="modal-body text-start">
-                                                        <label class="w-100 p-2" for="editedPaymentName">Podaj nazwę kategorii</label>
-                                                        <input class="w-100 m-2 paymentCategoryInput" name="editedName" id="editedPaymentName" type="text">
+                                                        <label class="w-100 p-2" for="editedPaymentName{{ loop.index }}">Podaj nazwę kategorii</label>
+                                                        <input class="w-100 px-2 paymentCategoryInput" name="editedName" id="editedPaymentName{{ loop.index }}" type="text">
                                                         <p class="errorMessageBox"></p>   
                                                     </div>
 
@@ -535,7 +543,7 @@
                                             <div class="modal-body text-start">
                                                 
                                                     <label class="w-100 p-2" for="newPaymentCategory">Podaj nazwę nowej kategorii</label>
-                                                    <input class="w-100 m-2 paymentCategoryInput" name="newCategory" id="newPaymentCategory" type="text">
+                                                    <input class="w-100 px-2 paymentCategoryInput" name="newCategory" id="newPaymentCategory" type="text">
                                                     <p class="errorMessageBox"></p>
                                                 
                                             </div>

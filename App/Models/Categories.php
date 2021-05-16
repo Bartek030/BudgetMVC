@@ -60,7 +60,7 @@ class Categories extends \Core\Model {
      * @return array Array of categories assigned to user
      */
     public static function getExpenseCategories($userID) {
-        $sql = 'SELECT id, name
+        $sql = 'SELECT id, name, expense_limit
                 FROM expenses_category_assigned_to_users as exp
                 WHERE exp.user_id = :userID';
 
@@ -152,9 +152,18 @@ class Categories extends \Core\Model {
                     SET name = :editedName
                     WHERE id = :categoryID';
         } else if($operation == 'expense') {
-            $sql = 'UPDATE expenses_category_assigned_to_users
-                    SET name = :editedName
-                    WHERE id = :categoryID';
+            
+            if (isset($this -> limitValue)) {
+                $sql = 'UPDATE  expenses_category_assigned_to_users
+                        SET name = :editedName,
+                            expense_limit = :expense_limit
+                        WHERE id = :categoryID';
+            } else {
+                $sql = 'UPDATE expenses_category_assigned_to_users
+                        SET name = :editedName,
+                        expense_limit = NULL
+                        WHERE id = :categoryID';
+            }
         } else {
             $sql = 'UPDATE payment_methods_assigned_to_users
                     SET name = :editedName
@@ -167,6 +176,9 @@ class Categories extends \Core\Model {
 
             $stmt -> bindValue(':editedName', $this -> editedName, PDO::PARAM_STR);
             $stmt -> bindValue(':categoryID', $this -> editedCategory, PDO::PARAM_INT);
+            if (isset($this -> limitValue)) {
+                $stmt -> bindValue(':expense_limit', $this -> limitValue, PDO::PARAM_STR);
+            }
 
             return $stmt -> execute();
         }
