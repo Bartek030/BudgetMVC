@@ -201,6 +201,7 @@ class Categories extends \Core\Model {
 
             return $stmt -> execute();
         }
+        return false;
     }
 
     /**

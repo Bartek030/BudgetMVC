@@ -72,7 +72,11 @@ class Settings extends Authenticated {
         $deletedCategory = new Categories($_GET);
         $operation = $this -> route_params['operation'];
 
-        $deletedCategory -> deleteCategoryFromDatabase($operation, $_SESSION['user_id']);
+        if($deletedCategory -> deleteCategoryFromDatabase($operation, $_SESSION['user_id'])) {
+            View::renderTemplate('Settings/deleteCategorySuccess.html');
+        } else {
+            View::renderTemplate('500.html');
+        }
     }
 
     /**
