@@ -8,7 +8,7 @@ use \App\Models\User;
 use \App\Auth;
 
 /**
- * Home controller
+ * Settings controller
  *
  * PHP version 7.0
  */
@@ -52,7 +52,7 @@ class Settings extends Authenticated {
     }
 
     /**
-     * Change category data
+     * Edit category data
      * 
      * @return void
      */
@@ -92,6 +92,7 @@ class Settings extends Authenticated {
      */
     public function clearOperationDataAction() {
         Categories::clearUserDatabase($_SESSION['user_id']);
+        View::renderTemplate('Settings/dataDeleted.html');
     }
 
     /**
@@ -102,6 +103,7 @@ class Settings extends Authenticated {
     public function deleteAccountAction() {
         Categories::deleteUserOperationData($_SESSION['user_id']);
         User::deleteUserAccount($_SESSION['user_id']);
+        View::renderTemplate('Settings/userDeleted.html');
         Auth::logout();
     }
 
