@@ -74,6 +74,8 @@ let showSnackbar = function (snackbarText, snackbarColor) {
 	$("#snackbar").html(snackbarText);
 	$("#snackbar").css('background-color', snackbarColor);
 	$("#snackbar").addClass("show");
+	let snackbarBoxWitdh = $("#snackbar").width();
+	$("#snackbar").css('marginLeft', - snackbarBoxWitdh / 2);
 
 	setTimeout(function() { 
 		$("#snackbar").removeClass("show");

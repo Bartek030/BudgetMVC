@@ -17,10 +17,13 @@ class Income extends Authenticated {
      * 
      * @return void
      */
-    public function newAction() {
+    public function newAction($isSnackbar = false, $snackbarText = '', $snackbarType = '') {
         $incomeCategories = Categories::getIncomeCategories($_SESSION['user_id']);
         View::renderTemplate('Income/new.html', [
-            'incomeCategories' => $incomeCategories
+            'incomeCategories' => $incomeCategories,
+            'isSnackbar' => $isSnackbar,
+            'snackbarText' => $snackbarText,
+            'snackbarType' => $snackbarType
         ]);
     }
 
@@ -31,24 +34,11 @@ class Income extends Authenticated {
      */
     public function createAction() {
         $income = new Operation($_POST);
-        $incomeCategories = Categories::getIncomeCategories($_SESSION['user_id']);
 
         if($income -> saveIncome($_SESSION['user_id'])) {
-            View::renderTemplate('Income/new.html',[
-                'incomeCategories' => $incomeCategories,
-                'isSnackbar' => true,
-                'snackbarText' => 'Przychód został dodany',
-                'snackbarType' => 'success'
-            ]);
+            $this -> newAction(true, 'Przychód został dodany', 'success');
         } else {
-            
-            View::renderTemplate('Income/new.html',[
-                'income' => $income,
-                'incomeCategories' => $incomeCategories,
-                'isSnackbar' => true,
-                'snackbarText' => 'Uzupełnij dane, aby dodać przychód',
-                'snackbarType' => 'fault'
-            ]);
+            $this -> newAction(true, 'Uzupełnij poprawnie dane, aby dodać przychód', 'fault');
         }
     }
 
