@@ -13,6 +13,16 @@ $(document).ready(function() {
 	$('.dropdown').on('hide.bs.dropdown', function() {
 		$(this).find('.dropdown-menu').first().stop(true, true).slideUp();
 	});
+
+	if(isSnackbar == true) {
+		if(snachbarType == 'success') {
+			showSnackbar(snackbarText, snackbarBGColors.success);
+		} else if (snachbarType == 'info') {
+			showSnackbar(snackbarText, snackbarBGColors.info);
+		} else if (snachbarType == 'fault') {
+			showSnackbar(snackbarText, snackbarBGColors.fault);
+		}
+	}
 });
 
 let setTime = function() {
@@ -46,11 +56,26 @@ let setDate = function() {
 	let year = currentDate.getFullYear();
 
 	let month = currentDate.getMonth() + 1;
-	if (month<10) month = "0"+month;
+	if (month < 10) month = "0" + month;
 
 	let day = currentDate.getDate();
-	if (day<10) day = "0"+day;
+	if (day < 10) day = "0" + day;
 	$('#operationDate').val(year + '-' + month + '-' + day);
 }
 
+let snackbarBGColors = {
+	'success' : '#33cc33',
+	'info' : '#1a8cff',
+	'fault': '#cc2900'
+};
 
+let showSnackbar = function (snackbarText, snackbarColor) {
+
+	$("#snackbar").html(snackbarText);
+	$("#snackbar").css('background-color', snackbarColor);
+	$("#snackbar").addClass("show");
+
+	setTimeout(function() { 
+		$("#snackbar").removeClass("show");
+	}, 3000);
+  }
