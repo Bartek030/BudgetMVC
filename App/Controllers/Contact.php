@@ -25,8 +25,6 @@ class Contact extends \Core\Controller {
         $html = $_POST['chatEmail'] . '<br>' . $_POST['message'];
         $name = 'Bartek';
 
-        Auth::rememberRequestedPage();
-
         Mail::send($to, $subject, $text, $html, $name);  
         View::renderTemplate('Contact/success.html'); 
     }

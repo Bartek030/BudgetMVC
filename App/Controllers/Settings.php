@@ -18,8 +18,7 @@ class Settings extends Authenticated {
      *
      * @return void
      */
-    public function showAction() {
-
+    public function showAction($isSnackbar = false, $snackbarText = '', $snackbarType = '') {
         $incomeCategories = Categories::getIncomeCategories($_SESSION['user_id']);
         $expenseCategories = Categories::getExpenseCategories($_SESSION['user_id']);
         $paymentMethods = Categories::getPaymentMethods($_SESSION['user_id']);
@@ -29,7 +28,10 @@ class Settings extends Authenticated {
             'incomeCategories' => $incomeCategories,
             'expenseCategories' => $expenseCategories,
             'paymentMethods' => $paymentMethods,
-            'user' => $user
+            'user' => $user,
+            'isSnackbar' => $isSnackbar,
+            'snackbarText' => $snackbarText,
+            'snackbarType' => $snackbarType
         ]);
     }
 
@@ -43,11 +45,9 @@ class Settings extends Authenticated {
         $operation = $this -> route_params['operation'];
 
         if($newCategory -> addCategoryToDatabase($operation, $_SESSION['user_id'])) {
-            View::renderTemplate('Settings/newCategorySuccess.html');
+            $this -> showAction(true, 'Kategoria została dodana', 'success');
         } else {
-            View::renderTemplate('Settings/newCategoryFail.html', [
-                'category' => $newCategory
-            ]);
+            $this -> showAction(true, 'Nie dodano kategorii. Uzupełnij dane poprawnie', 'fault');
         }
     }
 
@@ -61,11 +61,9 @@ class Settings extends Authenticated {
         $operation = $this -> route_params['operation'];
 
         if($editedCategory -> editCategoryInDatabase($operation, $_SESSION['user_id'])) {
-            View::renderTemplate('Settings/editCategorySuccess.html');
+            $this -> showAction(true, 'Kategoria została zmieniona', 'success');
         } else {
-            View::renderTemplate('Settings/editCategoryFail.html', [
-                'category' => $editedCategory
-            ]);
+            $this -> showAction(true, 'Nie zmieniono kategorii. Uzupełnij dane poprawnie', 'fault');
         }
     }
 
@@ -79,9 +77,9 @@ class Settings extends Authenticated {
         $operation = $this -> route_params['operation'];
 
         if($deletedCategory -> deleteCategoryFromDatabase($operation, $_SESSION['user_id'])) {
-            View::renderTemplate('Settings/deleteCategorySuccess.html');
+            $this -> showAction(true, 'Kategoria została usunięta', 'success');
         } else {
-            View::renderTemplate('500.html');
+            $this -> showAction(true, 'Nie usunięto kategorii', 'fault');
         }
     }
 
@@ -92,7 +90,7 @@ class Settings extends Authenticated {
      */
     public function clearOperationDataAction() {
         Categories::clearUserDatabase($_SESSION['user_id']);
-        View::renderTemplate('Settings/dataDeleted.html');
+        $this -> showAction(true, 'Baza została wyczyszczona', 'success');
     }
 
     /**
@@ -115,11 +113,9 @@ class Settings extends Authenticated {
     public function changeNameAction() {
         $changeName = new User($_POST);
         if($changeName -> changeUserName($_SESSION['user_id'])) {
-            View::renderTemplate('Settings/changeNameSuccess.html');
+            $this -> showAction(true, 'Imię zostało zmienione', 'success');
         } else {
-            View::renderTemplate('Settings/changeNameFail.html', [
-                'user' => $changeName
-            ]);
+            $this -> showAction(true, 'Nie podano imienia', 'fault');
         }
     }
 

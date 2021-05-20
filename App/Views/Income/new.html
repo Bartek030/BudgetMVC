@@ -60,3 +60,11 @@
     </div>
 
 {% endblock %}
+
+{% block scripts %}
+    <script>
+        let isSnackbar = "{{ isSnackbar }}";
+        let snackbarText = "{{ snackbarText }}";
+        let snackbarType = "{{ snackbarType }}";
+    </script>
+{% endblock %}

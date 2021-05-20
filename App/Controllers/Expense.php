@@ -17,12 +17,15 @@ class Expense extends Authenticated {
      * 
      * @return void
      */
-    public function newAction() {
+    public function newAction($isSnackbar = false, $snackbarText = '', $snackbarType = '') {
         $expenseCategories = Categories::getExpenseCategories($_SESSION['user_id']);
         $paymentMethods = Categories::getPaymentMethods($_SESSION['user_id']);
         View::renderTemplate('Expense/new.html', [
             'expenseCategories' => $expenseCategories,
-            'paymentMethods' => $paymentMethods
+            'paymentMethods' => $paymentMethods,
+            'isSnackbar' => $isSnackbar,
+            'snackbarText' => $snackbarText,
+            'snackbarType' => $snackbarType
         ]);
     }
 
@@ -33,17 +36,13 @@ class Expense extends Authenticated {
      */
     public function createAction() {
         $expense = new Operation($_POST);
+        $expenseCategories = Categories::getExpenseCategories($_SESSION['user_id']);
+        $paymentMethods = Categories::getPaymentMethods($_SESSION['user_id']);
         
         if($expense -> saveExpense($_SESSION['user_id'])) {
-            $this -> redirect('/expense/success');
+            $this -> newAction(true, 'Wydatek został dodany', 'success');
         } else {
-            $expenseCategories = Categories::getExpenseCategories($_SESSION['user_id']);
-            $paymentMethods = Categories::getPaymentMethods($_SESSION['user_id']);
-            View::renderTemplate('Expense/new.html',[
-                'expense' => $expense,
-                'expenseCategories' => $expenseCategories,
-                'paymentMethods' => $paymentMethods
-            ]);
+            $this -> newAction(true, 'Uzupełnij poprawnie dane, aby dodać wydatek', 'fault');
         }
     }
 

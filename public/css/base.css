@@ -262,7 +262,7 @@ div.error {
         width: 75% !important;
     }
 
-    .returnButton{
+    .returnButton {
         width: 75%;
     }
 }
@@ -278,5 +278,71 @@ div.error {
 
     .mainFooter {
         height: 100px;
+    }
+}
+
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #333;
+    color: #f2f2f2;
+    text-align: center;
+    border-radius: 10px;
+    padding: 16px;
+    position: fixed;
+    z-index: 100;
+    left: 50%;
+    bottom: 50%;
+    font-size: 17px;
+    letter-spacing: 1px;
+}
+  
+#snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+  
+@-webkit-keyframes fadein {
+    from {
+        bottom: 45%; 
+        opacity: 0;
+    } 
+    to {
+        bottom: 50%; 
+        opacity: 1;
+    }
+}
+  
+@keyframes fadein {
+    from {
+        bottom: 45%; 
+        opacity: 0;
+    }
+    to {
+        bottom: 50%; 
+        opacity: 1;
+    }
+}
+  
+@-webkit-keyframes fadeout {
+    from {
+        bottom: 50%; 
+        opacity: 1;
+    } 
+    to {
+        bottom: 45%; 
+        opacity: 0;
+    }
+}
+  
+@keyframes fadeout {
+    from {
+        bottom: 50%; 
+        opacity: 1;
+    }
+    to {
+        bottom: 45%; 
+        opacity: 0;
     }
 }
