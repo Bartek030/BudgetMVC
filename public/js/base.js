@@ -15,11 +15,11 @@ $(document).ready(function() {
 	});
 
 	if(isSnackbar == true) {
-		if(snachbarType == 'success') {
+		if(snackbarType == 'success') {
 			showSnackbar(snackbarText, snackbarBGColors.success);
-		} else if (snachbarType == 'info') {
+		} else if (snackbarType == 'info') {
 			showSnackbar(snackbarText, snackbarBGColors.info);
-		} else if (snachbarType == 'fault') {
+		} else if (snackbarType == 'fault') {
 			showSnackbar(snackbarText, snackbarBGColors.fault);
 		}
 	}

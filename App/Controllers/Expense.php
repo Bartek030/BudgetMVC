@@ -33,16 +33,27 @@ class Expense extends Authenticated {
      */
     public function createAction() {
         $expense = new Operation($_POST);
+        $expenseCategories = Categories::getExpenseCategories($_SESSION['user_id']);
+        $paymentMethods = Categories::getPaymentMethods($_SESSION['user_id']);
         
         if($expense -> saveExpense($_SESSION['user_id'])) {
-            $this -> redirect('/expense/success');
-        } else {
-            $expenseCategories = Categories::getExpenseCategories($_SESSION['user_id']);
-            $paymentMethods = Categories::getPaymentMethods($_SESSION['user_id']);
             View::renderTemplate('Expense/new.html',[
                 'expense' => $expense,
                 'expenseCategories' => $expenseCategories,
-                'paymentMethods' => $paymentMethods
+                'paymentMethods' => $paymentMethods,
+                'isSnackbar' => true,
+                'snackbarText' => 'Wydatek został dodany',
+                'snackbarType' => 'success'
+            ]);
+        } else {
+            
+            View::renderTemplate('Expense/new.html',[
+                'expense' => $expense,
+                'expenseCategories' => $expenseCategories,
+                'paymentMethods' => $paymentMethods,
+                'isSnackbar' => true,
+                'snackbarText' => 'Uzupełnij dane, aby dodać wydatek',
+                'snackbarType' => 'fault'
             ]);
         }
     }
