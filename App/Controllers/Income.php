@@ -31,14 +31,23 @@ class Income extends Authenticated {
      */
     public function createAction() {
         $income = new Operation($_POST);
+        $incomeCategories = Categories::getIncomeCategories($_SESSION['user_id']);
 
         if($income -> saveIncome($_SESSION['user_id'])) {
-            $this -> redirect('/income/success');
+            View::renderTemplate('Income/new.html',[
+                'incomeCategories' => $incomeCategories,
+                'isSnackbar' => true,
+                'snackbarText' => 'Przychód został dodany',
+                'snackbarType' => 'success'
+            ]);
         } else {
-            $incomeCategories = Categories::getIncomeCategories($_SESSION['user_id']);
+            
             View::renderTemplate('Income/new.html',[
                 'income' => $income,
-                'incomeCategories' => $incomeCategories
+                'incomeCategories' => $incomeCategories,
+                'isSnackbar' => true,
+                'snackbarText' => 'Uzupełnij dane, aby dodać przychód',
+                'snackbarType' => 'fault'
             ]);
         }
     }

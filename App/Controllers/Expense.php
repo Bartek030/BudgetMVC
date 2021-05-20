@@ -38,7 +38,6 @@ class Expense extends Authenticated {
         
         if($expense -> saveExpense($_SESSION['user_id'])) {
             View::renderTemplate('Expense/new.html',[
-                'expense' => $expense,
                 'expenseCategories' => $expenseCategories,
                 'paymentMethods' => $paymentMethods,
                 'isSnackbar' => true,
