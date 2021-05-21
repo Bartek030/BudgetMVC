@@ -36,6 +36,7 @@ $router->add('balance/show/{period:.+}', ['controller' => 'Balance', 'action' =>
 $router->add('settings/addCategory/{operation:.+}', ['controller' => 'Settings', 'action' => 'addCategory']);
 $router->add('settings/editCategory/{operation:.+}', ['controller' => 'Settings', 'action' => 'editCategory']);
 $router->add('settings/deleteCategory/{operation:.+}', ['controller' => 'Settings', 'action' => 'deleteCategory']);
+$router->add('expense/getExpenseSummary/{date:.+}', ['controller' => 'Expense', 'action' => 'getExpenseSummary']);
 $router->add('{controller}/{action}');
     
 $router->dispatch($_SERVER['QUERY_STRING']);
