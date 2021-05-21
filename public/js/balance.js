@@ -65,10 +65,10 @@ let includeChartToView = function(table, element) {
 
     // Draw the chart and set the chart values
     function drawChart() {
-    var data = google.visualization.arrayToDataTable(table);
+    let data = google.visualization.arrayToDataTable(table);
 
     // Optional; add a title and set the width and height of the chart
-    var options = {
+    let options = {
         title:'Rozkład przychodów',
         width:'100%',
         height:300,
@@ -99,7 +99,7 @@ let includeChartToView = function(table, element) {
     };
 
     // Display the chart inside the <div> element with id="piechart"
-    var chart = new google.visualization.PieChart(element);
+    let chart = new google.visualization.PieChart(element);
     chart.draw(data, options);
     }
 }
