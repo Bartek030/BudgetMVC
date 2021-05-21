@@ -423,12 +423,13 @@ class Categories extends \Core\Model {
      * 
      * @return array Array of expense summary for every category
      */
-    public static function getExpenseSummary($userID) {
+    public static function getExpenseSummary($userID, $date) {
         
         $sql = 'SELECT exp.id, exp.name, exp.expense_limit, COALESCE(SUM(expenses.amount),0) as summary
                 FROM expenses_category_assigned_to_users as exp
                 LEFT JOIN expenses
                 ON exp.id = expenses.expense_category_assigned_to_user_id
+                AND expenses.date_of_expense LIKE :date 
                 WHERE exp.user_id = :userID
                 GROUP BY exp.id';
 
@@ -436,6 +437,7 @@ class Categories extends \Core\Model {
         $stmt = $db -> prepare($sql);
         
         $stmt -> bindValue(':userID', $userID, PDO::PARAM_INT);
+        $stmt -> bindValue(':date', "$date%", PDO::PARAM_STR);
 
         $stmt -> execute();
 

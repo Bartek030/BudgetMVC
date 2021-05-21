@@ -62,7 +62,8 @@ class Expense extends Authenticated {
      * @return void
      */
     public function getExpenseSummaryAction() {
-        $expenseSummary = Categories::getExpenseSummary($_SESSION['user_id']);
+        $date = $this -> route_params['date'];
+        $expenseSummary = Categories::getExpenseSummary($_SESSION['user_id'], $date);
 
         header('Content-Type: application/json');
         echo json_encode($expenseSummary);
