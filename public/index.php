@@ -40,3 +40,4 @@ $router->add('expense/getExpenseSummary/{date:.+}', ['controller' => 'Expense', 
 $router->add('{controller}/{action}');
     
 $router->dispatch($_SERVER['QUERY_STRING']);
+
